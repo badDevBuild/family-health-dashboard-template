@@ -1,0 +1,25 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# 真实健康数据与原始报告永远不进入 Git。
+data/
+reports/
+体检报告/
+exports/
+research/
+public/avatars/
+src/lib/health-data.private.ts
+server/.auth_secret
+privacy-denylist.local.txt
+tsconfig.tsbuildinfo
+__pycache__/
+*.pyc
+.pytest_cache/

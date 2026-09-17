@@ -1,0 +1,18 @@
+{
+  "personId": "示例成员丙",
+  "analysisDate": "2026-03-05T09:00:00+08:00",
+  "personContext": { "gender": "女", "age": 11, "dataSpan": "1次虚构检查" },
+  "organAnalyses": [
+    {
+      "organ": "眼/五官",
+      "status": "normal",
+      "narrative": "这组虚构筛查数据没有标记异常。儿童视力仍应按学校和医生建议定期复查。",
+      "keyIndicators": [
+        { "name": "裸眼视力", "latestValue": "5.0", "unit": "", "referenceRange": "示例范围", "trend": "stable", "isAbnormal": false, "history": [{ "date": "2026-03-04", "value": "5.0" }] }
+      ]
+    }
+  ],
+  "crossOrganInsights": [],
+  "actionSuggestions": ["按常规节奏进行视力筛查。"],
+  "dataHash": "synthetic-demo-c"
+}

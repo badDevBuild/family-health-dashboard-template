@@ -1,0 +1,17 @@
+{
+  "personId": "示例成员甲",
+  "dataConfidence": "partial",
+  "topPriorities": [
+    { "rank": 1, "action": "保持规律作息和复查", "why": "单次示例数据不足以形成长期趋势", "howToStart": "先记录一周作息，并按医生建议安排复查" }
+  ],
+  "exerciseGuide": {
+    "overview": "在身体允许且医生无特别限制时，逐步增加日常活动。",
+    "weeklyPlan": [{ "activity": "快走", "frequency": "每周3次", "duration": "每次30分钟", "intensity": "能说话、略微出汗" }],
+    "avoidOrCaution": ["出现胸痛、明显气短或头晕时停止并及时就医"]
+  },
+  "dietGuide": {
+    "culturalAdaptation": "不用追求极端饮食，优先保证蔬菜、蛋白质和主食结构均衡。",
+    "mealStructure": [{ "meal": "一日三餐", "recommendation": "规律进餐，减少含糖饮料" }]
+  },
+  "seasonalTips": { "spring": "逐步恢复户外活动。", "summer": "炎热天气注意补水。", "autumn": "保持规律运动。", "winter": "充分热身后再运动。" }
+}

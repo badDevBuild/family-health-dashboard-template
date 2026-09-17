@@ -1,0 +1,12 @@
+{
+  "notice": "本目录中的人物、机构、日期和数值均为虚构，仅用于界面演示与测试。",
+  "familyBackground": {
+    "location": "示例城市",
+    "dietCulture": "普通家庭饮食"
+  },
+  "members": {
+    "示例成员甲": { "birthYear": 1988, "gender": "男", "role": "成年人" },
+    "示例成员乙": { "birthYear": 1991, "gender": "女", "role": "成年人" },
+    "示例成员丙": { "birthYear": 2015, "gender": "女", "role": "儿童" }
+  }
+}
