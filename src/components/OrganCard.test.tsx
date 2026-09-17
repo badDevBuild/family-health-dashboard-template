@@ -56,6 +56,8 @@ describe("OrganCard", () => {
     render(<OrganCard {...mockCardProps} />);
     const arrows = screen.getAllByText("↑");
     expect(arrows.length).toBeGreaterThan(0);
+    expect(arrows[0].className).toContain("text-warm-400");
+    expect(arrows[0].className).not.toContain("text-status-alert");
   });
 
   it("渲染 sparkline", () => {
@@ -122,5 +124,31 @@ describe("OrganCard", () => {
       />,
     );
     expect(screen.getByText("→")).toBeInTheDocument();
+  });
+
+  it("解释性趋势词不会被误画成数值方向", () => {
+    render(
+      <OrganCard
+        organ="代谢/内分泌"
+        icon="◈"
+        status="attention"
+        indicators={[{ name: "示例指标己", value: "7", unit: "", trend: "stable-high", history: [] }]}
+      />,
+    );
+    expect(screen.queryByText("↑")).not.toBeInTheDocument();
+    expect(screen.queryByText("↓")).not.toBeInTheDocument();
+    expect(screen.queryByText("→")).not.toBeInTheDocument();
+  });
+
+  it("不可比较的历史不绘制趋势线", () => {
+    render(
+      <OrganCard
+        organ="血液"
+        icon="●"
+        status="attention"
+        indicators={[{ name: "方法变化指标", value: "7", unit: "", trend: "not-comparable", history: [5, 7] }]}
+      />,
+    );
+    expect(screen.queryByTestId("sparkline")).not.toBeInTheDocument();
   });
 });

@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, it, expect } from "vitest";
 import { OrganDetailPage } from "./OrganDetailPage";
 
-function renderOrganDetail(organ: string, person = "示例成员乙") {
+function renderOrganDetail(organ: string, person = "demo-b") {
   return render(
     <MemoryRouter
       initialEntries={[
@@ -47,7 +47,7 @@ describe("OrganDetailPage", () => {
   });
 
   it("示例成员甲的代谢分析包含血糖相关内容", () => {
-    renderOrganDetail("代谢/内分泌", "示例成员甲");
+    renderOrganDetail("代谢/内分泌", "demo-a");
     expect(screen.getByTestId("narrative-card")).toHaveTextContent(
       /血糖|代谢/,
     );

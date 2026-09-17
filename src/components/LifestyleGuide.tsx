@@ -19,7 +19,7 @@ const SEASON_LABELS: Record<string, string> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function LifestyleGuide({ data }: { data: Record<string, any> | null }) {
   if (!data) {
-    return <EmptyState message="生活指南生成中，数据录入后将自动展示" />;
+    return <EmptyState message="暂无已审核的生活指南；这不代表后台正在生成" />;
   }
 
   const season = getCurrentSeason();

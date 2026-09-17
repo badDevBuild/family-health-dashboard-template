@@ -1,5 +1,5 @@
 {
-  "personId": "示例成员丙",
+  "personId": "demo-c",
   "analysisDate": "2026-03-05T09:00:00+08:00",
   "personContext": { "gender": "女", "age": 11, "dataSpan": "1次虚构检查" },
   "organAnalyses": [

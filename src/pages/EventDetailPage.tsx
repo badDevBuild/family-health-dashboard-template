@@ -6,11 +6,11 @@ export function EventDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
   const [searchParams] = useSearchParams();
 
-  const personName = searchParams.get("person") || "";
+  const personId = searchParams.get("person") || "";
 
-  const events = getEvents(personName);
+  const events = getEvents(personId);
   const event = events.find((e) => e.id === eventId);
-  const measurements = getMeasurements(personName, eventId || "");
+  const measurements = getMeasurements(personId, eventId || "");
 
   const abnormalCount = measurements.filter((m) => m.isAbnormal).length;
 
@@ -50,6 +50,9 @@ export function EventDetailPage() {
                 <div>
                   指标: {measurements.length} 项，异常 {abnormalCount} 项
                 </div>
+                <div>
+                  证据: {event.reports.map((report) => `${report.reportId}（第${report.pageRefs.join("、")}页）`).join("；")}
+                </div>
               </div>
             </div>
 
@@ -70,10 +73,16 @@ export function EventDetailPage() {
                           m.unit ?? "",
                           index,
                         ].join("-")}
-                        className="flex items-center justify-between px-4 min-h-12"
+                        className="flex items-start justify-between gap-4 px-4 py-3 min-h-12"
                       >
-                        <span className="text-sm">{m.standardName}</span>
-                        <div className="flex items-center gap-2">
+                        <div>
+                          <div className="text-sm">{m.standardName}</div>
+                          <div className="mt-1 text-xs text-warm-400">
+                            {m.reportId} · 第 {m.page} 页
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="flex items-center justify-end gap-2">
                           <span
                             className={`text-sm tabular-nums font-medium ${
                               m.isAbnormal
@@ -87,6 +96,12 @@ export function EventDetailPage() {
                             <span className="text-xs text-warm-400">
                               {m.unit}
                             </span>
+                          )}
+                          </div>
+                          {m.referenceRange && (
+                            <div className="mt-1 text-xs text-warm-400">
+                              参考范围: {m.referenceRange.text || [m.referenceRange.low, m.referenceRange.high].filter((value) => value !== undefined).join("–")}
+                            </div>
                           )}
                         </div>
                       </div>

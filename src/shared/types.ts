@@ -10,7 +10,7 @@ export type OrganSystem =
   | "眼/五官";
 
 // 健康状态
-export type HealthStatus = "normal" | "attention" | "alert";
+export type HealthStatus = "unknown" | "normal" | "attention" | "alert";
 
 // 家庭成员
 export interface Person {
@@ -23,18 +23,26 @@ export interface Person {
 export interface HealthEvent {
   id: string;
   personId: string;
+  encounterId: string;
   type: "体检" | "就医" | "手动备注";
   date: string; // YYYY-MM-DD
   source?: string; // 医院/体检中心名称
-  sourceFiles: string[]; // 原始 PDF 路径
+  reports: ReportEvidence[];
   measurements: Measurement[];
   summary?: string; // LLM 生成的事件摘要
+}
+
+export interface ReportEvidence {
+  reportId: string;
+  pageRefs: number[];
 }
 
 // 单项指标测量
 export interface Measurement {
   id: string;
   eventId: string;
+  reportId: string;
+  page: number;
   standardName: string; // 标准化名称
   originalName: string; // 原始报告中的名称
   value: number | string; // 数值或定性结果如"阴性"
@@ -96,6 +104,10 @@ export interface ReviewSuggestion {
   when: string; // 建议什么时候
   where: string; // 建议哪个科室
   why: string; // 为什么建议（一句话）
+  status?: "ai_pending" | "doctor_confirmed" | "completed";
+  owner?: string;
+  completedAt?: string;
+  evidence?: Array<{ eventId: string; measurementIds?: string[] }>;
 }
 
 // 日常关注事项
@@ -130,11 +142,11 @@ export interface OrganAnalysis {
 // 指标摘要（用于器官分析中的关键指标展示）
 export interface IndicatorSummary {
   name: string;
-  latestValue: number | string;
+  latestValue: number | string | null;
   unit: string;
-  trend: "up" | "down" | "stable";
+  trend: string;
   isAbnormal: boolean;
-  history: { date: string; value: number | string }[];
+  history: { date: string; value: number | string | null }[];
 }
 
 // 提取任务（扫描器输出）
@@ -146,14 +158,19 @@ export interface ExtractionTask {
 
 // 提取结果（单次事件）
 export interface ExtractionResult {
-  person: string;
+  schemaVersion: 1;
+  personId: string;
   event: {
+    encounterId: string;
     type: "体检" | "就医";
     date: string;
     source: string;
-    sourceFiles: string[];
+    reports: Array<{ reportId: string; sourceFile: string; pageRefs: number[] }>;
   };
   measurements: Array<{
+    measurementId: string;
+    reportId: string;
+    page: number;
     standardName: string;
     originalName: string;
     value: number | string;

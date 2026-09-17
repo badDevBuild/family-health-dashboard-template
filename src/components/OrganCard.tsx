@@ -6,7 +6,7 @@ interface IndicatorDisplay {
   name: string;
   value: string;
   unit: string;
-  trend: "up" | "down" | "stable";
+  trend: string;
   history: number[];
 }
 
@@ -19,21 +19,14 @@ interface OrganCardProps {
 }
 
 const TREND_ARROWS: Record<string, { symbol: string; className: string }> = {
-  up: { symbol: "↑", className: "text-status-alert" },
-  down: { symbol: "↓", className: "text-status-normal" },
+  up: { symbol: "↑", className: "text-warm-400" },
+  down: { symbol: "↓", className: "text-warm-400" },
   stable: { symbol: "→", className: "text-warm-400" },
 };
 
-const DEFAULT_TREND = { symbol: "→", className: "text-warm-400" };
-
 function getTrend(trend: string) {
-  if (trend in TREND_ARROWS) return TREND_ARROWS[trend];
-  // 非标准 trend 值映射
-  if (["worsening", "spike", "slight-up", "stable-high"].includes(trend))
-    return TREND_ARROWS.up;
-  if (["improving", "improved", "down", "fluctuating-down"].includes(trend))
-    return TREND_ARROWS.down;
-  return DEFAULT_TREND;
+  // 这里只表达受数据契约约束的数值方向；解释性词语不转换为箭头。
+  return TREND_ARROWS[trend] || null;
 }
 
 const ICON_BG: Record<string, string> = {
@@ -51,9 +44,10 @@ export function OrganCard({
   onClick,
 }: OrganCardProps) {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
-      className="bg-white rounded-[--radius-lg] p-4 shadow-[--shadow-card] hover:shadow-[--shadow-card-hover] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+      className="w-full text-left bg-white rounded-[--radius-lg] p-4 shadow-[--shadow-card] hover:shadow-[--shadow-card-hover] active:scale-[0.98] transition-all duration-200 cursor-pointer"
     >
       {/* 头部：图标 + 名称 + 状态标签 */}
       <div className="flex items-center justify-between mb-3">
@@ -78,10 +72,12 @@ export function OrganCard({
               <div className="text-lg font-semibold tabular-nums tracking-tight">
                 {ind.value}
                 <span className="text-xs text-warm-400 ml-1">{ind.unit}</span>
-                <span className={`text-xs ml-1 ${trend.className}`}>
-                  {trend.symbol}
-                </span>
-                {ind.history.length > 1 && (
+                {trend && (
+                  <span className={`text-xs ml-1 ${trend.className}`}>
+                    {trend.symbol}
+                  </span>
+                )}
+                {ind.trend !== "not-comparable" && ind.history.length > 1 && (
                   <span className="ml-1.5">
                     <Sparkline values={ind.history} />
                   </span>
@@ -91,6 +87,6 @@ export function OrganCard({
           );
         })}
       </div>
-    </div>
+    </button>
   );
 }

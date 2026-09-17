@@ -11,13 +11,33 @@ export function PinGate({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState("");
   const [shaking, setShaking] = useState(false);
 
+  const checkSession = useCallback(async () => {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+    try {
+      const response = await fetch(`${base}/api/check`, { credentials: "same-origin", cache: "no-store" });
+      setState(response.ok ? "unlocked" : "locked");
+      if (!response.ok) setPin("");
+    } catch {
+      // 私有数据已下发后，网络或会话状态不明时采用失败关闭策略。
+      setState("locked");
+      setPin("");
+    }
+  }, []);
+
   useEffect(() => {
     if (!authEnabled) return;
-    const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-    fetch(`${base}/api/check`, { credentials: "same-origin" })
-      .then((r) => setState(r.ok ? "unlocked" : "locked"))
-      .catch(() => setState("locked"));
-  }, [authEnabled]);
+    void checkSession();
+    const onFocus = () => { void checkSession(); };
+    const onVisibility = () => { if (document.visibilityState === "visible") void checkSession(); };
+    const timer = window.setInterval(() => { void checkSession(); }, 60_000);
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [authEnabled, checkSession]);
 
   const submit = useCallback(async (fullPin: string) => {
     try {
@@ -31,7 +51,15 @@ export function PinGate({ children }: { children: React.ReactNode }) {
       if (res.ok) {
         setState("unlocked");
       } else {
-        setError("PIN 不正确");
+        setError(
+          res.status === 429
+            ? "尝试次数过多，请稍后再试"
+            : res.status === 400
+              ? "PIN 必须是六位数字"
+              : res.status === 401
+                ? "PIN 不正确"
+                : "服务暂时不可用，请稍后重试",
+        );
         setShaking(true);
         setTimeout(() => {
           setShaking(false);

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "personId": "ci-person",
+  "event": {
+    "encounterId": "encounter-ci",
+    "type": "体检",
+    "date": "2026-01-01",
+    "source": "CI 虚构机构",
+    "reports": [
+      { "reportId": "report-ci", "sourceFile": "synthetic/ci.pdf", "pageRefs": [1] }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "measurement-ci",
+      "reportId": "report-ci",
+      "page": 1,
+      "standardName": "CI 示例指标",
+      "originalName": "CI 示例指标",
+      "value": "阴性",
+      "numericValue": null,
+      "unit": "",
+      "referenceRange": { "text": "阴性" },
+      "isAbnormal": false,
+      "organs": ["血液"]
+    }
+  ]
+}

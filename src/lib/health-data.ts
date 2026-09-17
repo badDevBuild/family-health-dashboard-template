@@ -1,59 +1,51 @@
 // 自动生成，请勿手动编辑
-// 数据源: examples/demo-data
+// 发布模式: demo
 
-type AnalysisData = Record<string, any>;
+export type HealthStatus = "unknown" | "normal" | "attention" | "alert";
+export type ReviewStatus = "demo" | "approved" | "not_reviewed";
+export type AnalysisData = { personId: string; crossOrganInsights?: string[]; actionSuggestions?: string[]; organAnalyses: Array<{ organ: string; status: string; narrative: string; keyIndicators: Array<{ name: string; latestValue: number | string | null; unit: string; referenceRange?: string; trend: string; isAbnormal: boolean; history: Array<{ date: string; value: number | string | null }> }> }>; [key: string]: unknown };
+export type LifestyleData = Record<string, any>;
+export type SuggestionData = { personId: string; reviewSuggestions: Array<{ priority: string; organ: string; what: string; when: string; where: string; why: string; status?: "ai_pending" | "doctor_confirmed" | "completed"; owner?: string; completedAt?: string; evidence?: Array<{ eventId: string; measurementIds?: string[] }> }>; [key: string]: unknown };
 
-export interface FamilyMember {
-  name: string;
-  status: string;
-  lastCheckup: string;
-  dataSpan: string;
-}
+export interface FamilyMember { id: string; name: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }
+export interface ReportEvidence { reportId: string; pageRefs: number[]; }
+export interface HealthEvent { id: string; encounterId: string; date: string; type: string; source: string; personId: string; reports: ReportEvidence[]; organTags: string[]; measurementCount: number; abnormalCount: number; }
+export interface MeasurementItem { measurementId: string; reportId: string; page: number; standardName: string; originalName: string; value: number | string | null; numericValue?: number | null; unit: string | null; referenceRange?: { low?: number; high?: number; text?: string }; isAbnormal: boolean; organs: string[]; }
 
-export interface HealthEvent {
-  id: string;
-  date: string;
-  type: string;
-  source: string;
-  person: string;
-  organTags: string[];
-  measurementCount: number;
-  abnormalCount: number;
-}
-
-export interface MeasurementItem {
-  standardName: string;
-  value: number | string | null;
-  unit: string | null;
-  isAbnormal: boolean;
-  organs: string[];
-  [key: string]: unknown;
-}
-
+export const BUILD_METADATA = {
+  "mode": "demo",
+  "schemaVersion": 1,
+  "containsSyntheticData": true
+} as const;
 export const FAMILY_MEMBERS: FamilyMember[] = [
   {
+    "id": "demo-a",
     "name": "示例成员甲",
     "status": "attention",
+    "reviewStatus": "demo",
     "lastCheckup": "2026-01-12",
     "dataSpan": "1次检查"
   },
   {
+    "id": "demo-b",
     "name": "示例成员乙",
     "status": "attention",
+    "reviewStatus": "demo",
     "lastCheckup": "2026-02-18",
     "dataSpan": "1次检查"
   },
   {
+    "id": "demo-c",
     "name": "示例成员丙",
     "status": "normal",
+    "reviewStatus": "demo",
     "lastCheckup": "2026-03-04",
     "dataSpan": "1次检查"
   }
 ];
-
 export const ANALYSIS_DATA: Record<string, AnalysisData> = {
-  "示例成员甲": {
-    "personId": "示例成员甲",
+  "demo-a": {
+    "personId": "demo-a",
     "analysisDate": "2026-01-13T09:00:00+08:00",
     "personContext": {
       "gender": "男",
@@ -112,8 +104,8 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     ],
     "dataHash": "synthetic-demo-a"
   },
-  "示例成员乙": {
-    "personId": "示例成员乙",
+  "demo-b": {
+    "personId": "demo-b",
     "analysisDate": "2026-02-19T09:00:00+08:00",
     "personContext": {
       "gender": "女",
@@ -172,8 +164,8 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     ],
     "dataHash": "synthetic-demo-b"
   },
-  "示例成员丙": {
-    "personId": "示例成员丙",
+  "demo-c": {
+    "personId": "demo-c",
     "analysisDate": "2026-03-05T09:00:00+08:00",
     "personContext": {
       "gender": "女",
@@ -210,15 +202,23 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "dataHash": "synthetic-demo-c"
   }
 };
-
 export const EVENTS_DATA: Record<string, HealthEvent[]> = {
-  "示例成员甲": [
+  "demo-a": [
     {
-      "id": "示例成员甲-2026-01-12",
+      "id": "demo-a:enc-2026-01-12-a",
+      "encounterId": "enc-2026-01-12-a",
       "date": "2026-01-12",
       "type": "体检",
       "source": "示例社区医院",
-      "person": "示例成员甲",
+      "personId": "demo-a",
+      "reports": [
+        {
+          "reportId": "report-demo-a-20260112",
+          "pageRefs": [
+            1
+          ]
+        }
+      ],
       "organTags": [
         "代谢/内分泌",
         "心血管",
@@ -228,13 +228,22 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
       "abnormalCount": 1
     }
   ],
-  "示例成员乙": [
+  "demo-b": [
     {
-      "id": "示例成员乙-2026-02-18",
+      "id": "demo-b:enc-2026-02-18-b",
+      "encounterId": "enc-2026-02-18-b",
       "date": "2026-02-18",
       "type": "体检",
       "source": "示例体检中心",
-      "person": "示例成员乙",
+      "personId": "demo-b",
+      "reports": [
+        {
+          "reportId": "report-demo-b-20260218",
+          "pageRefs": [
+            1
+          ]
+        }
+      ],
       "organTags": [
         "血液",
         "心血管"
@@ -243,13 +252,22 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
       "abnormalCount": 1
     }
   ],
-  "示例成员丙": [
+  "demo-c": [
     {
-      "id": "示例成员丙-2026-03-04",
+      "id": "demo-c:enc-2026-03-04-c",
+      "encounterId": "enc-2026-03-04-c",
       "date": "2026-03-04",
       "type": "体检",
       "source": "示例学校筛查",
-      "person": "示例成员丙",
+      "personId": "demo-c",
+      "reports": [
+        {
+          "reportId": "report-demo-c-20260304",
+          "pageRefs": [
+            1
+          ]
+        }
+      ],
       "organTags": [
         "眼/五官"
       ],
@@ -258,11 +276,13 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
     }
   ]
 };
-
 export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>> = {
-  "示例成员甲": {
-    "示例成员甲-2026-01-12": [
+  "demo-a": {
+    "demo-a:enc-2026-01-12-a": [
       {
+        "measurementId": "demo-a-glucose-20260112",
+        "reportId": "report-demo-a-20260112",
+        "page": 1,
         "standardName": "空腹血糖",
         "originalName": "葡萄糖",
         "value": 6.3,
@@ -279,6 +299,9 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
         ]
       },
       {
+        "measurementId": "demo-a-alt-20260112",
+        "reportId": "report-demo-a-20260112",
+        "page": 1,
         "standardName": "谷丙转氨酶",
         "originalName": "ALT",
         "value": 24,
@@ -295,9 +318,12 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
       }
     ]
   },
-  "示例成员乙": {
-    "示例成员乙-2026-02-18": [
+  "demo-b": {
+    "demo-b:enc-2026-02-18-b": [
       {
+        "measurementId": "demo-b-hgb-20260218",
+        "reportId": "report-demo-b-20260218",
+        "page": 1,
         "standardName": "血红蛋白",
         "originalName": "HGB",
         "value": 108,
@@ -313,6 +339,9 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
         ]
       },
       {
+        "measurementId": "demo-b-sbp-20260218",
+        "reportId": "report-demo-b-20260218",
+        "page": 1,
         "standardName": "收缩压",
         "originalName": "收缩压",
         "value": 118,
@@ -329,9 +358,12 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
       }
     ]
   },
-  "示例成员丙": {
-    "示例成员丙-2026-03-04": [
+  "demo-c": {
+    "demo-c:enc-2026-03-04-c": [
       {
+        "measurementId": "demo-c-vision-20260304",
+        "reportId": "report-demo-c-20260304",
+        "page": 1,
         "standardName": "裸眼视力",
         "originalName": "右眼裸眼视力",
         "value": "5.0",
@@ -348,10 +380,47 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
     ]
   }
 };
-
-export const LIFESTYLE_DATA: Record<string, Record<string, any> | null> = {
-  "示例成员甲": {
-    "personId": "示例成员甲",
+export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
+  "demo-a": {
+    "personId": "demo-a",
+    "suggestionDate": "2026-01-13T10:00:00+08:00",
+    "reviewSuggestions": [
+      {
+        "priority": "medium",
+        "organ": "代谢/内分泌",
+        "what": "复查空腹血糖",
+        "when": "按医生建议安排",
+        "where": "全科或内分泌科",
+        "why": "一次虚构检查中的空腹血糖略高于示例参考范围，需要复查确认。",
+        "status": "ai_pending",
+        "owner": "示例成员甲",
+        "evidence": [
+          {
+            "eventId": "demo-a:enc-2026-01-12-a",
+            "measurementIds": [
+              "demo-a-glucose-20260112"
+            ]
+          }
+        ]
+      }
+    ],
+    "watchItems": [],
+    "lifestyleDirections": [],
+    "nextCheckup": {
+      "lastCheckupDate": "2026-01-12",
+      "suggestedNextDate": "请与医生确认",
+      "focusItems": [
+        "空腹血糖"
+      ]
+    }
+  },
+  "demo-b": null,
+  "demo-c": null
+};
+export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = {
+  "demo-a": {
+    "personId": "demo-a",
+    "sourceAnalysisHash": "98afacce5c274e0d37f270b3ac90858a",
     "dataConfidence": "partial",
     "topPriorities": [
       {
@@ -391,22 +460,12 @@ export const LIFESTYLE_DATA: Record<string, Record<string, any> | null> = {
       "winter": "充分热身后再运动。"
     }
   },
-  "示例成员乙": null,
-  "示例成员丙": null
+  "demo-b": null,
+  "demo-c": null
 };
 
-export function getAnalysis(name: string): AnalysisData | undefined {
-  return ANALYSIS_DATA[name];
-}
-
-export function getEvents(name: string): HealthEvent[] {
-  return EVENTS_DATA[name] || [];
-}
-
-export function getMeasurements(name: string, eventId: string): MeasurementItem[] {
-  return MEASUREMENTS_DATA[name]?.[eventId] || [];
-}
-
-export function getLifestyle(name: string): Record<string, any> | null {
-  return LIFESTYLE_DATA[name] || null;
-}
+export function getAnalysis(personId: string): AnalysisData | undefined { return ANALYSIS_DATA[personId]; }
+export function getEvents(personId: string): HealthEvent[] { return EVENTS_DATA[personId] || []; }
+export function getMeasurements(personId: string, eventId: string): MeasurementItem[] { return MEASUREMENTS_DATA[personId]?.[eventId] || []; }
+export function getSuggestions(personId: string): SuggestionData | null { return SUGGESTIONS_DATA[personId] || null; }
+export function getLifestyle(personId: string): LifestyleData | null { return LIFESTYLE_DATA[personId] || null; }

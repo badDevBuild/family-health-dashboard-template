@@ -1,8 +1,0 @@
-{
-  "person": "示例成员乙",
-  "event": { "type": "体检", "date": "2026-02-18", "source": "示例体检中心", "sourceFiles": ["synthetic/demo-b.pdf"] },
-  "measurements": [
-    { "standardName": "血红蛋白", "originalName": "HGB", "value": 108, "numericValue": 108, "unit": "g/L", "referenceRange": { "low": 115, "high": 150 }, "isAbnormal": true, "organs": ["血液"] },
-    { "standardName": "收缩压", "originalName": "收缩压", "value": 118, "numericValue": 118, "unit": "mmHg", "referenceRange": { "low": 90, "high": 139 }, "isAbnormal": false, "organs": ["心血管"] }
-  ]
-}

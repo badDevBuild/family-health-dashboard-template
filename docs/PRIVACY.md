@@ -15,9 +15,14 @@
 1. 从白名单文件创建新仓库，不复制原仓库 `.git/`。
 2. 用虚构人物和虚构机构替换所有测试夹具。
 3. 在 `privacy-denylist.local.txt` 中加入项目相关真实标识。
-4. 运行 `npm run privacy-check`，再用 `git grep` 和 secret scanner 复核。
-5. 检查 Git 历史；新模板应只有脱敏后的提交。
-6. 在 GitHub 创建仓库后读回文件树和可见性，确认没有意外公开。
+4. `npm run privacy-check` 读取 Git 索引里的实际 blob，而不是工作树；即使通过 `git add -f` 强制暂存私有路径也会失败。
+5. 演示构建后运行 `npm run privacy-check:demo-artifact`，检查最终 `dist-demo/` 的模式证明和隐私拒绝词。
+6. 检查 Git 历史；新模板应只有脱敏后的提交。
+7. 在 GitHub 创建仓库后读回文件树和可见性，确认没有意外公开。
+
+本地被忽略的 `data/`、`reports/` 和 `health-data.private.ts` 合法存在，不会阻塞“提交检查”；一旦它们进入 Git 索引就会被拒绝。提交检查、构建产物检查和运行时鉴权是三道不同门禁，不能互相替代。
+
+提交检查对 PDF、常见图片、Office 文档、医学影像、压缩包和未知含 NUL 二进制内容采用默认拒绝策略。当前模板没有公开二进制资产白名单；如以后确需加入品牌图片，应先建立精确目录和文件用途白名单，并继续禁止 `public/avatars/` 与任何报告扫描件。
 
 ## 已经误提交怎么办
 

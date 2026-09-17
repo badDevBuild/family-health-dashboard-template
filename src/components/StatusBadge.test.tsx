@@ -3,6 +3,10 @@ import { describe, it, expect } from "vitest";
 import { StatusBadge } from "./StatusBadge";
 
 describe("StatusBadge", () => {
+  it("资料未审核时明确显示待审核而不是正常", () => {
+    render(<StatusBadge status="unknown" />);
+    expect(screen.getByText("待审核")).toHaveClass("status-unknown");
+  });
   it("正常状态显示'正常'文本", () => {
     render(<StatusBadge status="normal" />);
     expect(screen.getByText("正常")).toBeInTheDocument();

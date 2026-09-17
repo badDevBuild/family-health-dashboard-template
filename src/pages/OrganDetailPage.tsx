@@ -10,19 +10,19 @@ export function OrganDetailPage() {
   const { organ } = useParams<{ organ: string }>();
   const [searchParams] = useSearchParams();
 
-  const personName = searchParams.get("person") || "";
+  const personId = searchParams.get("person") || "";
   const organName = decodeURIComponent(organ || "");
 
-  const analysis = getAnalysis(personName);
+  const analysis = getAnalysis(personId);
   const organAnalysis = analysis?.organAnalyses.find(
-    (a: any) => a.organ === organName,
+    (item) => item.organ === organName,
   );
   const organConfig = ORGAN_SYSTEMS.find((o) => o.name === organName);
 
   // 筛选与当前器官相关的跨器官洞察
   const relevantInsights =
-    analysis?.crossOrganInsights.filter(
-      (insight: any) =>
+    analysis?.crossOrganInsights?.filter(
+      (insight) =>
         insight.includes(organName) ||
         // 肝胆相关的洞察包含"脂肪肝"
         (organName === "肝胆" && insight.includes("脂肪肝")) ||
@@ -59,7 +59,7 @@ export function OrganDetailPage() {
             {/* 关键指标趋势 */}
             {organAnalysis.keyIndicators.length > 0 && (
               <div className="flex flex-col gap-3 mb-4">
-                {organAnalysis.keyIndicators.map((ind: any) => (
+                {organAnalysis.keyIndicators.map((ind) => (
                   <TrendCard key={ind.name} indicator={ind} />
                 ))}
               </div>
@@ -72,7 +72,7 @@ export function OrganDetailPage() {
                   跨器官关联
                 </div>
                 <div className="flex flex-col gap-2">
-                  {relevantInsights.map((insight: any, i: number) => (
+                  {relevantInsights.map((insight, i) => (
                     <div
                       key={i}
                       className="text-sm text-warm-600 bg-status-info-bg rounded-[--radius-md] p-3"

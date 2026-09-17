@@ -8,32 +8,36 @@ import {
   getAnalysis,
   getEvents,
   getLifestyle,
+  getSuggestions,
 } from "@health-data";
 import { ORGAN_SYSTEMS } from "../shared/organs";
 import { LifestyleGuide } from "../components/LifestyleGuide";
+import { ActionItems } from "../components/ActionItems";
+import { DemoBanner } from "../components/DemoBanner";
 
-const TABS = ["身体", "时间线", "生活指南"];
+const TABS = ["下一步", "身体", "时间线", "生活指南"];
 
 export function HomePage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const personName = searchParams.get("person") || FAMILY_MEMBERS[0]?.name;
+  const personId = searchParams.get("person") || FAMILY_MEMBERS[0]?.id;
   const currentMember =
-    FAMILY_MEMBERS.find((m) => m.name === personName) || FAMILY_MEMBERS[0];
+    FAMILY_MEMBERS.find((m) => m.id === personId) || FAMILY_MEMBERS[0];
 
   // Tab 状态持久化到 URL，返回时能恢复到正确的 Tab
   const tabParam = parseInt(searchParams.get("tab") || "0", 10);
   const activeTab = tabParam >= 0 && tabParam < TABS.length ? tabParam : 0;
   const setActiveTab = (index: number) => {
     setSearchParams(
-      { person: personName, tab: String(index) },
+      { person: personId, tab: String(index) },
       { replace: true },
     );
   };
 
-  const analysis = getAnalysis(currentMember.name);
-  const events = getEvents(currentMember.name);
-  const lifestyle = getLifestyle(currentMember.name);
+  const analysis = getAnalysis(currentMember.id);
+  const events = getEvents(currentMember.id);
+  const suggestions = getSuggestions(currentMember.id);
+  const lifestyle = getLifestyle(currentMember.id);
 
   return (
     <div className="max-w-[430px] mx-auto min-h-screen">
@@ -67,8 +71,13 @@ export function HomePage() {
               ? `最近体检: ${currentMember.lastCheckup} · ${currentMember.dataSpan}`
               : currentMember.dataSpan}
           </div>
+          <div className="text-sm text-warm-400 mt-0.5">
+            分析状态: {currentMember.reviewStatus === "approved" ? "已批准" : currentMember.reviewStatus === "demo" ? "虚构演示" : "待审核"}
+          </div>
         </div>
       </div>
+
+      <DemoBanner />
 
       {/* Tab 栏 */}
       <div className="px-5 pt-4">
@@ -78,9 +87,11 @@ export function HomePage() {
       {/* 内容区 */}
       <div className="px-5 pb-8">
         {activeTab === 0 ? (
-          <BodyTab analysis={analysis} personName={currentMember.name} />
+          <ActionItems data={suggestions} />
         ) : activeTab === 1 ? (
-          <TimelineTab events={events} personName={currentMember.name} />
+          <BodyTab analysis={analysis} personId={currentMember.id} />
+        ) : activeTab === 2 ? (
+          <TimelineTab events={events} personId={currentMember.id} personName={currentMember.name} />
         ) : (
           <LifestyleGuide data={lifestyle} />
         )}
@@ -91,10 +102,10 @@ export function HomePage() {
 
 function BodyTab({
   analysis,
-  personName,
+  personId,
 }: {
   analysis: ReturnType<typeof getAnalysis>;
-  personName: string;
+  personId: string;
 }) {
   const navigate = useNavigate();
   if (!analysis) {
@@ -109,7 +120,7 @@ function BodyTab({
     normal: 2,
   };
   const sorted = [...analysis.organAnalyses].sort(
-    (a: any, b: any) =>
+    (a, b) =>
       (statusOrder[a.status] ?? 1) - (statusOrder[b.status] ?? 1),
   );
 
@@ -123,14 +134,14 @@ function BodyTab({
 
         const indicators = organAnalysis.keyIndicators
           .slice(0, 2)
-          .map((ind: any) => ({
+          .map((ind) => ({
             name: ind.name,
             value: String(ind.latestValue),
             unit: ind.unit,
             trend: ind.trend,
-            history: ind.history.map((h: any) =>
-              typeof h.value === "number" ? h.value : 0,
-            ),
+            history: ind.history
+              .map((h) => h.value)
+              .filter((value: unknown): value is number => typeof value === "number" && Number.isFinite(value)),
           }));
 
         return (
@@ -142,7 +153,7 @@ function BodyTab({
             indicators={indicators}
             onClick={() =>
               navigate(
-                `/organ/${encodeURIComponent(organAnalysis.organ)}?person=${encodeURIComponent(personName)}`,
+                `/organ/${encodeURIComponent(organAnalysis.organ)}?person=${encodeURIComponent(personId)}`,
               )
             }
           />
@@ -154,9 +165,11 @@ function BodyTab({
 
 function TimelineTab({
   events,
+  personId,
   personName,
 }: {
   events: ReturnType<typeof getEvents>;
+  personId: string;
   personName: string;
 }) {
   const navigate = useNavigate();
@@ -168,14 +181,15 @@ function TimelineTab({
   return (
     <div className="divide-y divide-warm-200">
       {events.map((event) => (
-        <div
+        <button
+          type="button"
           key={event.id}
           onClick={() =>
             navigate(
-              `/event/${encodeURIComponent(event.id)}?person=${encodeURIComponent(personName)}`,
+              `/event/${encodeURIComponent(event.id)}?person=${encodeURIComponent(personId)}`,
             )
           }
-          className="cursor-pointer active:scale-[0.98] transition-transform duration-100"
+          className="w-full text-left cursor-pointer active:scale-[0.98] transition-transform duration-100"
         >
           <TimelineItem
             date={event.date}
@@ -183,7 +197,7 @@ function TimelineTab({
             subtitle={`${personName} · ${event.source}`}
             organTags={event.organTags}
           />
-        </div>
+        </button>
       ))}
     </div>
   );

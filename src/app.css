@@ -64,6 +64,11 @@ body {
   color: var(--color-status-alert);
 }
 
+.status-unknown {
+  background-color: var(--color-warm-100);
+  color: var(--color-warm-600);
+}
+
 /* 入场动画 */
 @keyframes fade-in-up {
   from {

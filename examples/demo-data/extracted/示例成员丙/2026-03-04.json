@@ -1,7 +1,0 @@
-{
-  "person": "示例成员丙",
-  "event": { "type": "体检", "date": "2026-03-04", "source": "示例学校筛查", "sourceFiles": ["synthetic/demo-c.pdf"] },
-  "measurements": [
-    { "standardName": "裸眼视力", "originalName": "右眼裸眼视力", "value": "5.0", "numericValue": null, "unit": "", "referenceRange": { "text": "示例范围" }, "isAbnormal": false, "organs": ["眼/五官"] }
-  ]
-}

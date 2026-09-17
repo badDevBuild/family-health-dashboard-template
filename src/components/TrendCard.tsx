@@ -32,6 +32,9 @@ export function TrendCard({ indicator }: { indicator: IndicatorSummary }) {
             {history.map((h, i) => {
               const isLast = i === history.length - 1;
               const isHighlighted = isLast && isAbnormal;
+              const current = typeof h.value === "number" && Number.isFinite(h.value) ? h.value : null;
+              const previousValue = history[i - 1]?.value;
+              const previous = typeof previousValue === "number" && Number.isFinite(previousValue) ? previousValue : null;
               return (
                 <div key={h.date} className="flex items-center gap-2">
                   {/* 时间轴圆点 + 竖线 */}
@@ -51,11 +54,11 @@ export function TrendCard({ indicator }: { indicator: IndicatorSummary }) {
                     {String(h.value)}
                   </div>
                   {/* 变化箭头 */}
-                  {i > 0 && (
+                  {indicator.trend !== "not-comparable" && i > 0 && current !== null && previous !== null && (
                     <div className="text-xs text-warm-400">
-                      {Number(h.value) > Number(history[i - 1].value)
+                      {current > previous
                         ? "↑"
-                        : Number(h.value) < Number(history[i - 1].value)
+                        : current < previous
                           ? "↓"
                           : "—"}
                     </div>

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "notice": "本目录只含虚构数据，用于 CI 验证私有发布链路。",
+  "members": [
+    { "personId": "ci-person", "displayName": "CI 虚构成员", "birthYear": 1990, "gender": "女" }
+  ]
+}

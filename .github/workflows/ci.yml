@@ -16,6 +16,14 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: npm ci
+      - run: python -m pip install -r server/requirements-dev.txt
       - run: npm run generate-demo-data
+      - run: git diff --exit-code -- src/lib/health-data.ts
       - run: npm run check
+      - run: npm run generate-private-ci-data
+      - run: npm run build-private
+      - run: npm run privacy-check:private-artifact

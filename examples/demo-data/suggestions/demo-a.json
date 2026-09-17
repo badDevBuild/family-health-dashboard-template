@@ -1,0 +1,24 @@
+{
+  "personId": "demo-a",
+  "suggestionDate": "2026-01-13T10:00:00+08:00",
+  "reviewSuggestions": [
+    {
+      "priority": "medium",
+      "organ": "代谢/内分泌",
+      "what": "复查空腹血糖",
+      "when": "按医生建议安排",
+      "where": "全科或内分泌科",
+      "why": "一次虚构检查中的空腹血糖略高于示例参考范围，需要复查确认。",
+      "status": "ai_pending",
+      "owner": "示例成员甲",
+      "evidence": [{ "eventId": "demo-a:enc-2026-01-12-a", "measurementIds": ["demo-a-glucose-20260112"] }]
+    }
+  ],
+  "watchItems": [],
+  "lifestyleDirections": [],
+  "nextCheckup": {
+    "lastCheckupDate": "2026-01-12",
+    "suggestedNextDate": "请与医生确认",
+    "focusItems": ["空腹血糖"]
+  }
+}

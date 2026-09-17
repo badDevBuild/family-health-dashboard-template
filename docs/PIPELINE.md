@@ -6,7 +6,7 @@
 
 ## 2. 逐份提取
 
-每份报告独立提取事件、日期、来源、原始文件和全部可识别指标。保留原始名称、标准名称、单位、参考范围和异常标志；同日多文件可合并为一个事件，但要保留所有来源文件。
+每份报告独立提取事件、日期、来源、原始文件和全部可识别指标。保留原始名称、标准名称、单位、参考范围和异常标志。为成员、就诊、报告和指标分配稳定 ID；同日不是合并条件，只有明确相同的 `encounterId` 才能合并，并保留全部报告 ID 和页码。
 
 完成标准：所有页都有覆盖记录；无法读取的页明确列出；数字、单位和参考范围可回到原图核对。
 
@@ -24,7 +24,7 @@
 
 ## 6. 正式写入与下游失效
 
-顺序是 `extract -> analyze -> suggest -> lifestyle`。上游内容变化后，下游旧结果和旧复核自动失效。全部通过后再更新正式文件与 `processed-files.json`，随后生成前端数据。
+顺序是 `extract -> analyze -> suggest -> lifestyle`。批准清单记录每阶段输入/输出哈希、复核者、批准者、批准时间和上游依赖。上游内容变化后，下游旧结果和旧复核自动失效；生成器会硬性拒绝不匹配的私有发布。全部通过后再更新正式文件与 `processed-files.json`，随后生成前端数据。
 
 ## 7. 验证与发布
 
@@ -32,10 +32,12 @@
 npm run generate-private-data
 npm run privacy-check
 npm run typecheck
-npm run test -- --run
+npm run test:scripts
+npm test
+python3 -m unittest discover -s server/tests -p 'test_*.py'
 VITE_AUTH_ENABLED=true npm run build-private
 ```
 
-发布时验证：部署文件与本地构建一致、未认证访问看不到 bundle、认证 API 正常、前端四类路由都能返回应用、日志不记录 PIN 或健康正文。发布后进行读回验收，并保留可恢复的上一版本。
+发布时验证：部署文件与本地构建一致、未认证/过期/撤销会话都看不到任何 HTML 或 bundle、所有敏感响应是 `no-store`、认证 API 正常、前端路由都能返回应用、日志不记录 PIN 或健康正文。发布后进行读回验收，并保留可恢复的上一版本。
 
 任一步失败都应保存当前阶段、失败原因和恢复入口；不要用旧收据冒充本轮成功。

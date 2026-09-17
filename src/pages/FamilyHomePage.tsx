@@ -1,19 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { FAMILY_MEMBERS } from "@health-data";
+import { DemoBanner } from "../components/DemoBanner";
 
 const STATUS_RING: Record<string, string> = {
+  unknown: "ring-[#9C9690]/40",
   normal: "ring-[#3B9B6F]/40",
   attention: "ring-[#D4910A]/40",
   alert: "ring-[#C75C3A]/40",
 };
 
 const AVATAR_BG: Record<string, string> = {
+  unknown: "bg-[#F5F3F0]",
   normal: "bg-[#E8F5EE]",
   attention: "bg-[#FDF4E3]",
   alert: "bg-[#FBEAE4]",
 };
 
 const STATUS_DOT: Record<string, string> = {
+  unknown: "bg-[#9C9690]",
   normal: "bg-[#3B9B6F]",
   attention: "bg-[#D4910A]",
   alert: "bg-[#C75C3A]",
@@ -22,8 +26,8 @@ const STATUS_DOT: Record<string, string> = {
 export function FamilyHomePage() {
   const navigate = useNavigate();
 
-  function handleSelect(name: string) {
-    navigate(`/dashboard?person=${encodeURIComponent(name)}`);
+  function handleSelect(personId: string) {
+    navigate(`/dashboard?person=${encodeURIComponent(personId)}`);
   }
 
   return (
@@ -45,12 +49,14 @@ export function FamilyHomePage() {
         <p className="text-sm text-warm-400 mt-2">健康第一</p>
       </div>
 
+      <div className="relative z-10 w-full mb-6"><DemoBanner /></div>
+
       {/* 头像网格 */}
       <div className="relative z-10 w-full max-w-[280px]">
         <div className="grid grid-cols-2 gap-x-12 gap-y-8 justify-items-center">
           {FAMILY_MEMBERS.map((member, i) => (
             <AvatarButton
-              key={member.name}
+              key={member.id}
               member={member}
               delay={i * 80}
               onSelect={handleSelect}
@@ -70,7 +76,7 @@ function AvatarButton({
   delay,
   onSelect,
 }: {
-  member: { name: string; status: string };
+  member: { id: string; name: string; status: string };
   delay: number;
   onSelect: (name: string) => void;
 }) {
@@ -78,7 +84,7 @@ function AvatarButton({
 
   return (
     <button
-      onClick={() => onSelect(member.name)}
+      onClick={() => onSelect(member.id)}
       className="flex flex-col items-center gap-2.5 cursor-pointer group animate-fade-in-up"
       style={{ animationDelay: `${delay}ms` }}
     >

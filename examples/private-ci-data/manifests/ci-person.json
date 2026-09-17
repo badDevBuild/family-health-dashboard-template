@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "personId": "ci-person",
+  "stages": {
+    "extract": {
+      "status": "approved",
+      "outputHash": "118319ed58efee00e97cb3f86d970f622dd756a1d66bbab1f353de8430713dfa",
+      "dependsOn": { "context": "8a56359a3c889ae6680a0975f21c74308525a0fc5f5fbf383c53088fbff1170f" },
+      "reviewer": "ci-reviewer",
+      "approvedBy": "ci-owner",
+      "approvedAt": "2026-09-17T08:00:00Z"
+    }
+  }
+}

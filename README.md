@@ -31,19 +31,20 @@ npm run check
 1. 按 [数据契约](docs/DATA-CONTRACT.md) 在本地创建 `data/`；该目录已被 Git 忽略。
 2. 把报告放在本地 `reports/<成员>/<年份>/`，不要复制到公开仓库。
 3. 按 [处理流程](docs/PIPELINE.md) 完成提取、分析、建议、复核和批准。
-4. 生成被 Git 忽略的私有前端数据模块：
+4. 按 [数据契约](docs/DATA-CONTRACT.md) 写入与当前输入哈希匹配的批准记录。生成器不会自动批准结果。
+5. 生成被 Git 忽略的私有前端数据模块：
 
    ```bash
    npm run generate-private-data
    ```
 
-5. 构建私有版本：
+6. 构建私有版本：
 
    ```bash
    VITE_AUTH_ENABLED=true npm run build-private
    ```
 
-6. 设置 `PIN_HASH`、`AUTH_SECRET` 和 `COOKIE_SECURE` 后，用可选的 FastAPI 服务托管 `dist/`。生产环境还应配置 HTTPS、访问日志脱敏、备份和网络层限流。
+7. 设置 `PIN_HASH`、高熵 `AUTH_SECRET` 和 `COOKIE_SECURE` 后，用 FastAPI 服务托管 `dist-private/`。私有 bundle 不能交给普通静态服务器或 CDN。前端会在聚焦、恢复可见和每分钟复查会话并在失效时锁屏，但已经下载到浏览器内存的数据无法真正远程收回；若需要即时撤回，应改为登录后通过鉴权 API 按需取数。生产环境还应配置 HTTPS、访问日志脱敏、备份和网络层限流；多进程部署需把会话和限流迁移到共享存储。
 
 ## 目录
 
@@ -63,6 +64,8 @@ server/                   可选 PIN 鉴权静态服务器
 
 - `src/lib/health-data.ts`：可提交，仅由 `examples/demo-data/` 生成。
 - `src/lib/health-data.private.ts`：不可提交，仅由本地 `data/` 生成。
+- `dist-demo/`：可公开的虚构数据构建；发布前运行产物隐私检查。
+- `dist-private/`：真实数据构建，只能经后端逐请求鉴权提供，且响应禁止缓存。
 
 第一次发布前，建议另外创建 `privacy-denylist.local.txt`，每行放一个只在本机保存的真实姓名、机构或独特标识，再运行 `npm run privacy-check`。详见 [PRIVACY.md](docs/PRIVACY.md)。
 

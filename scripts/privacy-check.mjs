@@ -1,10 +1,31 @@
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
+function fail(message) {
+  console.error(message);
+  process.exit(1);
+}
+
+function parseArgs(argv) {
+  const result = { scope: "staged" };
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === "--scope" || arg === "--artifact" || arg === "--expected-mode") {
+      result[arg.slice(2)] = argv[index + 1];
+      index += 1;
+    } else fail(`无法识别的参数: ${arg}`);
+  }
+  return result;
+}
+
+const args = parseArgs(process.argv.slice(2));
 const root = process.cwd();
-const ignored = new Set([".git", "node_modules", "dist", "data", "reports", "体检报告", "exports", "research", "public/avatars"]);
-const binaryExtensions = new Set([".pdf", ".jpg", ".jpeg", ".png", ".heic", ".dcm", ".zip", ".7z"]);
-const riskyFiles = [/\.pem$/i, /\.key$/i, /\.p12$/i, /\.pfx$/i, /^\.env$/, /^\.env\.(?!example$)/, /health-data\.private\.ts$/];
+const binaryExtensions = new Set([
+  ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".webp", ".heic", ".dcm",
+  ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
+  ".zip", ".7z", ".rar", ".p12", ".pfx", ".pem", ".key",
+]);
 const textRules = [
   ["私钥材料", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
   ["macOS 用户绝对路径", /\/Users\/(?!example|your-name|username)[^/\s]+\//],
@@ -14,43 +35,85 @@ const textRules = [
   ["疑似硬编码密钥", /(?:api[_-]?key|access[_-]?token|auth[_-]?secret|password)\s*[:=]\s*["'][A-Za-z0-9_\-./+=]{12,}["']/i],
 ];
 
-function walk(dir, relative = "") {
-  const files = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (ignored.has(entry.name) || entry.name === "privacy-denylist.local.txt") continue;
-    const rel = path.join(relative, entry.name);
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...walk(full, rel));
-    else files.push(rel);
-  }
-  return files;
+function normalize(relative) { return relative.split(path.sep).join("/").replace(/^\.\//, ""); }
+function forbiddenPath(relative) {
+  const rel = normalize(relative);
+  const basename = path.posix.basename(rel);
+  if (/^(data|reports|体检报告|exports|research)(\/|$)/.test(rel)) return "禁止提交的私有数据路径";
+  if (rel === "src/lib/health-data.private.ts") return "禁止提交私有数据模块";
+  if (/^\.env(?:\..+)?$/.test(basename) && basename !== ".env.example") return "禁止提交环境变量文件";
+  if (binaryExtensions.has(path.posix.extname(rel).toLowerCase())) return "禁止提交敏感或二进制文件类型";
+  if (/^public\/avatars(?:\/|$)/.test(rel)) return "禁止提交真实头像目录";
+  return null;
 }
 
-const denylistFile = path.join(root, "privacy-denylist.local.txt");
-const denylist = fs.existsSync(denylistFile)
-  ? fs.readFileSync(denylistFile, "utf8").split(/\r?\n/).map((item) => item.trim()).filter(Boolean)
-  : [];
-const findings = [];
+function denylist() {
+  const file = path.join(root, "privacy-denylist.local.txt");
+  return fs.existsSync(file) ? fs.readFileSync(file, "utf8").split(/\r?\n/).map((item) => item.trim()).filter(Boolean) : [];
+}
 
-for (const rel of walk(root)) {
-  if (riskyFiles.some((rule) => rule.test(rel)) || binaryExtensions.has(path.extname(rel).toLowerCase())) {
-    findings.push(`${rel}: 禁止提交的敏感或二进制文件类型`);
-    continue;
+function inspect(relative, buffer, findings, localDenylist) {
+  const rel = normalize(relative);
+  const pathFinding = forbiddenPath(rel);
+  if (pathFinding) findings.push(`${rel}: ${pathFinding}`);
+  if (buffer.includes(0)) {
+    findings.push(`${rel}: 未知二进制内容默认拒绝提交`);
+    return;
   }
-  const full = path.join(root, rel);
-  const buffer = fs.readFileSync(full);
-  if (buffer.includes(0)) continue;
   const text = buffer.toString("utf8");
-  for (const [label, rule] of textRules) {
-    if (rule.test(text)) findings.push(`${rel}: ${label}`);
-  }
-  for (const denied of denylist) {
-    if (text.includes(denied) || rel.includes(denied)) findings.push(`${rel}: 命中本地隐私拒绝词`);
-  }
+  for (const [label, rule] of textRules) if (rule.test(text)) findings.push(`${rel}: ${label}`);
+  for (const denied of localDenylist) if (text.includes(denied) || rel.includes(denied)) findings.push(`${rel}: 命中本地隐私拒绝词`);
 }
 
-if (findings.length > 0) {
-  console.error("隐私检查失败:\n" + findings.map((item) => `- ${item}`).join("\n"));
-  process.exit(1);
+function git(argsList, options = {}) {
+  try { return execFileSync("git", argsList, { cwd: root, ...options }); }
+  catch (error) { fail(`Git 索引检查失败: ${error.stderr?.toString() || error.message}`); }
 }
-console.log(`隐私检查通过，共检查 ${walk(root).length} 个文件。`);
+
+function stagedEntries() {
+  const raw = git(["ls-files", "-z", "--cached"], { encoding: "buffer" }).toString("utf8");
+  return raw.split("\0").filter(Boolean).map((relative) => {
+    const modeLine = git(["ls-files", "--stage", "--", relative], { encoding: "utf8" }).trim();
+    if (!modeLine.startsWith("100")) fail(`${relative}: 只允许普通文件进入公开仓库（不接受符号链接或 Git 特殊条目）`);
+    return { relative, buffer: git(["show", `:${relative}`], { encoding: "buffer" }) };
+  });
+}
+
+function walk(directory, base = directory) {
+  const items = [];
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const full = path.join(directory, entry.name);
+    if (entry.isSymbolicLink()) fail(`${normalize(path.relative(base, full))}: 构建产物中禁止符号链接`);
+    if (entry.isDirectory()) items.push(...walk(full, base));
+    else if (entry.isFile()) items.push({ relative: normalize(path.relative(base, full)), buffer: fs.readFileSync(full) });
+  }
+  return items;
+}
+
+let entries;
+if (args.scope === "staged") {
+  entries = stagedEntries();
+} else if (args.scope === "artifact") {
+  if (!args.artifact || !args["expected-mode"]) fail("artifact 范围必须同时提供 --artifact 和 --expected-mode");
+  const artifact = path.resolve(root, args.artifact);
+  if (!fs.existsSync(artifact) || !fs.statSync(artifact).isDirectory()) fail(`未找到构建产物目录: ${args.artifact}`);
+  entries = walk(artifact);
+} else {
+  fail("--scope 仅支持 staged 或 artifact");
+}
+
+const findings = [];
+const localDenylist = denylist();
+for (const entry of entries) inspect(entry.relative, entry.buffer, findings, localDenylist);
+
+if (args.scope === "artifact") {
+  const combined = Buffer.concat(entries.map((entry) => entry.buffer)).toString("utf8");
+  const expected = args["expected-mode"];
+  if (!new Set(["demo", "private"]).has(expected)) findings.push(`未知的预期发布模式: ${expected}`);
+  const modeProof = new RegExp(`(?:\\"mode\\"|mode)\\s*:\\s*[\\"'\u0060]${expected}[\\"'\u0060]`);
+  if (!modeProof.test(combined)) findings.push(`产物缺少 ${expected} 模式证明`);
+  if (expected === "demo" && (combined.includes("PRIVATE_SENTINEL") || combined.includes("health-data.private"))) findings.push("公开产物包含私有数据标记");
+}
+
+if (findings.length > 0) fail("隐私检查失败:\n" + [...new Set(findings)].map((item) => `- ${item}`).join("\n"));
+console.log(`隐私检查通过（${args.scope}），共检查 ${entries.length} 个文件。`);
