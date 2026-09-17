@@ -8,20 +8,18 @@ import {
   getAnalysis,
   getEvents,
   getLifestyle,
-  getSuggestions,
 } from "@health-data";
 import { ORGAN_SYSTEMS } from "../shared/organs";
 import { LifestyleGuide } from "../components/LifestyleGuide";
-import { ActionItems } from "../components/ActionItems";
 
-const TABS = ["下一步", "身体", "时间线", "生活指南"];
+const TABS = ["身体", "时间线", "生活指南"];
 
 export function HomePage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const personId = searchParams.get("person") || FAMILY_MEMBERS[0]?.id;
   const currentMember =
-    FAMILY_MEMBERS.find((m) => m.id === personId) || FAMILY_MEMBERS[0];
+    FAMILY_MEMBERS.find((member) => member.id === personId) || FAMILY_MEMBERS[0];
 
   // Tab 状态持久化到 URL，返回时能恢复到正确的 Tab
   const tabParam = parseInt(searchParams.get("tab") || "0", 10);
@@ -35,14 +33,14 @@ export function HomePage() {
 
   const analysis = getAnalysis(currentMember.id);
   const events = getEvents(currentMember.id);
-  const suggestions = getSuggestions(currentMember.id);
   const lifestyle = getLifestyle(currentMember.id);
 
   return (
     <div className="max-w-[430px] mx-auto min-h-screen">
-      {/* 顶部：返回按钮 + 人物信息 */}
-      <div className="mx-3 mt-3 flex items-center gap-3 rounded-[--radius-lg] bg-white px-4 py-4 shadow-card">
+      {/* 与生产页一致：返回按钮 + 人物信息 */}
+      <div className="px-5 pt-4 pb-1 flex items-center gap-3">
         <button
+          type="button"
           onClick={() => navigate("/")}
           className="w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 active:scale-95 transition-all duration-150 cursor-pointer shrink-0"
           aria-label="返回主页"
@@ -63,15 +61,7 @@ export function HomePage() {
             />
           </svg>
         </button>
-        {currentMember.avatar && (
-          <img
-            src={`${import.meta.env.BASE_URL}${currentMember.avatar}`}
-            alt=""
-            className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-primary-light"
-          />
-        )}
-        <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold text-primary">{currentMember.role}</div>
+        <div>
           <div className="text-[22px] font-bold">{currentMember.name}</div>
           <div className="text-sm text-warm-400 mt-0.5">
             {currentMember.lastCheckup
@@ -81,19 +71,19 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Tab 栏 */}
       <div className="px-5 pt-4">
         <TabBar tabs={TABS} activeIndex={activeTab} onSelect={setActiveTab} />
       </div>
 
-      {/* 内容区 */}
       <div className="px-5 pb-8">
         {activeTab === 0 ? (
-          <ActionItems data={suggestions} />
-        ) : activeTab === 1 ? (
           <BodyTab analysis={analysis} personId={currentMember.id} />
-        ) : activeTab === 2 ? (
-          <TimelineTab events={events} personId={currentMember.id} personName={currentMember.name} />
+        ) : activeTab === 1 ? (
+          <TimelineTab
+            events={events}
+            personId={currentMember.id}
+            personName={currentMember.name}
+          />
         ) : (
           <LifestyleGuide data={lifestyle} />
         )}
@@ -114,11 +104,11 @@ function BodyTab({
     return <EmptyState />;
   }
 
-  // 按状态严重度排序：alert > attention > normal
   const statusOrder: Record<string, number> = {
     alert: 0,
     attention: 1,
     warning: 1,
+    unknown: 1,
     normal: 2,
   };
   const sorted = [...analysis.organAnalyses].sort(
@@ -130,28 +120,31 @@ function BodyTab({
     <div className="flex flex-col gap-3">
       {sorted.map((organAnalysis) => {
         const organConfig = ORGAN_SYSTEMS.find(
-          (o) => o.name === organAnalysis.organ,
+          (organ) => organ.name === organAnalysis.organ,
         );
         const icon = organConfig?.icon || "◎";
 
         const indicators = organAnalysis.keyIndicators
           .slice(0, 2)
-          .map((ind) => ({
-            name: ind.name,
-            value: String(ind.latestValue),
-            unit: ind.unit,
-            trend: ind.trend,
-            history: ind.history
-              .map((h) => h.value)
-              .filter((value: unknown): value is number => typeof value === "number" && Number.isFinite(value)),
+          .map((indicator) => ({
+            name: indicator.name,
+            value: String(indicator.latestValue),
+            unit: indicator.unit,
+            trend: indicator.trend,
+            history: indicator.history
+              .map((item) => item.value)
+              .filter(
+                (value: unknown): value is number =>
+                  typeof value === "number" && Number.isFinite(value),
+              ),
           }));
 
         return (
           <OrganCard
             key={organAnalysis.organ}
-            organ={organAnalysis.organ as any}
+            organ={organAnalysis.organ}
             icon={icon}
-            status={organAnalysis.status as any}
+            status={organAnalysis.status}
             indicators={indicators}
             onClick={() =>
               navigate(

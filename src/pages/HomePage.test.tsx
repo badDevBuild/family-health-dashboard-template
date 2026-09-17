@@ -22,23 +22,19 @@ describe("HomePage", () => {
     expect(screen.getByLabelText("返回主页")).toBeInTheDocument();
   });
 
-  it("显示四个 Tab", () => {
+  it("显示与生产页一致的三个 Tab", () => {
     renderHomePage();
-    expect(screen.getByText("下一步")).toBeInTheDocument();
     expect(screen.getByText("身体")).toBeInTheDocument();
     expect(screen.getByText("时间线")).toBeInTheDocument();
     expect(screen.getByText("生活指南")).toBeInTheDocument();
+    expect(screen.queryByText("下一步")).not.toBeInTheDocument();
   });
 
-  it("默认优先显示'下一步' Tab", () => {
+  it("默认显示'身体' Tab", () => {
     renderHomePage();
-    const actionTab = screen.getByText("下一步");
-    expect(actionTab.getAttribute("data-active")).toBe("true");
-    expect(screen.getByText("AI 提出，待医生确认")).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "查看检查依据 1" })[0]).toHaveAttribute(
-      "href",
-      "/event/demo-father%3Aenc-2026-father?person=demo-father",
-    );
+    const bodyTab = screen.getByText("身体");
+    expect(bodyTab.getAttribute("data-active")).toBe("true");
+    expect(screen.getByText("肝胆")).toBeInTheDocument();
   });
 
   it("切换到'时间线' Tab", () => {
@@ -57,7 +53,6 @@ describe("HomePage", () => {
 
   it("成员有多年器官趋势数据", () => {
     renderHomePage();
-    fireEvent.click(screen.getByText("身体"));
     expect(screen.getByText("肝胆")).toBeInTheDocument();
   });
 
