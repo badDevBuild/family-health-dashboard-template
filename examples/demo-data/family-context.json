@@ -2,12 +2,49 @@
   "schemaVersion": 1,
   "notice": "本目录中的人物、机构、日期和数值均为虚构，仅用于界面演示与测试。",
   "familyBackground": {
-    "location": "示例城市",
+    "location": "安和市",
     "dietCulture": "普通家庭饮食"
   },
   "members": [
-    { "personId": "demo-a", "displayName": "示例成员甲", "birthYear": 1988, "gender": "男", "role": "成年人" },
-    { "personId": "demo-b", "displayName": "示例成员乙", "birthYear": 1991, "gender": "女", "role": "成年人" },
-    { "personId": "demo-c", "displayName": "示例成员丙", "birthYear": 2015, "gender": "女", "role": "儿童" }
+    {
+      "personId": "demo-father",
+      "displayName": "林远山",
+      "birthYear": 1981,
+      "gender": "男",
+      "role": "爸爸 · 45岁",
+      "avatar": "avatars/demo-father.webp"
+    },
+    {
+      "personId": "demo-mother",
+      "displayName": "苏青禾",
+      "birthYear": 1984,
+      "gender": "女",
+      "role": "妈妈 · 42岁",
+      "avatar": "avatars/demo-mother.webp"
+    },
+    {
+      "personId": "demo-grandfather",
+      "displayName": "林松年",
+      "birthYear": 1956,
+      "gender": "男",
+      "role": "爷爷 · 70岁",
+      "avatar": "avatars/demo-grandfather.webp"
+    },
+    {
+      "personId": "demo-grandmother",
+      "displayName": "周瑞云",
+      "birthYear": 1959,
+      "gender": "女",
+      "role": "奶奶 · 67岁",
+      "avatar": "avatars/demo-grandmother.webp"
+    },
+    {
+      "personId": "demo-daughter",
+      "displayName": "林小满",
+      "birthYear": 2014,
+      "gender": "女",
+      "role": "女儿 · 12岁",
+      "avatar": "avatars/demo-daughter.webp"
+    }
   ]
 }

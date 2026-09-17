@@ -1,0 +1,152 @@
+{
+  "personId": "demo-mother",
+  "analysisDate": "2026-04-19T09:00:00+08:00",
+  "personContext": {
+    "gender": "女",
+    "age": 42,
+    "dataSpan": "5次检查（2022–2026）"
+  },
+  "organAnalyses": [
+    {
+      "organ": "血液",
+      "status": "normal",
+      "narrative": "血红蛋白在 2024 年短暂低于参考下限，之后连续两年回升到 122 g/L；铁蛋白也同步回升。现阶段更像是已经改善的阶段性变化，仍适合在年度检查里继续观察。",
+      "keyIndicators": [
+        {
+          "name": "血红蛋白",
+          "latestValue": 122,
+          "unit": "g/L",
+          "referenceRange": "115–150",
+          "trend": "stable",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-04-12",
+              "value": 123
+            },
+            {
+              "date": "2023-04-15",
+              "value": 120
+            },
+            {
+              "date": "2024-04-13",
+              "value": 114
+            },
+            {
+              "date": "2025-04-16",
+              "value": 118
+            },
+            {
+              "date": "2026-04-18",
+              "value": 122
+            }
+          ]
+        },
+        {
+          "name": "血清铁蛋白",
+          "latestValue": 28,
+          "unit": "ng/mL",
+          "referenceRange": "15–150",
+          "trend": "stable",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-04-12",
+              "value": 30
+            },
+            {
+              "date": "2023-04-15",
+              "value": 26
+            },
+            {
+              "date": "2024-04-13",
+              "value": 17
+            },
+            {
+              "date": "2025-04-16",
+              "value": 22
+            },
+            {
+              "date": "2026-04-18",
+              "value": 28
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "代谢/内分泌",
+      "status": "normal",
+      "narrative": "维生素D逐年从 22 上升到 31 ng/mL，促甲状腺激素五年内保持稳定，均在本次报告参考范围内。",
+      "keyIndicators": [
+        {
+          "name": "25-羟维生素D",
+          "latestValue": 31,
+          "unit": "ng/mL",
+          "referenceRange": "20–100",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-04-12",
+              "value": 22
+            },
+            {
+              "date": "2023-04-15",
+              "value": 24
+            },
+            {
+              "date": "2024-04-13",
+              "value": 27
+            },
+            {
+              "date": "2025-04-16",
+              "value": 29
+            },
+            {
+              "date": "2026-04-18",
+              "value": 31
+            }
+          ]
+        },
+        {
+          "name": "促甲状腺激素",
+          "latestValue": 2,
+          "unit": "mIU/L",
+          "referenceRange": "0.27–4.2",
+          "trend": "stable",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-04-12",
+              "value": 2.1
+            },
+            {
+              "date": "2023-04-15",
+              "value": 2
+            },
+            {
+              "date": "2024-04-13",
+              "value": 2.2
+            },
+            {
+              "date": "2025-04-16",
+              "value": 2.1
+            },
+            {
+              "date": "2026-04-18",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "crossOrganInsights": [
+    "【参考信息】血液与代谢/内分泌指标整体稳定，2024 年的低值已经通过后续结果得到补充说明。"
+  ],
+  "actionSuggestions": [
+    "保持年度复查；如果出现持续疲倦、心悸或月经量明显变化，可提前咨询医生。"
+  ],
+  "dataHash": "synthetic-demo-mother-2022-2026"
+}

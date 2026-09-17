@@ -5,7 +5,7 @@ import { HomePage } from "./HomePage";
 
 function renderHomePage() {
   return render(
-    <MemoryRouter initialEntries={["/dashboard?person=demo-a"]}>
+    <MemoryRouter initialEntries={["/dashboard?person=demo-father"]}>
       <HomePage />
     </MemoryRouter>,
   );
@@ -14,7 +14,7 @@ function renderHomePage() {
 describe("HomePage", () => {
   it("显示当前成员的名字", () => {
     renderHomePage();
-    expect(screen.getAllByText("示例成员甲").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("林远山").length).toBeGreaterThanOrEqual(1);
   });
 
   it("显示返回主页按钮", () => {
@@ -35,9 +35,9 @@ describe("HomePage", () => {
     const actionTab = screen.getByText("下一步");
     expect(actionTab.getAttribute("data-active")).toBe("true");
     expect(screen.getByText("AI 提出，待医生确认")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "查看检查依据 1" })).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: "查看检查依据 1" })[0]).toHaveAttribute(
       "href",
-      "/event/demo-a%3Aenc-2026-01-12-a?person=demo-a",
+      "/event/demo-father%3Aenc-2026-father?person=demo-father",
     );
   });
 
@@ -55,14 +55,14 @@ describe("HomePage", () => {
     expect(lifestyleTab.getAttribute("data-active")).toBe("true");
   });
 
-  it("示例成员有器官卡片数据（虚构数据）", () => {
+  it("成员有多年器官趋势数据", () => {
     renderHomePage();
     fireEvent.click(screen.getByText("身体"));
     expect(screen.getByText("肝胆")).toBeInTheDocument();
   });
 
-  it("醒目标注当前为虚构演示数据", () => {
+  it("成员页不重复显示演示标识", () => {
     renderHomePage();
-    expect(screen.getByText(/所有人物、机构、日期和数值均为虚构数据/)).toBeInTheDocument();
+    expect(screen.queryByText(/页面中的人物、机构和健康数据均为虚构/)).not.toBeInTheDocument();
   });
 });

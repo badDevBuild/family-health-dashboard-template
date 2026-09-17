@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-grandfather",
+  "event": {
+    "encounterId": "enc-2023-grandfather",
+    "type": "体检",
+    "date": "2023-09-10",
+    "source": "安和市长者健康中心",
+    "reports": [
+      {
+        "reportId": "report-grandfather-2023",
+        "sourceFile": "synthetic/grandfather-2023.pdf",
+        "pageRefs": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-grandfather-sbp-2023",
+      "reportId": "report-grandfather-2023",
+      "page": 1,
+      "standardName": "收缩压",
+      "originalName": "收缩压",
+      "value": 140,
+      "numericValue": 140,
+      "unit": "mmHg",
+      "referenceRange": {
+        "low": 90,
+        "high": 139
+      },
+      "isAbnormal": true,
+      "organs": [
+        "心血管"
+      ]
+    },
+    {
+      "measurementId": "demo-grandfather-ldl-2023",
+      "reportId": "report-grandfather-2023",
+      "page": 1,
+      "standardName": "低密度脂蛋白胆固醇",
+      "originalName": "LDL-C",
+      "value": 3.5,
+      "numericValue": 3.5,
+      "unit": "mmol/L",
+      "referenceRange": {
+        "low": 0,
+        "high": 3.4
+      },
+      "isAbnormal": true,
+      "organs": [
+        "心血管",
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-grandfather-creatinine-2023",
+      "reportId": "report-grandfather-2023",
+      "page": 2,
+      "standardName": "血肌酐",
+      "originalName": "CREA",
+      "value": 89,
+      "numericValue": 89,
+      "unit": "μmol/L",
+      "referenceRange": {
+        "low": 57,
+        "high": 111
+      },
+      "isAbnormal": false,
+      "organs": [
+        "肾脏/泌尿"
+      ]
+    },
+    {
+      "measurementId": "demo-grandfather-glucose-2023",
+      "reportId": "report-grandfather-2023",
+      "page": 2,
+      "standardName": "空腹血糖",
+      "originalName": "葡萄糖",
+      "value": 6,
+      "numericValue": 6,
+      "unit": "mmol/L",
+      "referenceRange": {
+        "low": 3.9,
+        "high": 6.1
+      },
+      "isAbnormal": false,
+      "organs": [
+        "代谢/内分泌",
+        "心血管"
+      ]
+    }
+  ]
+}

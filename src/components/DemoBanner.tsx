@@ -3,8 +3,9 @@ import { BUILD_METADATA } from "@health-data";
 export function DemoBanner() {
   if (BUILD_METADATA.mode !== "demo") return null;
   return (
-    <div role="status" className="mx-5 mt-3 rounded-[--radius-md] bg-[#E8F0F7] px-4 py-3 text-base leading-relaxed text-[#466F91]">
-      演示环境：所有人物、机构、日期和数值均为虚构数据。
+    <div role="status" className="rounded-[--radius-lg] border border-[#D8E7DF] bg-white/80 px-4 py-3 text-sm leading-relaxed text-warm-600 shadow-card backdrop-blur-sm">
+      <span className="mr-2 inline-flex rounded-full bg-primary-light px-2 py-0.5 text-xs font-semibold text-primary">演示</span>
+      页面中的人物、机构和健康数据均为虚构。
     </div>
   );
 }

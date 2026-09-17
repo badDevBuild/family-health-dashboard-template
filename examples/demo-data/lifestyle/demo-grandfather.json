@@ -1,0 +1,61 @@
+{
+  "personId": "demo-grandfather",
+  "sourceAnalysisHash": "e80ca07eb51f6ace8cc7928d5cc3947d",
+  "dataConfidence": "high",
+  "topPriorities": [
+    {
+      "rank": 1,
+      "action": "保持家庭血压记录",
+      "why": "五年趋势正在改善，固定方法能让比较更可靠",
+      "howToStart": "每周选 2 天、同一时间测量并记录"
+    },
+    {
+      "rank": 2,
+      "action": "稳稳地动，不追求强度",
+      "why": "规律活动比偶尔大量运动更容易长期坚持",
+      "howToStart": "从每天饭后散步 20 分钟开始"
+    }
+  ],
+  "exerciseGuide": {
+    "overview": "以安全、平稳和可持续为原则，逐步增加活动量。",
+    "weeklyPlan": [
+      {
+        "activity": "饭后散步",
+        "frequency": "每周5天",
+        "duration": "每次20–30分钟",
+        "intensity": "能轻松交谈"
+      },
+      {
+        "activity": "坐站和提踵练习",
+        "frequency": "每周2次",
+        "duration": "每次15分钟",
+        "intensity": "扶稳支撑物"
+      }
+    ],
+    "avoidOrCaution": [
+      "不在头晕、胸闷或身体不适时勉强运动",
+      "变更运动强度前先结合医生意见"
+    ]
+  },
+  "dietGuide": {
+    "culturalAdaptation": "保留熟悉口味，先减少额外加盐和腌制食品频率。",
+    "mealStructure": [
+      {
+        "meal": "一日三餐",
+        "recommendation": "规律进餐，每餐有蔬菜和优质蛋白质"
+      }
+    ],
+    "keyFoodSwaps": [
+      {
+        "from": "腌菜和加工肉",
+        "to": "新鲜蔬菜和鱼禽肉"
+      }
+    ]
+  },
+  "seasonalTips": {
+    "spring": "天气转暖后逐步恢复户外步行。",
+    "summer": "避开高温并注意补水。",
+    "autumn": "适合保持规律散步。",
+    "winter": "注意保暖，起身和运动时放慢速度。"
+  }
+}

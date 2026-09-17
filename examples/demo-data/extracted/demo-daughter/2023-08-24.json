@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-daughter",
+  "event": {
+    "encounterId": "enc-2023-daughter",
+    "type": "体检",
+    "date": "2023-08-24",
+    "source": "安和市儿童保健中心",
+    "reports": [
+      {
+        "reportId": "report-daughter-2023",
+        "sourceFile": "synthetic/daughter-2023.pdf",
+        "pageRefs": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-daughter-height-2023",
+      "reportId": "report-daughter-2023",
+      "page": 1,
+      "standardName": "身高",
+      "originalName": "身高",
+      "value": 145,
+      "numericValue": 145,
+      "unit": "cm",
+      "referenceRange": {
+        "low": 120,
+        "high": 190
+      },
+      "isAbnormal": false,
+      "organs": [
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-daughter-weight-2023",
+      "reportId": "report-daughter-2023",
+      "page": 1,
+      "standardName": "体重",
+      "originalName": "体重",
+      "value": 36,
+      "numericValue": 36,
+      "unit": "kg",
+      "referenceRange": {
+        "low": 25,
+        "high": 70
+      },
+      "isAbnormal": false,
+      "organs": [
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-daughter-vision-r-2023",
+      "reportId": "report-daughter-2023",
+      "page": 2,
+      "standardName": "右眼裸眼视力",
+      "originalName": "右眼视力",
+      "value": 1,
+      "numericValue": 1,
+      "unit": "",
+      "referenceRange": {
+        "low": 1,
+        "high": 2
+      },
+      "isAbnormal": false,
+      "organs": [
+        "眼/五官"
+      ]
+    },
+    {
+      "measurementId": "demo-daughter-vision-l-2023",
+      "reportId": "report-daughter-2023",
+      "page": 2,
+      "standardName": "左眼裸眼视力",
+      "originalName": "左眼视力",
+      "value": 0.9,
+      "numericValue": 0.9,
+      "unit": "",
+      "referenceRange": {
+        "low": 1,
+        "high": 2
+      },
+      "isAbnormal": true,
+      "organs": [
+        "眼/五官"
+      ]
+    }
+  ]
+}

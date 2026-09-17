@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-father",
+  "event": {
+    "encounterId": "enc-2024-father",
+    "type": "体检",
+    "date": "2024-06-22",
+    "source": "安和市家庭健康中心",
+    "reports": [
+      {
+        "reportId": "report-father-2024",
+        "sourceFile": "synthetic/father-2024.pdf",
+        "pageRefs": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-father-ldl-2024",
+      "reportId": "report-father-2024",
+      "page": 1,
+      "standardName": "低密度脂蛋白胆固醇",
+      "originalName": "LDL-C",
+      "value": 3.6,
+      "numericValue": 3.6,
+      "unit": "mmol/L",
+      "referenceRange": {
+        "low": 0,
+        "high": 3.4
+      },
+      "isAbnormal": true,
+      "organs": [
+        "心血管",
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-father-glucose-2024",
+      "reportId": "report-father-2024",
+      "page": 1,
+      "standardName": "空腹血糖",
+      "originalName": "葡萄糖",
+      "value": 5.7,
+      "numericValue": 5.7,
+      "unit": "mmol/L",
+      "referenceRange": {
+        "low": 3.9,
+        "high": 6.1
+      },
+      "isAbnormal": false,
+      "organs": [
+        "代谢/内分泌",
+        "心血管"
+      ]
+    },
+    {
+      "measurementId": "demo-father-sbp-2024",
+      "reportId": "report-father-2024",
+      "page": 2,
+      "standardName": "收缩压",
+      "originalName": "收缩压",
+      "value": 134,
+      "numericValue": 134,
+      "unit": "mmHg",
+      "referenceRange": {
+        "low": 90,
+        "high": 139
+      },
+      "isAbnormal": false,
+      "organs": [
+        "心血管"
+      ]
+    },
+    {
+      "measurementId": "demo-father-alt-2024",
+      "reportId": "report-father-2024",
+      "page": 2,
+      "standardName": "谷丙转氨酶",
+      "originalName": "ALT",
+      "value": 32,
+      "numericValue": 32,
+      "unit": "U/L",
+      "referenceRange": {
+        "low": 9,
+        "high": 50
+      },
+      "isAbnormal": false,
+      "organs": [
+        "肝胆"
+      ]
+    }
+  ]
+}

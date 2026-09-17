@@ -1,0 +1,159 @@
+{
+  "personId": "demo-father",
+  "analysisDate": "2026-06-22T09:00:00+08:00",
+  "personContext": {
+    "gender": "男",
+    "age": 45,
+    "dataSpan": "5次检查（2022–2026）"
+  },
+  "organAnalyses": [
+    {
+      "organ": "心血管",
+      "status": "attention",
+      "narrative": "过去五年的血压整体在参考范围内，低密度脂蛋白胆固醇从 3.2 升到 3.7 后回落到 3.5 mmol/L，最新值仍略高于本次报告参考上限。变化方向正在改善，但是否需要进一步处理，应结合复查和医生意见判断。",
+      "keyIndicators": [
+        {
+          "name": "低密度脂蛋白胆固醇",
+          "latestValue": 3.5,
+          "unit": "mmol/L",
+          "referenceRange": "0–3.4",
+          "trend": "up",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2022-06-18",
+              "value": 3.2
+            },
+            {
+              "date": "2023-06-20",
+              "value": 3.4
+            },
+            {
+              "date": "2024-06-22",
+              "value": 3.6
+            },
+            {
+              "date": "2025-06-19",
+              "value": 3.7
+            },
+            {
+              "date": "2026-06-21",
+              "value": 3.5
+            }
+          ]
+        },
+        {
+          "name": "收缩压",
+          "latestValue": 132,
+          "unit": "mmHg",
+          "referenceRange": "90–139",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-06-18",
+              "value": 128
+            },
+            {
+              "date": "2023-06-20",
+              "value": 130
+            },
+            {
+              "date": "2024-06-22",
+              "value": 134
+            },
+            {
+              "date": "2025-06-19",
+              "value": 136
+            },
+            {
+              "date": "2026-06-21",
+              "value": 132
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "代谢/内分泌",
+      "status": "normal",
+      "narrative": "空腹血糖五年内从 5.4 到 5.7 mmol/L，仍在本次报告参考范围内。可以继续保持规律运动和饮食节奏，并在年度检查中观察是否持续变化。",
+      "keyIndicators": [
+        {
+          "name": "空腹血糖",
+          "latestValue": 5.7,
+          "unit": "mmol/L",
+          "referenceRange": "3.9–6.1",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-06-18",
+              "value": 5.4
+            },
+            {
+              "date": "2023-06-20",
+              "value": 5.5
+            },
+            {
+              "date": "2024-06-22",
+              "value": 5.7
+            },
+            {
+              "date": "2025-06-19",
+              "value": 5.9
+            },
+            {
+              "date": "2026-06-21",
+              "value": 5.7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "肝胆",
+      "status": "normal",
+      "narrative": "谷丙转氨酶五次结果都在参考范围内，近两年还有小幅回落，目前没有需要特别提示的变化。",
+      "keyIndicators": [
+        {
+          "name": "谷丙转氨酶",
+          "latestValue": 27,
+          "unit": "U/L",
+          "referenceRange": "9–50",
+          "trend": "stable",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-06-18",
+              "value": 28
+            },
+            {
+              "date": "2023-06-20",
+              "value": 30
+            },
+            {
+              "date": "2024-06-22",
+              "value": 32
+            },
+            {
+              "date": "2025-06-19",
+              "value": 29
+            },
+            {
+              "date": "2026-06-21",
+              "value": 27
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "crossOrganInsights": [
+    "【参考信息】心血管与代谢/内分泌指标会同时受到饮食、活动和体重变化影响，适合放在一起看长期趋势。"
+  ],
+  "actionSuggestions": [
+    "下次年度检查继续复查血脂和空腹血糖；若 LDL 持续超出报告参考范围，建议带历年结果咨询医生。"
+  ],
+  "dataHash": "synthetic-demo-father-2022-2026"
+}

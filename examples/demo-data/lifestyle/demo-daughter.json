@@ -1,0 +1,64 @@
+{
+  "personId": "demo-daughter",
+  "sourceAnalysisHash": "e4485dd533e535fb494d800d035a7175",
+  "dataConfidence": "high",
+  "topPriorities": [
+    {
+      "rank": 1,
+      "action": "把视力复查排进日程",
+      "why": "双眼裸眼视力近两年都保持在 0.8，需要规范检查进一步确认",
+      "howToStart": "本周和家长一起选择儿童眼科时间"
+    },
+    {
+      "rank": 2,
+      "action": "每天保证户外活动",
+      "why": "户外活动有助于形成更健康的用眼和运动节奏",
+      "howToStart": "放学后先到户外活动再开始作业"
+    }
+  ],
+  "exerciseGuide": {
+    "overview": "以兴趣和同伴活动为主，减少久坐。",
+    "weeklyPlan": [
+      {
+        "activity": "跑跳、球类或骑车",
+        "frequency": "每周5天",
+        "duration": "每天累计60分钟",
+        "intensity": "中等为主"
+      },
+      {
+        "activity": "亲子户外活动",
+        "frequency": "每周1次",
+        "duration": "60–90分钟",
+        "intensity": "轻松愉快"
+      }
+    ],
+    "avoidOrCaution": [
+      "运动环境注意交通安全和防晒补水"
+    ]
+  },
+  "dietGuide": {
+    "culturalAdaptation": "成长阶段不节食，保证三餐、蛋白质、蔬果和主食结构完整。",
+    "mealStructure": [
+      {
+        "meal": "早餐",
+        "recommendation": "主食、蛋白质和水果至少包含两类"
+      },
+      {
+        "meal": "放学后",
+        "recommendation": "用水果、奶或原味坚果替代高糖零食"
+      }
+    ],
+    "keyFoodSwaps": [
+      {
+        "from": "边写作业边吃零食",
+        "to": "固定一次简单加餐"
+      }
+    ]
+  },
+  "seasonalTips": {
+    "spring": "增加户外球类活动。",
+    "summer": "避开正午高温并注意防晒。",
+    "autumn": "开学后保持每日户外时间。",
+    "winter": "减少连续近距离用眼，利用白天户外活动。"
+  }
+}

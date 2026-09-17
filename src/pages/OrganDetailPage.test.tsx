@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, it, expect } from "vitest";
 import { OrganDetailPage } from "./OrganDetailPage";
 
-function renderOrganDetail(organ: string, person = "demo-b") {
+function renderOrganDetail(organ: string, person = "demo-mother") {
   return render(
     <MemoryRouter
       initialEntries={[
@@ -38,7 +38,7 @@ describe("OrganDetailPage", () => {
 
   it("显示状态标签", () => {
     renderOrganDetail("血液");
-    expect(screen.getByText("需关注")).toBeInTheDocument();
+    expect(screen.getByText("正常")).toBeInTheDocument();
   });
 
   it("无数据的器官显示空状态", () => {
@@ -46,8 +46,8 @@ describe("OrganDetailPage", () => {
     expect(screen.getByText(/暂无/)).toBeInTheDocument();
   });
 
-  it("示例成员甲的代谢分析包含血糖相关内容", () => {
-    renderOrganDetail("代谢/内分泌", "demo-a");
+  it("爸爸的代谢分析包含血糖相关内容", () => {
+    renderOrganDetail("代谢/内分泌", "demo-father");
     expect(screen.getByTestId("narrative-card")).toHaveTextContent(
       /血糖|代谢/,
     );

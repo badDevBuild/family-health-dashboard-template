@@ -1,0 +1,55 @@
+{
+  "personId": "demo-daughter",
+  "suggestionDate": "2026-08-21T10:00:00+08:00",
+  "reviewSuggestions": [
+    {
+      "priority": "medium",
+      "organ": "眼/五官",
+      "what": "安排规范视力复查",
+      "when": "近期与医生确认",
+      "where": "儿童眼科或视光门诊",
+      "why": "双眼裸眼视力近两年均为 0.8，需要结合规范验光进一步确认。",
+      "status": "ai_pending",
+      "owner": "家长",
+      "evidence": [
+        {
+          "eventId": "demo-daughter:enc-2026-daughter",
+          "measurementIds": [
+            "demo-daughter-vision-r-2026",
+            "demo-daughter-vision-l-2026"
+          ]
+        }
+      ]
+    },
+    {
+      "priority": "low",
+      "organ": "代谢/内分泌",
+      "what": "保留年度成长记录",
+      "when": "每年儿童保健或体检",
+      "where": "儿童保健门诊",
+      "why": "连续的身高和体重记录比单次数字更有参考价值。",
+      "status": "doctor_confirmed",
+      "owner": "家长",
+      "evidence": [
+        {
+          "eventId": "demo-daughter:enc-2026-daughter",
+          "measurementIds": [
+            "demo-daughter-height-2026",
+            "demo-daughter-weight-2026"
+          ]
+        }
+      ]
+    }
+  ],
+  "watchItems": [],
+  "lifestyleDirections": [],
+  "nextCheckup": {
+    "lastCheckupDate": "2026-08-20",
+    "suggestedNextDate": "2027年开学前",
+    "focusItems": [
+      "视力",
+      "身高",
+      "体重"
+    ]
+  }
+}

@@ -43,6 +43,10 @@
 
 body {
   background-color: var(--color-warm-50);
+  background-image:
+    radial-gradient(circle at 12% 0%, rgba(59, 155, 111, 0.08), transparent 28rem),
+    linear-gradient(180deg, #fbfcf9 0%, #fafaf8 55%, #f7f4ef 100%);
+  background-attachment: fixed;
   color: var(--color-warm-900);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

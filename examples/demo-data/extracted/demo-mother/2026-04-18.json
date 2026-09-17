@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-mother",
+  "event": {
+    "encounterId": "enc-2026-mother",
+    "type": "体检",
+    "date": "2026-04-18",
+    "source": "安和市女性健康中心",
+    "reports": [
+      {
+        "reportId": "report-mother-2026",
+        "sourceFile": "synthetic/mother-2026.pdf",
+        "pageRefs": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-mother-hemoglobin-2026",
+      "reportId": "report-mother-2026",
+      "page": 1,
+      "standardName": "血红蛋白",
+      "originalName": "HGB",
+      "value": 122,
+      "numericValue": 122,
+      "unit": "g/L",
+      "referenceRange": {
+        "low": 115,
+        "high": 150
+      },
+      "isAbnormal": false,
+      "organs": [
+        "血液"
+      ]
+    },
+    {
+      "measurementId": "demo-mother-ferritin-2026",
+      "reportId": "report-mother-2026",
+      "page": 1,
+      "standardName": "血清铁蛋白",
+      "originalName": "FER",
+      "value": 28,
+      "numericValue": 28,
+      "unit": "ng/mL",
+      "referenceRange": {
+        "low": 15,
+        "high": 150
+      },
+      "isAbnormal": false,
+      "organs": [
+        "血液"
+      ]
+    },
+    {
+      "measurementId": "demo-mother-vitd-2026",
+      "reportId": "report-mother-2026",
+      "page": 2,
+      "standardName": "25-羟维生素D",
+      "originalName": "25-OH-D",
+      "value": 31,
+      "numericValue": 31,
+      "unit": "ng/mL",
+      "referenceRange": {
+        "low": 20,
+        "high": 100
+      },
+      "isAbnormal": false,
+      "organs": [
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-mother-tsh-2026",
+      "reportId": "report-mother-2026",
+      "page": 2,
+      "standardName": "促甲状腺激素",
+      "originalName": "TSH",
+      "value": 2,
+      "numericValue": 2,
+      "unit": "mIU/L",
+      "referenceRange": {
+        "low": 0.27,
+        "high": 4.2
+      },
+      "isAbnormal": false,
+      "organs": [
+        "代谢/内分泌"
+      ]
+    }
+  ]
+}

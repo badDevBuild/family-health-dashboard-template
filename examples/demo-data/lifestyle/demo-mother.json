@@ -1,0 +1,64 @@
+{
+  "personId": "demo-mother",
+  "sourceAnalysisHash": "375a65d0e1d084da21d04a5297bd21f9",
+  "dataConfidence": "high",
+  "topPriorities": [
+    {
+      "rank": 1,
+      "action": "保持规律三餐和优质蛋白质",
+      "why": "血红蛋白和铁蛋白已经回升，稳定节奏比短期强化更重要",
+      "howToStart": "每周提前准备两种富含铁和蛋白质的家常食材"
+    },
+    {
+      "rank": 2,
+      "action": "继续保持户外活动",
+      "why": "维生素D五年趋势稳定向上",
+      "howToStart": "工作日午间安排 20 分钟户外步行"
+    }
+  ],
+  "exerciseGuide": {
+    "overview": "选择对工作节奏干扰小、容易恢复的活动。",
+    "weeklyPlan": [
+      {
+        "activity": "快走或轻松慢跑",
+        "frequency": "每周3次",
+        "duration": "每次30分钟",
+        "intensity": "轻到中等"
+      },
+      {
+        "activity": "瑜伽或拉伸",
+        "frequency": "每周2次",
+        "duration": "每次20分钟",
+        "intensity": "动作舒适"
+      }
+    ],
+    "avoidOrCaution": [
+      "明显疲倦、心悸或头晕时先休息，并视情况咨询医生"
+    ]
+  },
+  "dietGuide": {
+    "culturalAdaptation": "不需要追求补品，优先从正常饭菜获得蛋白质、铁和蔬果。",
+    "mealStructure": [
+      {
+        "meal": "早餐",
+        "recommendation": "鸡蛋、奶或豆制品搭配主食"
+      },
+      {
+        "meal": "正餐",
+        "recommendation": "轮换瘦肉、鱼、豆制品和深色蔬菜"
+      }
+    ],
+    "keyFoodSwaps": [
+      {
+        "from": "只吃面包或咖啡",
+        "to": "增加鸡蛋、奶或豆浆"
+      }
+    ]
+  },
+  "seasonalTips": {
+    "spring": "利用天气舒适多做户外活动。",
+    "summer": "保证饮水和规律进餐。",
+    "autumn": "继续户外步行。",
+    "winter": "日照较少时与医生确认是否需要复查维生素D。"
+  }
+}

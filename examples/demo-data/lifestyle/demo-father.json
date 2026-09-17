@@ -1,0 +1,68 @@
+{
+  "personId": "demo-father",
+  "sourceAnalysisHash": "ee91f72cbcba6d89776e788b32c17e48",
+  "dataConfidence": "high",
+  "topPriorities": [
+    {
+      "rank": 1,
+      "action": "把每周运动固定下来",
+      "why": "血脂和血糖都适合结合长期生活节奏观察",
+      "howToStart": "先在日历里固定 3 次晚饭后快走"
+    },
+    {
+      "rank": 2,
+      "action": "下次检查继续带上历年血脂",
+      "why": "连续数据比单次高低更容易看清方向",
+      "howToStart": "体检前把五年结果整理成同一张表"
+    }
+  ],
+  "exerciseGuide": {
+    "overview": "在身体允许且医生没有特别限制时，以能长期坚持为目标。",
+    "weeklyPlan": [
+      {
+        "activity": "快走或骑车",
+        "frequency": "每周3次",
+        "duration": "每次35分钟",
+        "intensity": "能说完整句子、略微出汗"
+      },
+      {
+        "activity": "自重力量训练",
+        "frequency": "每周2次",
+        "duration": "每次20分钟",
+        "intensity": "动作稳定，不追求力竭"
+      }
+    ],
+    "avoidOrCaution": [
+      "出现胸痛、明显气短或头晕时停止活动并及时就医"
+    ]
+  },
+  "dietGuide": {
+    "culturalAdaptation": "家常饭不用全部改变，先从少含糖饮料、主食适量和每餐增加蔬菜开始。",
+    "mealStructure": [
+      {
+        "meal": "早餐",
+        "recommendation": "保证蛋白质和一份全谷物或薯类"
+      },
+      {
+        "meal": "午晚餐",
+        "recommendation": "一半蔬菜，四分之一蛋白质，四分之一主食"
+      }
+    ],
+    "keyFoodSwaps": [
+      {
+        "from": "含糖饮料",
+        "to": "白水或无糖茶"
+      },
+      {
+        "from": "肥肉和油炸肉",
+        "to": "鱼、禽肉或豆制品"
+      }
+    ]
+  },
+  "seasonalTips": {
+    "spring": "逐步增加户外活动。",
+    "summer": "避开最热时段并注意补水。",
+    "autumn": "保持固定运动频率。",
+    "winter": "充分热身后再运动。"
+  }
+}

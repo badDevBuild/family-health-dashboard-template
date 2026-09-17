@@ -1,0 +1,53 @@
+{
+  "personId": "demo-father",
+  "suggestionDate": "2026-06-22T10:00:00+08:00",
+  "reviewSuggestions": [
+    {
+      "priority": "medium",
+      "organ": "心血管",
+      "what": "复查血脂",
+      "when": "下一次年度检查或按医生建议",
+      "where": "全科或心血管内科",
+      "why": "最新 LDL 仍略高于本次报告参考上限，适合结合历年趋势确认。",
+      "status": "ai_pending",
+      "owner": "林远山",
+      "evidence": [
+        {
+          "eventId": "demo-father:enc-2026-father",
+          "measurementIds": [
+            "demo-father-ldl-2026"
+          ]
+        }
+      ]
+    },
+    {
+      "priority": "low",
+      "organ": "代谢/内分泌",
+      "what": "继续观察空腹血糖",
+      "when": "下一次年度检查",
+      "where": "体检中心或全科",
+      "why": "目前仍在参考范围内，但五年数据可用于继续观察长期方向。",
+      "status": "doctor_confirmed",
+      "owner": "林远山",
+      "evidence": [
+        {
+          "eventId": "demo-father:enc-2026-father",
+          "measurementIds": [
+            "demo-father-glucose-2026"
+          ]
+        }
+      ]
+    }
+  ],
+  "watchItems": [],
+  "lifestyleDirections": [],
+  "nextCheckup": {
+    "lastCheckupDate": "2026-06-21",
+    "suggestedNextDate": "2027年中",
+    "focusItems": [
+      "血脂",
+      "空腹血糖",
+      "血压"
+    ]
+  }
+}

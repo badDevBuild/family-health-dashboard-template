@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "description": "仅允许这些由图像生成工具创建的虚构演示头像进入公开产物。",
+  "avatars": [
+    {
+      "file": "demo-daughter.webp",
+      "sha256": "866d61e8ca62aa7ea59c717cd186f481f675478c35b95f46e3ee28c27de74ee6"
+    },
+    {
+      "file": "demo-father.webp",
+      "sha256": "6e89e82b00fa4de34a49198fb7ba9d2be98afb095ce4c5fa275786be4fb2b1af"
+    },
+    {
+      "file": "demo-grandfather.webp",
+      "sha256": "e8c5702a2690045b7825a9f268088a631d82f81b8d30d99b8e5fd015daf8d9df"
+    },
+    {
+      "file": "demo-grandmother.webp",
+      "sha256": "0ef174fd6c10047ad5fd3191a7a0a447968194274099cbbc68921ac319173122"
+    },
+    {
+      "file": "demo-mother.webp",
+      "sha256": "c3b667f00422e42b04f56f382049ceea49a96c30ded51ae151842b102802887e"
+    }
+  ]
+}

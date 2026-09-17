@@ -1,0 +1,36 @@
+{
+  "personId": "demo-mother",
+  "suggestionDate": "2026-04-19T10:00:00+08:00",
+  "reviewSuggestions": [
+    {
+      "priority": "low",
+      "organ": "血液",
+      "what": "年度复查血常规和铁蛋白",
+      "when": "下一次年度检查",
+      "where": "体检中心或全科",
+      "why": "2024 年曾出现阶段性低值，后续已经回升，保留连续记录便于确认稳定性。",
+      "status": "doctor_confirmed",
+      "owner": "苏青禾",
+      "evidence": [
+        {
+          "eventId": "demo-mother:enc-2026-mother",
+          "measurementIds": [
+            "demo-mother-hemoglobin-2026",
+            "demo-mother-ferritin-2026"
+          ]
+        }
+      ]
+    }
+  ],
+  "watchItems": [],
+  "lifestyleDirections": [],
+  "nextCheckup": {
+    "lastCheckupDate": "2026-04-18",
+    "suggestedNextDate": "2027年春季",
+    "focusItems": [
+      "血常规",
+      "铁蛋白",
+      "维生素D"
+    ]
+  }
+}

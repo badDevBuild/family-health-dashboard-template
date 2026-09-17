@@ -1,0 +1,53 @@
+{
+  "personId": "demo-grandmother",
+  "suggestionDate": "2026-07-18T10:00:00+08:00",
+  "reviewSuggestions": [
+    {
+      "priority": "medium",
+      "organ": "代谢/内分泌",
+      "what": "确认骨密度复查计划",
+      "when": "按医生建议安排",
+      "where": "全科、内分泌科或骨科",
+      "why": "骨密度T值虽逐步改善，最新结果仍低于本次报告参考下限。",
+      "status": "ai_pending",
+      "owner": "周瑞云",
+      "evidence": [
+        {
+          "eventId": "demo-grandmother:enc-2026-grandmother",
+          "measurementIds": [
+            "demo-grandmother-bmd-2026"
+          ]
+        }
+      ]
+    },
+    {
+      "priority": "low",
+      "organ": "肾脏/泌尿",
+      "what": "继续年度肾功能比较",
+      "when": "下一次年度检查",
+      "where": "体检中心或全科",
+      "why": "当前结果在参考范围内，连续记录有助于区分正常波动与持续变化。",
+      "status": "doctor_confirmed",
+      "owner": "周瑞云",
+      "evidence": [
+        {
+          "eventId": "demo-grandmother:enc-2026-grandmother",
+          "measurementIds": [
+            "demo-grandmother-egfr-2026"
+          ]
+        }
+      ]
+    }
+  ],
+  "watchItems": [],
+  "lifestyleDirections": [],
+  "nextCheckup": {
+    "lastCheckupDate": "2026-07-17",
+    "suggestedNextDate": "按医生建议",
+    "focusItems": [
+      "骨密度",
+      "维生素D",
+      "肾功能"
+    ]
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "personId": "demo-grandmother",
+  "analysisDate": "2026-07-18T09:00:00+08:00",
+  "personContext": {
+    "gender": "女",
+    "age": 67,
+    "dataSpan": "5次检查（2022–2026）"
+  },
+  "organAnalyses": [
+    {
+      "organ": "代谢/内分泌",
+      "status": "attention",
+      "narrative": "维生素D从 18 上升到 30 ng/mL，已经回到本次报告参考范围；骨密度T值也从 -1.6 改善到 -1.3，但最新值仍低于报告参考下限。它提示需要继续关注骨骼健康，不等同于诊断。",
+      "keyIndicators": [
+        {
+          "name": "25-羟维生素D",
+          "latestValue": 30,
+          "unit": "ng/mL",
+          "referenceRange": "20–100",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-10-15",
+              "value": 18
+            },
+            {
+              "date": "2023-10-14",
+              "value": 19
+            },
+            {
+              "date": "2024-10-12",
+              "value": 23
+            },
+            {
+              "date": "2025-10-18",
+              "value": 27
+            },
+            {
+              "date": "2026-07-17",
+              "value": 30
+            }
+          ]
+        },
+        {
+          "name": "骨密度T值",
+          "latestValue": -1.3,
+          "unit": "",
+          "referenceRange": "≥ -1.0",
+          "trend": "up",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2022-10-15",
+              "value": -1.6
+            },
+            {
+              "date": "2023-10-14",
+              "value": -1.5
+            },
+            {
+              "date": "2024-10-12",
+              "value": -1.5
+            },
+            {
+              "date": "2025-10-18",
+              "value": -1.4
+            },
+            {
+              "date": "2026-07-17",
+              "value": -1.3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "心血管",
+      "status": "normal",
+      "narrative": "总胆固醇连续五年缓慢下降，最近三次均在本次报告参考范围内，趋势较稳定。",
+      "keyIndicators": [
+        {
+          "name": "总胆固醇",
+          "latestValue": 4.9,
+          "unit": "mmol/L",
+          "referenceRange": "0–5.2",
+          "trend": "down",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-10-15",
+              "value": 5.4
+            },
+            {
+              "date": "2023-10-14",
+              "value": 5.3
+            },
+            {
+              "date": "2024-10-12",
+              "value": 5.1
+            },
+            {
+              "date": "2025-10-18",
+              "value": 5
+            },
+            {
+              "date": "2026-07-17",
+              "value": 4.9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "肾脏/泌尿",
+      "status": "normal",
+      "narrative": "估算肾小球滤过率五年内从 82 变化到 78，均在本次报告参考范围内。需要结合年龄、检查方法和医生意见继续观察。",
+      "keyIndicators": [
+        {
+          "name": "估算肾小球滤过率",
+          "latestValue": 78,
+          "unit": "mL/min/1.73m²",
+          "referenceRange": "60–150",
+          "trend": "down",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-10-15",
+              "value": 82
+            },
+            {
+              "date": "2023-10-14",
+              "value": 80
+            },
+            {
+              "date": "2024-10-12",
+              "value": 79
+            },
+            {
+              "date": "2025-10-18",
+              "value": 78
+            },
+            {
+              "date": "2026-07-17",
+              "value": 78
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "crossOrganInsights": [
+    "【参考信息】代谢/内分泌与骨骼指标需要结合活动、营养和复查结果理解，不根据单个数值自行用药。"
+  ],
+  "actionSuggestions": [
+    "与医生确认下一次骨密度复查时间，并继续保留历年同部位检查结果用于比较。"
+  ],
+  "dataHash": "synthetic-demo-grandmother-2022-2026"
+}

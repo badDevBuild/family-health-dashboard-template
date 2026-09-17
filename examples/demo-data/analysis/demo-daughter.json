@@ -1,0 +1,152 @@
+{
+  "personId": "demo-daughter",
+  "analysisDate": "2026-08-21T09:00:00+08:00",
+  "personContext": {
+    "gender": "女",
+    "age": 12,
+    "dataSpan": "5次检查（2022–2026）"
+  },
+  "organAnalyses": [
+    {
+      "organ": "眼/五官",
+      "status": "attention",
+      "narrative": "双眼裸眼视力从 1.0 逐步变化到 0.8，最近两年保持在 0.8。裸眼视力只反映当次辨认视标的能力，不能单独判断屈光状态，适合带历年结果到眼科进一步确认。",
+      "keyIndicators": [
+        {
+          "name": "右眼裸眼视力",
+          "latestValue": 0.8,
+          "unit": "",
+          "referenceRange": "1.0–2.0",
+          "trend": "down",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2022-08-25",
+              "value": 1
+            },
+            {
+              "date": "2023-08-24",
+              "value": 1
+            },
+            {
+              "date": "2024-08-22",
+              "value": 0.9
+            },
+            {
+              "date": "2025-08-21",
+              "value": 0.8
+            },
+            {
+              "date": "2026-08-20",
+              "value": 0.8
+            }
+          ]
+        },
+        {
+          "name": "左眼裸眼视力",
+          "latestValue": 0.8,
+          "unit": "",
+          "referenceRange": "1.0–2.0",
+          "trend": "down",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2022-08-25",
+              "value": 1
+            },
+            {
+              "date": "2023-08-24",
+              "value": 0.9
+            },
+            {
+              "date": "2024-08-22",
+              "value": 0.9
+            },
+            {
+              "date": "2025-08-21",
+              "value": 0.8
+            },
+            {
+              "date": "2026-08-20",
+              "value": 0.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "代谢/内分泌",
+      "status": "normal",
+      "narrative": "身高与体重随年龄持续增长。成长指标需要结合年龄、发育阶段和儿童保健记录判断，这里只展示连续变化，不给出诊断结论。",
+      "keyIndicators": [
+        {
+          "name": "身高",
+          "latestValue": 162,
+          "unit": "cm",
+          "referenceRange": "按年龄评估",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-08-25",
+              "value": 138
+            },
+            {
+              "date": "2023-08-24",
+              "value": 145
+            },
+            {
+              "date": "2024-08-22",
+              "value": 151
+            },
+            {
+              "date": "2025-08-21",
+              "value": 157
+            },
+            {
+              "date": "2026-08-20",
+              "value": 162
+            }
+          ]
+        },
+        {
+          "name": "体重",
+          "latestValue": 49,
+          "unit": "kg",
+          "referenceRange": "按年龄评估",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-08-25",
+              "value": 32
+            },
+            {
+              "date": "2023-08-24",
+              "value": 36
+            },
+            {
+              "date": "2024-08-22",
+              "value": 40
+            },
+            {
+              "date": "2025-08-21",
+              "value": 45
+            },
+            {
+              "date": "2026-08-20",
+              "value": 49
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "crossOrganInsights": [
+    "【参考信息】成长变化和眼/五官检查应分别由儿童保健与眼科专业人员结合完整资料判断。"
+  ],
+  "actionSuggestions": [
+    "安排规范视力复查；若医生认为需要，可进一步做散瞳验光和眼轴测量。"
+  ],
+  "dataHash": "synthetic-demo-daughter-2022-2026"
+}

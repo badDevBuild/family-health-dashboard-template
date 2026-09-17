@@ -1,0 +1,65 @@
+{
+  "personId": "demo-grandmother",
+  "sourceAnalysisHash": "c2cdeaab89a63ff8bbb184435d235620",
+  "dataConfidence": "high",
+  "topPriorities": [
+    {
+      "rank": 1,
+      "action": "把骨骼复查计划确认清楚",
+      "why": "骨密度方向有所改善，但最新值仍需要继续关注",
+      "howToStart": "下次复诊时带上历年同部位骨密度结果"
+    },
+    {
+      "rank": 2,
+      "action": "增加安全的负重活动",
+      "why": "骨骼健康更需要长期活动习惯",
+      "howToStart": "从每天 20 分钟步行和简单坐站练习开始"
+    }
+  ],
+  "exerciseGuide": {
+    "overview": "重点是防跌倒、维持腿部力量和日常活动能力。",
+    "weeklyPlan": [
+      {
+        "activity": "户外步行",
+        "frequency": "每周5天",
+        "duration": "每次20–30分钟",
+        "intensity": "舒适速度"
+      },
+      {
+        "activity": "坐站和平衡练习",
+        "frequency": "每周3次",
+        "duration": "每次15分钟",
+        "intensity": "在稳固支撑旁进行"
+      }
+    ],
+    "avoidOrCaution": [
+      "不在湿滑或光线不足的环境练习",
+      "若有骨折史、持续疼痛或医生限制，先咨询专业人员"
+    ]
+  },
+  "dietGuide": {
+    "culturalAdaptation": "保证正常三餐中的奶或豆制品、蛋白质和蔬菜，不依赖单一补品。",
+    "mealStructure": [
+      {
+        "meal": "早餐",
+        "recommendation": "奶或强化豆制品搭配鸡蛋和主食"
+      },
+      {
+        "meal": "正餐",
+        "recommendation": "每餐有一掌心蛋白质和充足蔬菜"
+      }
+    ],
+    "importantWarnings": [
+      {
+        "topic": "补充剂",
+        "detail": "维生素D或钙的具体补充量应结合检查、饮食和医生意见确认。"
+      }
+    ]
+  },
+  "seasonalTips": {
+    "spring": "天气舒适时多做户外步行。",
+    "summer": "注意防晒、补水和防滑。",
+    "autumn": "保持下肢力量练习。",
+    "winter": "穿防滑鞋，室内保持通道明亮。"
+  }
+}

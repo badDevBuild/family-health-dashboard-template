@@ -13,7 +13,6 @@ import {
 import { ORGAN_SYSTEMS } from "../shared/organs";
 import { LifestyleGuide } from "../components/LifestyleGuide";
 import { ActionItems } from "../components/ActionItems";
-import { DemoBanner } from "../components/DemoBanner";
 
 const TABS = ["下一步", "身体", "时间线", "生活指南"];
 
@@ -42,7 +41,7 @@ export function HomePage() {
   return (
     <div className="max-w-[430px] mx-auto min-h-screen">
       {/* 顶部：返回按钮 + 人物信息 */}
-      <div className="px-5 pt-4 pb-1 flex items-center gap-3">
+      <div className="mx-3 mt-3 flex items-center gap-3 rounded-[--radius-lg] bg-white px-4 py-4 shadow-card">
         <button
           onClick={() => navigate("/")}
           className="w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 active:scale-95 transition-all duration-150 cursor-pointer shrink-0"
@@ -64,20 +63,23 @@ export function HomePage() {
             />
           </svg>
         </button>
-        <div>
+        {currentMember.avatar && (
+          <img
+            src={`${import.meta.env.BASE_URL}${currentMember.avatar}`}
+            alt=""
+            className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-primary-light"
+          />
+        )}
+        <div className="min-w-0 flex-1">
+          <div className="text-sm font-semibold text-primary">{currentMember.role}</div>
           <div className="text-[22px] font-bold">{currentMember.name}</div>
           <div className="text-sm text-warm-400 mt-0.5">
             {currentMember.lastCheckup
               ? `最近体检: ${currentMember.lastCheckup} · ${currentMember.dataSpan}`
               : currentMember.dataSpan}
           </div>
-          <div className="text-sm text-warm-400 mt-0.5">
-            分析状态: {currentMember.reviewStatus === "approved" ? "已批准" : currentMember.reviewStatus === "demo" ? "虚构演示" : "待审核"}
-          </div>
         </div>
       </div>
-
-      <DemoBanner />
 
       {/* Tab 栏 */}
       <div className="px-5 pt-4">

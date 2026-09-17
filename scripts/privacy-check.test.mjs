@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -21,6 +22,24 @@ function run(root) {
     cwd: root,
     encoding: "utf8",
   });
+}
+
+function writeAvatarManifest(root, baseDirectory, fileName, buffer) {
+  const avatarDir = path.join(root, baseDirectory, "avatars");
+  fs.mkdirSync(avatarDir, { recursive: true });
+  fs.writeFileSync(path.join(avatarDir, fileName), buffer);
+  fs.writeFileSync(
+    path.join(avatarDir, "manifest.json"),
+    JSON.stringify({
+      schemaVersion: 1,
+      avatars: [
+        {
+          file: fileName,
+          sha256: crypto.createHash("sha256").update(buffer).digest("hex"),
+        },
+      ],
+    }),
+  );
 }
 
 test("被忽略且未跟踪的私有模块不阻塞提交检查", () => {
@@ -66,4 +85,33 @@ test("非敏感目录中的报告图片和未知二进制也会失败", () => {
   assert.match(`${result.stdout}\n${result.stderr}`, /docs\/report\.png/);
   assert.match(`${result.stdout}\n${result.stderr}`, /docs\/blob\.bin/);
   assert.match(`${result.stdout}\n${result.stderr}`, /docs\/nul\.txt/);
+});
+
+test("只允许哈希清单中完全匹配的公开演示头像", () => {
+  const root = repo();
+  const avatar = Buffer.from([0x52, 0x49, 0x46, 0x46, 0x00, 0x57, 0x45, 0x42, 0x50]);
+  writeAvatarManifest(root, "public", "demo-member.webp", avatar);
+  execFileSync("git", ["add", "public/avatars/manifest.json", "public/avatars/demo-member.webp"], { cwd: root });
+  assert.equal(run(root).status, 0);
+
+  fs.appendFileSync(path.join(root, "public/avatars/demo-member.webp"), Buffer.from([0x01]));
+  execFileSync("git", ["add", "public/avatars/demo-member.webp"], { cwd: root });
+  const changed = run(root);
+  assert.notEqual(changed.status, 0);
+  assert.match(`${changed.stdout}\n${changed.stderr}`, /头像哈希与清单不匹配/);
+});
+
+test("构建产物也只接受与清单一致的演示头像", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "privacy-avatar-artifact-"));
+  const artifact = path.join(root, "dist-demo");
+  fs.mkdirSync(artifact, { recursive: true });
+  fs.writeFileSync(path.join(artifact, "index.html"), '<script>const metadata = {"mode":"demo"}</script>');
+  const avatar = Buffer.from([0x52, 0x49, 0x46, 0x46, 0x00, 0x57, 0x45, 0x42, 0x50]);
+  writeAvatarManifest(root, "dist-demo", "demo-member.webp", avatar);
+
+  const result = spawnSync(process.execPath, [checker, "--scope", "artifact", "--artifact", "dist-demo", "--expected-mode", "demo"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });

@@ -1,0 +1,54 @@
+{
+  "personId": "demo-grandfather",
+  "suggestionDate": "2026-09-10T10:00:00+08:00",
+  "reviewSuggestions": [
+    {
+      "priority": "medium",
+      "organ": "心血管",
+      "what": "保持家庭血压记录",
+      "when": "每周固定时间并按医生建议",
+      "where": "居家记录，复诊时携带",
+      "why": "过去五年收缩压逐步回落，连续记录有助于确认是否保持稳定。",
+      "status": "doctor_confirmed",
+      "owner": "林松年",
+      "evidence": [
+        {
+          "eventId": "demo-grandfather:enc-2026-grandfather",
+          "measurementIds": [
+            "demo-grandfather-sbp-2026"
+          ]
+        }
+      ]
+    },
+    {
+      "priority": "low",
+      "organ": "肾脏/泌尿",
+      "what": "年度复查肾功能",
+      "when": "下一次年度检查",
+      "where": "全科或肾内科",
+      "why": "当前血肌酐在参考范围内，长期对照时仍要注意检查方法和单位一致。",
+      "status": "ai_pending",
+      "owner": "林松年",
+      "evidence": [
+        {
+          "eventId": "demo-grandfather:enc-2026-grandfather",
+          "measurementIds": [
+            "demo-grandfather-creatinine-2026"
+          ]
+        }
+      ]
+    }
+  ],
+  "watchItems": [],
+  "lifestyleDirections": [],
+  "nextCheckup": {
+    "lastCheckupDate": "2026-09-09",
+    "suggestedNextDate": "2027年秋季",
+    "focusItems": [
+      "血压",
+      "血脂",
+      "血糖",
+      "肾功能"
+    ]
+  }
+}

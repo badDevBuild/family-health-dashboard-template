@@ -1,0 +1,159 @@
+{
+  "personId": "demo-grandfather",
+  "analysisDate": "2026-09-10T09:00:00+08:00",
+  "personContext": {
+    "gender": "男",
+    "age": 70,
+    "dataSpan": "5次检查（2022–2026）"
+  },
+  "organAnalyses": [
+    {
+      "organ": "心血管",
+      "status": "normal",
+      "narrative": "收缩压由 142 逐步下降到 134 mmHg，低密度脂蛋白胆固醇也从 3.7 下降到 3.1 mmol/L，最近三年都在本次报告参考范围内。方向稳定向好，仍要继续按医生建议监测。",
+      "keyIndicators": [
+        {
+          "name": "收缩压",
+          "latestValue": 134,
+          "unit": "mmHg",
+          "referenceRange": "90–139",
+          "trend": "down",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-09-08",
+              "value": 142
+            },
+            {
+              "date": "2023-09-10",
+              "value": 140
+            },
+            {
+              "date": "2024-09-12",
+              "value": 138
+            },
+            {
+              "date": "2025-09-11",
+              "value": 136
+            },
+            {
+              "date": "2026-09-09",
+              "value": 134
+            }
+          ]
+        },
+        {
+          "name": "低密度脂蛋白胆固醇",
+          "latestValue": 3.1,
+          "unit": "mmol/L",
+          "referenceRange": "0–3.4",
+          "trend": "down",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-09-08",
+              "value": 3.7
+            },
+            {
+              "date": "2023-09-10",
+              "value": 3.5
+            },
+            {
+              "date": "2024-09-12",
+              "value": 3.3
+            },
+            {
+              "date": "2025-09-11",
+              "value": 3.2
+            },
+            {
+              "date": "2026-09-09",
+              "value": 3.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "肾脏/泌尿",
+      "status": "normal",
+      "narrative": "血肌酐从 86 缓慢变化到 94 μmol/L，五次结果都在本次报告参考范围内。数值方向本身不等于好坏，建议继续用同类检查方法做年度比较。",
+      "keyIndicators": [
+        {
+          "name": "血肌酐",
+          "latestValue": 94,
+          "unit": "μmol/L",
+          "referenceRange": "57–111",
+          "trend": "up",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-09-08",
+              "value": 86
+            },
+            {
+              "date": "2023-09-10",
+              "value": 89
+            },
+            {
+              "date": "2024-09-12",
+              "value": 91
+            },
+            {
+              "date": "2025-09-11",
+              "value": 92
+            },
+            {
+              "date": "2026-09-09",
+              "value": 94
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "organ": "代谢/内分泌",
+      "status": "normal",
+      "narrative": "空腹血糖在 5.8–6.1 mmol/L 之间波动，最新为 5.9，仍在本次报告参考范围内。",
+      "keyIndicators": [
+        {
+          "name": "空腹血糖",
+          "latestValue": 5.9,
+          "unit": "mmol/L",
+          "referenceRange": "3.9–6.1",
+          "trend": "stable",
+          "isAbnormal": false,
+          "history": [
+            {
+              "date": "2022-09-08",
+              "value": 5.8
+            },
+            {
+              "date": "2023-09-10",
+              "value": 6
+            },
+            {
+              "date": "2024-09-12",
+              "value": 6.1
+            },
+            {
+              "date": "2025-09-11",
+              "value": 6
+            },
+            {
+              "date": "2026-09-09",
+              "value": 5.9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "crossOrganInsights": [
+    "【参考信息】心血管、代谢/内分泌和肾脏/泌尿指标适合一起长期观察，但单个方向变化不能替代医生判断。"
+  ],
+  "actionSuggestions": [
+    "按既定节奏监测家庭血压，并在年度检查时复查血脂、血糖和肾功能。"
+  ],
+  "dataHash": "synthetic-demo-grandfather-2022-2026"
+}

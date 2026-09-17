@@ -90,6 +90,8 @@ function validateContext(file) {
     const prefix = `members[${index}]`;
     requireValue(typeof member?.personId === "string" && /^[a-z0-9][a-z0-9-]{1,63}$/i.test(member.personId), file, `${prefix}.personId`);
     requireValue(typeof member?.displayName === "string" && member.displayName.trim(), file, `${prefix}.displayName`);
+    requireValue(member.role === undefined || typeof member.role === "string" && member.role.trim(), file, `${prefix}.role`);
+    requireValue(member.avatar === undefined || typeof member.avatar === "string" && /^avatars\/[a-z0-9-]+\.webp$/i.test(member.avatar), file, `${prefix}.avatar`, "必须是 avatars/ 下的 WebP 相对路径");
     requireValue(!ids.has(member.personId), file, `${prefix}.personId`, "不得重复");
     ids.add(member.personId);
   }
@@ -305,18 +307,40 @@ for (const member of members) {
 
   const statuses = analysis?.organAnalyses?.map((item) => item.status) || [];
   const overallStatus = !analysis || statuses.length === 0 ? "unknown" : statuses.includes("alert") ? "alert" : statuses.includes("attention") ? "attention" : "normal";
+  const years = events.map((event) => event.date.slice(0, 4)).sort();
+  const yearSpan = years.length === 0 ? "" : years[0] === years[years.length - 1] ? years[0] : `${years[0]}–${years[years.length - 1]}`;
   allData[personId] = {
     analysis, suggestions, lifestyle, events, measurements, overallStatus,
     reviewStatus: mode === "demo" ? "demo" : analysis ? "approved" : "not_reviewed",
-    lastCheckup: events[0]?.date || "", dataSpan: events.length > 0 ? `${events.length}次检查` : "暂无数据",
+    lastCheckup: events[0]?.date || "", dataSpan: events.length > 0 ? `${events.length}次检查 · ${yearSpan}` : "暂无数据",
   };
 }
 
 const json = (value) => JSON.stringify(value, null, 2);
 const generated = `// 自动生成，请勿手动编辑\n// 发布模式: ${mode}\n\nexport type HealthStatus = "unknown" | "normal" | "attention" | "alert";\nexport type ReviewStatus = "demo" | "approved" | "not_reviewed";\nexport type AnalysisData = { personId: string; crossOrganInsights?: string[]; actionSuggestions?: string[]; organAnalyses: Array<{ organ: string; status: string; narrative: string; keyIndicators: Array<{ name: string; latestValue: number | string | null; unit: string; referenceRange?: string; trend: string; isAbnormal: boolean; history: Array<{ date: string; value: number | string | null }> }> }>; [key: string]: unknown };\nexport type LifestyleData = Record<string, any>;\nexport type SuggestionData = { personId: string; reviewSuggestions: Array<{ priority: string; organ: string; what: string; when: string; where: string; why: string; status?: "ai_pending" | "doctor_confirmed" | "completed"; owner?: string; completedAt?: string; evidence?: Array<{ eventId: string; measurementIds?: string[] }> }>; [key: string]: unknown };\n\nexport interface FamilyMember { id: string; name: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }\nexport interface ReportEvidence { reportId: string; pageRefs: number[]; }\nexport interface HealthEvent { id: string; encounterId: string; date: string; type: string; source: string; personId: string; reports: ReportEvidence[]; organTags: string[]; measurementCount: number; abnormalCount: number; }\nexport interface MeasurementItem { measurementId: string; reportId: string; page: number; standardName: string; originalName: string; value: number | string | null; numericValue?: number | null; unit: string | null; referenceRange?: { low?: number; high?: number; text?: string }; isAbnormal: boolean; organs: string[]; }\n\nexport const BUILD_METADATA = ${json({ mode, schemaVersion: 1, containsSyntheticData: mode === "demo" })} as const;\nexport const FAMILY_MEMBERS: FamilyMember[] = ${json(members.map(({ personId, displayName }) => ({ id: personId, name: displayName, status: allData[personId].overallStatus, reviewStatus: allData[personId].reviewStatus, lastCheckup: allData[personId].lastCheckup, dataSpan: allData[personId].dataSpan })))};\nexport const ANALYSIS_DATA: Record<string, AnalysisData> = ${json(Object.fromEntries(members.filter(({ personId }) => allData[personId].analysis).map(({ personId }) => [personId, allData[personId].analysis])))};\nexport const EVENTS_DATA: Record<string, HealthEvent[]> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].events])))};\nexport const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].measurements])))};\nexport const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].suggestions])))};\nexport const LIFESTYLE_DATA: Record<string, LifestyleData | null> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].lifestyle])))};\n\nexport function getAnalysis(personId: string): AnalysisData | undefined { return ANALYSIS_DATA[personId]; }\nexport function getEvents(personId: string): HealthEvent[] { return EVENTS_DATA[personId] || []; }\nexport function getMeasurements(personId: string, eventId: string): MeasurementItem[] { return MEASUREMENTS_DATA[personId]?.[eventId] || []; }\nexport function getSuggestions(personId: string): SuggestionData | null { return SUGGESTIONS_DATA[personId] || null; }\nexport function getLifestyle(personId: string): LifestyleData | null { return LIFESTYLE_DATA[personId] || null; }\n`;
 
+const publicMembers = members.map(({ personId, displayName, role = "家庭成员", avatar }) => ({
+  id: personId,
+  name: displayName,
+  role,
+  ...(avatar ? { avatar } : {}),
+  status: allData[personId].overallStatus,
+  reviewStatus: allData[personId].reviewStatus,
+  lastCheckup: allData[personId].lastCheckup,
+  dataSpan: allData[personId].dataSpan,
+}));
+const finalGenerated = generated
+  .replace(
+    "export interface FamilyMember { id: string; name: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }",
+    "export interface FamilyMember { id: string; name: string; role: string; avatar?: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }",
+  )
+  .replace(
+    /export const FAMILY_MEMBERS: FamilyMember\[\] = [\s\S]*?;\nexport const ANALYSIS_DATA/,
+    `export const FAMILY_MEMBERS: FamilyMember[] = ${json(publicMembers)};\nexport const ANALYSIS_DATA`,
+  );
+
 fs.mkdirSync(path.dirname(output), { recursive: true });
 const temporary = `${output}.${process.pid}.tmp`;
-fs.writeFileSync(temporary, generated);
+fs.writeFileSync(temporary, finalGenerated);
 fs.renameSync(temporary, output);
 console.log(`已生成 ${path.relative(projectRoot, output)}: ${members.length} 位成员，${Object.values(allData).reduce((sum, item) => sum + item.events.length, 0)} 个事件（${mode}）`);

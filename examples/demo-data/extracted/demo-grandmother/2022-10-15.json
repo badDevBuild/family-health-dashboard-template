@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-grandmother",
+  "event": {
+    "encounterId": "enc-2022-grandmother",
+    "type": "体检",
+    "date": "2022-10-15",
+    "source": "安和市长者健康中心",
+    "reports": [
+      {
+        "reportId": "report-grandmother-2022",
+        "sourceFile": "synthetic/grandmother-2022.pdf",
+        "pageRefs": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-grandmother-vitd-2022",
+      "reportId": "report-grandmother-2022",
+      "page": 1,
+      "standardName": "25-羟维生素D",
+      "originalName": "25-OH-D",
+      "value": 18,
+      "numericValue": 18,
+      "unit": "ng/mL",
+      "referenceRange": {
+        "low": 20,
+        "high": 100
+      },
+      "isAbnormal": true,
+      "organs": [
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-grandmother-bmd-2022",
+      "reportId": "report-grandmother-2022",
+      "page": 1,
+      "standardName": "骨密度T值",
+      "originalName": "腰椎T值",
+      "value": -1.6,
+      "numericValue": -1.6,
+      "unit": "",
+      "referenceRange": {
+        "low": -1,
+        "high": 5
+      },
+      "isAbnormal": true,
+      "organs": [
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-grandmother-tc-2022",
+      "reportId": "report-grandmother-2022",
+      "page": 2,
+      "standardName": "总胆固醇",
+      "originalName": "TC",
+      "value": 5.4,
+      "numericValue": 5.4,
+      "unit": "mmol/L",
+      "referenceRange": {
+        "low": 0,
+        "high": 5.2
+      },
+      "isAbnormal": true,
+      "organs": [
+        "心血管",
+        "代谢/内分泌"
+      ]
+    },
+    {
+      "measurementId": "demo-grandmother-egfr-2022",
+      "reportId": "report-grandmother-2022",
+      "page": 2,
+      "standardName": "估算肾小球滤过率",
+      "originalName": "eGFR",
+      "value": 82,
+      "numericValue": 82,
+      "unit": "mL/min/1.73m²",
+      "referenceRange": {
+        "low": 60,
+        "high": 150
+      },
+      "isAbnormal": false,
+      "organs": [
+        "肾脏/泌尿"
+      ]
+    }
+  ]
+}
