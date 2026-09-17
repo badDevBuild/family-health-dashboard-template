@@ -73,3 +73,7 @@ React 19、TypeScript、Vite、Tailwind CSS、Vitest；可选 FastAPI 静态服�
 ## 项目状态
 
 这是从真实项目抽取出的通用模板。仓库不包含任何真实家庭成员、健康报告、头像、部署主机或凭据。
+
+## 许可证
+
+[MIT](LICENSE)
