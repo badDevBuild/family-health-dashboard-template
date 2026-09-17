@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-mother",
+  "event": {
+    "encounterId": "enc-2024-mother-anemia",
+    "type": "就医",
+    "date": "2024-05-06",
+    "source": "安和市女性健康门诊",
+    "title": "贫血门诊复查",
+    "clinicalSummary": "体检后因容易疲倦到门诊复查。血红蛋白、铁蛋白和平均红细胞体积同时偏低，门诊记录为缺铁性贫血；2025、2026 年复查已连续回升，目前作为已闭环问题继续年度观察。",
+    "reports": [
+      {
+        "reportId": "report-mother-anemia-2024",
+        "sourceFile": "synthetic/mother-anemia-2024.pdf",
+        "pageRefs": [1, 2]
+      }
+    ],
+    "diagnoses": [
+      {
+        "diagnosisId": "diagnosis-mother-iron-deficiency-anemia",
+        "name": "缺铁性贫血",
+        "status": "resolved",
+        "reportId": "report-mother-anemia-2024",
+        "page": 2,
+        "note": "2024 年由门诊医生确认；后续两年血红蛋白和铁蛋白回升，当前标记为已闭环。"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-mother-hgb-case-2024",
+      "reportId": "report-mother-anemia-2024",
+      "page": 1,
+      "standardName": "血红蛋白",
+      "originalName": "HGB",
+      "value": 108,
+      "numericValue": 108,
+      "unit": "g/L",
+      "referenceRange": { "low": 115, "high": 150 },
+      "isAbnormal": true,
+      "organs": ["血液"]
+    },
+    {
+      "measurementId": "demo-mother-ferritin-case-2024",
+      "reportId": "report-mother-anemia-2024",
+      "page": 1,
+      "standardName": "血清铁蛋白",
+      "originalName": "Ferritin",
+      "value": 8,
+      "numericValue": 8,
+      "unit": "ng/mL",
+      "referenceRange": { "low": 15, "high": 150 },
+      "isAbnormal": true,
+      "organs": ["血液"]
+    },
+    {
+      "measurementId": "demo-mother-mcv-case-2024",
+      "reportId": "report-mother-anemia-2024",
+      "page": 2,
+      "standardName": "平均红细胞体积",
+      "originalName": "MCV",
+      "value": 75,
+      "numericValue": 75,
+      "unit": "fL",
+      "referenceRange": { "low": 82, "high": 100 },
+      "isAbnormal": true,
+      "organs": ["血液"]
+    }
+  ]
+}

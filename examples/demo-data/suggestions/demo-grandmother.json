@@ -5,13 +5,20 @@
     {
       "priority": "medium",
       "organ": "代谢/内分泌",
-      "what": "确认骨密度复查计划",
-      "when": "按医生建议安排",
-      "where": "全科、内分泌科或骨科",
-      "why": "骨密度T值虽逐步改善，最新结果仍低于本次报告参考下限。",
-      "status": "ai_pending",
+      "what": "按骨健康门诊计划复查同部位骨密度",
+      "when": "按医生确认的复查周期",
+      "where": "骨健康门诊、内分泌科或骨科",
+      "why": "2025 年已由医生确认骨量减少，后续需要使用同部位结果做可靠比较。",
+      "status": "doctor_confirmed",
       "owner": "周瑞云",
       "evidence": [
+        {
+          "eventId": "demo-grandmother:enc-2025-grandmother-bone-density",
+          "measurementIds": [
+            "demo-grandmother-lumbar-bmd-2025",
+            "demo-grandmother-femoral-bmd-2025"
+          ]
+        },
         {
           "eventId": "demo-grandmother:enc-2026-grandmother",
           "measurementIds": [

@@ -1,12 +1,12 @@
 {
   "personId": "demo-grandmother",
-  "sourceAnalysisHash": "c2cdeaab89a63ff8bbb184435d235620",
+  "sourceAnalysisHash": "db8b0ac4f8c8247439cb013040a06ab2",
   "dataConfidence": "high",
   "topPriorities": [
     {
       "rank": 1,
       "action": "把骨骼复查计划确认清楚",
-      "why": "骨密度方向有所改善，但最新值仍需要继续关注",
+      "why": "骨量减少已经由医生确认，骨密度方向虽有改善，仍需要继续关注",
       "howToStart": "下次复诊时带上历年同部位骨密度结果"
     },
     {

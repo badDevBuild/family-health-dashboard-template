@@ -4,13 +4,13 @@
   "personContext": {
     "gender": "女",
     "age": 67,
-    "dataSpan": "5次检查（2022–2026）"
+    "dataSpan": "6次检查（2022–2026）"
   },
   "organAnalyses": [
     {
       "organ": "代谢/内分泌",
       "status": "attention",
-      "narrative": "维生素D从 18 上升到 30 ng/mL，已经回到本次报告参考范围；骨密度T值也从 -1.6 改善到 -1.3，但最新值仍低于报告参考下限。它提示需要继续关注骨骼健康，不等同于诊断。",
+      "narrative": "2025 年骨健康门诊根据腰椎和股骨颈检查确认骨量减少，但没有写成骨质疏松。维生素D从 18 上升到 30 ng/mL，已经回到本次报告参考范围；年度骨密度T值也从 -1.6 改善到 -1.3，仍要按医生计划复查同一部位并关注跌倒风险。",
       "keyIndicators": [
         {
           "name": "25-羟维生素D",
@@ -69,6 +69,20 @@
             {
               "date": "2026-07-17",
               "value": -1.3
+            }
+          ]
+        },
+        {
+          "name": "腰椎骨密度T值",
+          "latestValue": -1.8,
+          "unit": "",
+          "referenceRange": "≥ -1.0",
+          "trend": "not-comparable",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2025-11-08",
+              "value": -1.8
             }
           ]
         }
@@ -155,5 +169,5 @@
   "actionSuggestions": [
     "与医生确认下一次骨密度复查时间，并继续保留历年同部位检查结果用于比较。"
   ],
-  "dataHash": "synthetic-demo-grandmother-2022-2026"
+  "dataHash": "synthetic-demo-grandmother-2022-2026-cases"
 }

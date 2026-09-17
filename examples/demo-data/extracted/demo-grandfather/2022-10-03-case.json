@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-grandfather",
+  "event": {
+    "encounterId": "enc-2022-grandfather-hypertension",
+    "type": "就医",
+    "date": "2022-10-03",
+    "source": "安和市心血管门诊",
+    "title": "高血压初诊",
+    "clinicalSummary": "年度体检后完成动态血压评估。门诊结合多次血压记录确认高血压，并建立家庭血压随访；此后年度收缩压逐步回落，最新一次仍需按既定计划监测。",
+    "reports": [
+      {
+        "reportId": "report-grandfather-hypertension-2022",
+        "sourceFile": "synthetic/grandfather-hypertension-2022.pdf",
+        "pageRefs": [1, 2]
+      }
+    ],
+    "diagnoses": [
+      {
+        "diagnosisId": "diagnosis-grandfather-hypertension",
+        "name": "原发性高血压",
+        "status": "confirmed",
+        "reportId": "report-grandfather-hypertension-2022",
+        "page": 2,
+        "note": "由心血管门诊结合动态血压与多次家庭记录确认，当前处于持续随访状态。"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-grandfather-ambulatory-sbp-2022",
+      "reportId": "report-grandfather-hypertension-2022",
+      "page": 1,
+      "standardName": "24小时平均收缩压",
+      "originalName": "24h平均SBP",
+      "value": 148,
+      "numericValue": 148,
+      "unit": "mmHg",
+      "referenceRange": { "low": 90, "high": 130 },
+      "isAbnormal": true,
+      "organs": ["心血管"]
+    },
+    {
+      "measurementId": "demo-grandfather-ambulatory-dbp-2022",
+      "reportId": "report-grandfather-hypertension-2022",
+      "page": 1,
+      "standardName": "24小时平均舒张压",
+      "originalName": "24h平均DBP",
+      "value": 86,
+      "numericValue": 86,
+      "unit": "mmHg",
+      "referenceRange": { "low": 60, "high": 80 },
+      "isAbnormal": true,
+      "organs": ["心血管"]
+    }
+  ]
+}

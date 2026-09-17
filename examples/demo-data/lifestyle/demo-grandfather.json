@@ -1,12 +1,12 @@
 {
   "personId": "demo-grandfather",
-  "sourceAnalysisHash": "e80ca07eb51f6ace8cc7928d5cc3947d",
+  "sourceAnalysisHash": "ae9bd0aa43e448c53a54b6935e0da3bc",
   "dataConfidence": "high",
   "topPriorities": [
     {
       "rank": 1,
       "action": "保持家庭血压记录",
-      "why": "五年趋势正在改善，固定方法能让比较更可靠",
+      "why": "高血压已经由医生确认，五年趋势正在改善，但仍需要固定方法长期比较",
       "howToStart": "每周选 2 天、同一时间测量并记录"
     },
     {

@@ -1,19 +1,19 @@
 {
   "personId": "demo-father",
-  "sourceAnalysisHash": "ee91f72cbcba6d89776e788b32c17e48",
+  "sourceAnalysisHash": "983ff67edef260e49faa972747e6cf2f",
   "dataConfidence": "high",
   "topPriorities": [
     {
       "rank": 1,
       "action": "把每周运动固定下来",
-      "why": "血脂和血糖都适合结合长期生活节奏观察",
+      "why": "已确认的轻度脂肪肝、血脂和血糖都适合结合长期生活节奏观察",
       "howToStart": "先在日历里固定 3 次晚饭后快走"
     },
     {
       "rank": 2,
-      "action": "下次检查继续带上历年血脂",
-      "why": "连续数据比单次高低更容易看清方向",
-      "howToStart": "体检前把五年结果整理成同一张表"
+      "action": "复诊时带上历年血脂和肝脏超声",
+      "why": "超声、肝酶和血脂要放在一起，才能看清脂肪肝的长期变化",
+      "howToStart": "把年度体检和 2025 年肝胆门诊报告放进同一份资料夹"
     }
   ],
   "exerciseGuide": {

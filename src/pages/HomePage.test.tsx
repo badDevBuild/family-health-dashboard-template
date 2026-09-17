@@ -42,6 +42,7 @@ describe("HomePage", () => {
     fireEvent.click(screen.getByText("时间线"));
     const timelineTab = screen.getByText("时间线");
     expect(timelineTab.getAttribute("data-active")).toBe("true");
+    expect(screen.getByText("脂肪肝复查")).toBeInTheDocument();
   });
 
   it("切换到'生活指南' Tab", () => {

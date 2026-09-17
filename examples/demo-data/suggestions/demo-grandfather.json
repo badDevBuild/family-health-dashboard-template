@@ -5,13 +5,20 @@
     {
       "priority": "medium",
       "organ": "心血管",
-      "what": "保持家庭血压记录",
-      "when": "每周固定时间并按医生建议",
-      "where": "居家记录，复诊时携带",
-      "why": "过去五年收缩压逐步回落，连续记录有助于确认是否保持稳定。",
+      "what": "持续高血压随访并保留家庭血压记录",
+      "when": "按心血管门诊计划，每周固定时间记录",
+      "where": "居家记录，复诊时携带到心血管门诊",
+      "why": "2022 年已由医生确认高血压，过去五年收缩压逐步回落，但仍需要长期监测。",
       "status": "doctor_confirmed",
       "owner": "林松年",
       "evidence": [
+        {
+          "eventId": "demo-grandfather:enc-2022-grandfather-hypertension",
+          "measurementIds": [
+            "demo-grandfather-ambulatory-sbp-2022",
+            "demo-grandfather-ambulatory-dbp-2022"
+          ]
+        },
         {
           "eventId": "demo-grandfather:enc-2026-grandfather",
           "measurementIds": [

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-daughter",
+  "event": {
+    "encounterId": "enc-2025-daughter-myopia",
+    "type": "就医",
+    "date": "2025-09-15",
+    "source": "安和市儿童眼科",
+    "title": "近视初诊",
+    "clinicalSummary": "开学视力筛查后到儿童眼科完成规范验光。双眼均记录为轻度近视，眼科建议建立屈光度和眼轴的连续档案，并按计划复查。",
+    "reports": [
+      {
+        "reportId": "report-daughter-myopia-2025",
+        "sourceFile": "synthetic/daughter-myopia-2025.pdf",
+        "pageRefs": [1, 2]
+      }
+    ],
+    "diagnoses": [
+      {
+        "diagnosisId": "diagnosis-daughter-myopia",
+        "name": "双眼轻度近视",
+        "status": "confirmed",
+        "reportId": "report-daughter-myopia-2025",
+        "page": 2,
+        "note": "由儿童眼科在规范验光后确认，后续重点是观察屈光度和眼轴是否继续变化。"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-daughter-se-right-2025",
+      "reportId": "report-daughter-myopia-2025",
+      "page": 1,
+      "standardName": "右眼等效球镜",
+      "originalName": "OD SE",
+      "value": -1.25,
+      "numericValue": -1.25,
+      "unit": "D",
+      "referenceRange": { "text": "按年龄和验光方式评估" },
+      "isAbnormal": true,
+      "organs": ["眼/五官"]
+    },
+    {
+      "measurementId": "demo-daughter-se-left-2025",
+      "reportId": "report-daughter-myopia-2025",
+      "page": 1,
+      "standardName": "左眼等效球镜",
+      "originalName": "OS SE",
+      "value": -1.5,
+      "numericValue": -1.5,
+      "unit": "D",
+      "referenceRange": { "text": "按年龄和验光方式评估" },
+      "isAbnormal": true,
+      "organs": ["眼/五官"]
+    }
+  ]
+}

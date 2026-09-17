@@ -5,13 +5,22 @@
     {
       "priority": "low",
       "organ": "血液",
-      "what": "年度复查血常规和铁蛋白",
-      "when": "下一次年度检查",
+      "what": "缺铁性贫血后续复查已完成",
+      "when": "2025、2026 年已复查，之后转入年度观察",
       "where": "体检中心或全科",
-      "why": "2024 年曾出现阶段性低值，后续已经回升，保留连续记录便于确认稳定性。",
-      "status": "doctor_confirmed",
+      "why": "2024 年门诊确认缺铁性贫血，后续血红蛋白和铁蛋白连续回升，当前问题已闭环。",
+      "status": "completed",
       "owner": "苏青禾",
+      "completedAt": "2026-04-18T10:00:00+08:00",
       "evidence": [
+        {
+          "eventId": "demo-mother:enc-2024-mother-anemia",
+          "measurementIds": [
+            "demo-mother-hgb-case-2024",
+            "demo-mother-ferritin-case-2024",
+            "demo-mother-mcv-case-2024"
+          ]
+        },
         {
           "eventId": "demo-mother:enc-2026-mother",
           "measurementIds": [
@@ -30,7 +39,8 @@
     "focusItems": [
       "血常规",
       "铁蛋白",
-      "维生素D"
+      "维生素D",
+      "贫血是否复发"
     ]
   }
 }

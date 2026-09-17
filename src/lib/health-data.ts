@@ -9,7 +9,8 @@ export type SuggestionData = { personId: string; reviewSuggestions: Array<{ prio
 
 export interface FamilyMember { id: string; name: string; role: string; avatar?: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }
 export interface ReportEvidence { reportId: string; pageRefs: number[]; }
-export interface HealthEvent { id: string; encounterId: string; date: string; type: string; source: string; personId: string; reports: ReportEvidence[]; organTags: string[]; measurementCount: number; abnormalCount: number; }
+export interface DiagnosisEvidence { diagnosisId: string; name: string; status: "confirmed" | "under_evaluation" | "resolved"; reportId: string; page: number; note?: string; }
+export interface HealthEvent { id: string; encounterId: string; date: string; type: string; source: string; title?: string; clinicalSummary?: string; personId: string; reports: ReportEvidence[]; diagnoses: DiagnosisEvidence[]; organTags: string[]; measurementCount: number; abnormalCount: number; }
 export interface MeasurementItem { measurementId: string; reportId: string; page: number; standardName: string; originalName: string; value: number | string | null; numericValue?: number | null; unit: string | null; referenceRange?: { low?: number; high?: number; text?: string }; isAbnormal: boolean; organs: string[]; }
 
 export const BUILD_METADATA = {
@@ -26,7 +27,7 @@ export const FAMILY_MEMBERS: FamilyMember[] = [
     "status": "attention",
     "reviewStatus": "demo",
     "lastCheckup": "2026-06-21",
-    "dataSpan": "5次检查 · 2022–2026"
+    "dataSpan": "6次检查 · 2022–2026"
   },
   {
     "id": "demo-mother",
@@ -36,17 +37,17 @@ export const FAMILY_MEMBERS: FamilyMember[] = [
     "status": "normal",
     "reviewStatus": "demo",
     "lastCheckup": "2026-04-18",
-    "dataSpan": "5次检查 · 2022–2026"
+    "dataSpan": "6次检查 · 2022–2026"
   },
   {
     "id": "demo-grandfather",
     "name": "林松年",
     "role": "爷爷 · 70岁",
     "avatar": "avatars/demo-grandfather.webp",
-    "status": "normal",
+    "status": "attention",
     "reviewStatus": "demo",
     "lastCheckup": "2026-09-09",
-    "dataSpan": "5次检查 · 2022–2026"
+    "dataSpan": "6次检查 · 2022–2026"
   },
   {
     "id": "demo-grandmother",
@@ -56,7 +57,7 @@ export const FAMILY_MEMBERS: FamilyMember[] = [
     "status": "attention",
     "reviewStatus": "demo",
     "lastCheckup": "2026-07-17",
-    "dataSpan": "5次检查 · 2022–2026"
+    "dataSpan": "6次检查 · 2022–2026"
   },
   {
     "id": "demo-daughter",
@@ -66,7 +67,7 @@ export const FAMILY_MEMBERS: FamilyMember[] = [
     "status": "attention",
     "reviewStatus": "demo",
     "lastCheckup": "2026-08-20",
-    "dataSpan": "5次检查 · 2022–2026"
+    "dataSpan": "6次检查 · 2022–2026"
   }
 ];
 export const ANALYSIS_DATA: Record<string, AnalysisData> = {
@@ -76,7 +77,7 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "personContext": {
       "gender": "男",
       "age": 45,
-      "dataSpan": "5次检查（2022–2026）"
+      "dataSpan": "6次检查（2022–2026）"
     },
     "organAnalyses": [
       {
@@ -185,9 +186,23 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
       },
       {
         "organ": "肝胆",
-        "status": "normal",
-        "narrative": "谷丙转氨酶五次结果都在参考范围内，近两年还有小幅回落，目前没有需要特别提示的变化。",
+        "status": "attention",
+        "narrative": "2025 年肝胆门诊根据腹部超声确认轻度脂肪肝。谷丙转氨酶五次年度结果和门诊复查都在参考范围内，这是好消息，但正常肝酶不能替代影像随访；适合把超声、血脂、血糖和体重变化放在一起看。",
         "keyIndicators": [
+          {
+            "name": "肝脏超声",
+            "latestValue": "轻度脂肪肝声像",
+            "unit": "",
+            "referenceRange": "未见明显异常",
+            "trend": "not-comparable",
+            "isAbnormal": true,
+            "history": [
+              {
+                "date": "2025-11-15",
+                "value": "轻度脂肪肝声像"
+              }
+            ]
+          },
           {
             "name": "谷丙转氨酶",
             "latestValue": 27,
@@ -222,12 +237,12 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
       }
     ],
     "crossOrganInsights": [
-      "【参考信息】心血管与代谢/内分泌指标会同时受到饮食、活动和体重变化影响，适合放在一起看长期趋势。"
+      "【参考信息】轻度脂肪肝、血脂和血糖会同时受到饮食、活动与体重变化影响，适合放在一起长期观察，但超声诊断不能由血液指标替代。"
     ],
     "actionSuggestions": [
-      "下次年度检查继续复查血脂和空腹血糖；若 LDL 持续超出报告参考范围，建议带历年结果咨询医生。"
+      "按肝胆门诊建议复查肝脏超声，并在下一次年度检查继续复查血脂和空腹血糖；若 LDL 持续超出报告参考范围，建议带历年结果咨询医生。"
     ],
-    "dataHash": "synthetic-demo-father-2022-2026"
+    "dataHash": "synthetic-demo-father-2022-2026-cases"
   },
   "demo-mother": {
     "personId": "demo-mother",
@@ -235,13 +250,13 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "personContext": {
       "gender": "女",
       "age": 42,
-      "dataSpan": "5次检查（2022–2026）"
+      "dataSpan": "6次检查（2022–2026）"
     },
     "organAnalyses": [
       {
         "organ": "血液",
         "status": "normal",
-        "narrative": "血红蛋白在 2024 年短暂低于参考下限，之后连续两年回升到 122 g/L；铁蛋白也同步回升。现阶段更像是已经改善的阶段性变化，仍适合在年度检查里继续观察。",
+        "narrative": "2024 年门诊复查时，血红蛋白 108 g/L、铁蛋白 8 ng/mL，红细胞体积也偏小，医生记录为缺铁性贫血。之后血红蛋白和铁蛋白连续两年回升，2026 年分别为 122 g/L 和 28 ng/mL，目前属于已经恢复并闭环的问题，继续年度观察即可。",
         "keyIndicators": [
           {
             "name": "血红蛋白",
@@ -262,6 +277,10 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
               {
                 "date": "2024-04-13",
                 "value": 114
+              },
+              {
+                "date": "2024-05-06",
+                "value": 108
               },
               {
                 "date": "2025-04-16",
@@ -292,6 +311,10 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
               {
                 "date": "2024-04-13",
                 "value": 17
+              },
+              {
+                "date": "2024-05-06",
+                "value": 8
               },
               {
                 "date": "2025-04-16",
@@ -374,12 +397,12 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
       }
     ],
     "crossOrganInsights": [
-      "【参考信息】血液与代谢/内分泌指标整体稳定，2024 年的低值已经通过后续结果得到补充说明。"
+      "【参考信息】2024 年缺铁性贫血已有门诊诊断和后续复查闭环；当前血液与代谢/内分泌指标整体稳定。"
     ],
     "actionSuggestions": [
       "保持年度复查；如果出现持续疲倦、心悸或月经量明显变化，可提前咨询医生。"
     ],
-    "dataHash": "synthetic-demo-mother-2022-2026"
+    "dataHash": "synthetic-demo-mother-2022-2026-cases"
   },
   "demo-grandfather": {
     "personId": "demo-grandfather",
@@ -387,13 +410,13 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "personContext": {
       "gender": "男",
       "age": 70,
-      "dataSpan": "5次检查（2022–2026）"
+      "dataSpan": "6次检查（2022–2026）"
     },
     "organAnalyses": [
       {
         "organ": "心血管",
-        "status": "normal",
-        "narrative": "收缩压由 142 逐步下降到 134 mmHg，低密度脂蛋白胆固醇也从 3.7 下降到 3.1 mmol/L，最近三年都在本次报告参考范围内。方向稳定向好，仍要继续按医生建议监测。",
+        "status": "attention",
+        "narrative": "2022 年心血管门诊结合动态血压与家庭记录确认原发性高血压。此后年度收缩压由 142 逐步下降到 134 mmHg，低密度脂蛋白胆固醇也从 3.7 下降到 3.1 mmol/L，方向稳定向好；高血压仍是需要长期随访的已确认疾病，不能因一次正常读数停止监测。",
         "keyIndicators": [
           {
             "name": "收缩压",
@@ -452,6 +475,20 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
               {
                 "date": "2026-09-09",
                 "value": 3.1
+              }
+            ]
+          },
+          {
+            "name": "24小时平均收缩压",
+            "latestValue": 148,
+            "unit": "mmHg",
+            "referenceRange": "90–130",
+            "trend": "not-comparable",
+            "isAbnormal": true,
+            "history": [
+              {
+                "date": "2022-10-03",
+                "value": 148
               }
             ]
           }
@@ -533,12 +570,12 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
       }
     ],
     "crossOrganInsights": [
-      "【参考信息】心血管、代谢/内分泌和肾脏/泌尿指标适合一起长期观察，但单个方向变化不能替代医生判断。"
+      "【参考信息】已确认的高血压会让心血管、代谢/内分泌和肾脏/泌尿指标更需要一起长期观察，但单个方向变化不能替代医生判断。"
     ],
     "actionSuggestions": [
       "按既定节奏监测家庭血压，并在年度检查时复查血脂、血糖和肾功能。"
     ],
-    "dataHash": "synthetic-demo-grandfather-2022-2026"
+    "dataHash": "synthetic-demo-grandfather-2022-2026-cases"
   },
   "demo-grandmother": {
     "personId": "demo-grandmother",
@@ -546,13 +583,13 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "personContext": {
       "gender": "女",
       "age": 67,
-      "dataSpan": "5次检查（2022–2026）"
+      "dataSpan": "6次检查（2022–2026）"
     },
     "organAnalyses": [
       {
         "organ": "代谢/内分泌",
         "status": "attention",
-        "narrative": "维生素D从 18 上升到 30 ng/mL，已经回到本次报告参考范围；骨密度T值也从 -1.6 改善到 -1.3，但最新值仍低于报告参考下限。它提示需要继续关注骨骼健康，不等同于诊断。",
+        "narrative": "2025 年骨健康门诊根据腰椎和股骨颈检查确认骨量减少，但没有写成骨质疏松。维生素D从 18 上升到 30 ng/mL，已经回到本次报告参考范围；年度骨密度T值也从 -1.6 改善到 -1.3，仍要按医生计划复查同一部位并关注跌倒风险。",
         "keyIndicators": [
           {
             "name": "25-羟维生素D",
@@ -611,6 +648,20 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
               {
                 "date": "2026-07-17",
                 "value": -1.3
+              }
+            ]
+          },
+          {
+            "name": "腰椎骨密度T值",
+            "latestValue": -1.8,
+            "unit": "",
+            "referenceRange": "≥ -1.0",
+            "trend": "not-comparable",
+            "isAbnormal": true,
+            "history": [
+              {
+                "date": "2025-11-08",
+                "value": -1.8
               }
             ]
           }
@@ -697,7 +748,7 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "actionSuggestions": [
       "与医生确认下一次骨密度复查时间，并继续保留历年同部位检查结果用于比较。"
     ],
-    "dataHash": "synthetic-demo-grandmother-2022-2026"
+    "dataHash": "synthetic-demo-grandmother-2022-2026-cases"
   },
   "demo-daughter": {
     "personId": "demo-daughter",
@@ -705,14 +756,42 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
     "personContext": {
       "gender": "女",
       "age": 12,
-      "dataSpan": "5次检查（2022–2026）"
+      "dataSpan": "6次检查（2022–2026）"
     },
     "organAnalyses": [
       {
         "organ": "眼/五官",
         "status": "attention",
-        "narrative": "双眼裸眼视力从 1.0 逐步变化到 0.8，最近两年保持在 0.8。裸眼视力只反映当次辨认视标的能力，不能单独判断屈光状态，适合带历年结果到眼科进一步确认。",
+        "narrative": "双眼裸眼视力从 1.0 逐步变化到 0.8。2025 年儿童眼科完成规范验光后确认双眼轻度近视，右眼等效球镜 -1.25 D、左眼 -1.50 D；裸眼视力和屈光度不是同一个指标，后续应按眼科计划分别记录屈光度、眼轴和视力。",
         "keyIndicators": [
+          {
+            "name": "右眼等效球镜",
+            "latestValue": -1.25,
+            "unit": "D",
+            "referenceRange": "按年龄和验光方式评估",
+            "trend": "not-comparable",
+            "isAbnormal": true,
+            "history": [
+              {
+                "date": "2025-09-15",
+                "value": -1.25
+              }
+            ]
+          },
+          {
+            "name": "左眼等效球镜",
+            "latestValue": -1.5,
+            "unit": "D",
+            "referenceRange": "按年龄和验光方式评估",
+            "trend": "not-comparable",
+            "isAbnormal": true,
+            "history": [
+              {
+                "date": "2025-09-15",
+                "value": -1.5
+              }
+            ]
+          },
           {
             "name": "右眼裸眼视力",
             "latestValue": 0.8,
@@ -847,9 +926,9 @@ export const ANALYSIS_DATA: Record<string, AnalysisData> = {
       "【参考信息】成长变化和眼/五官检查应分别由儿童保健与眼科专业人员结合完整资料判断。"
     ],
     "actionSuggestions": [
-      "安排规范视力复查；若医生认为需要，可进一步做散瞳验光和眼轴测量。"
+      "按儿童眼科确认的计划复查屈光度和眼轴，并继续保留学校视力筛查结果用于长期比较。"
     ],
-    "dataHash": "synthetic-demo-daughter-2022-2026"
+    "dataHash": "synthetic-demo-daughter-2022-2026-cases"
   }
 };
 export const EVENTS_DATA: Record<string, HealthEvent[]> = {
@@ -870,12 +949,48 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
         "肝胆"
       ],
       "measurementCount": 4,
+      "abnormalCount": 1
+    },
+    {
+      "id": "demo-father:enc-2025-father-liver-followup",
+      "encounterId": "enc-2025-father-liver-followup",
+      "date": "2025-11-15",
+      "type": "就医",
+      "source": "安和市肝胆健康门诊",
+      "personId": "demo-father",
+      "title": "脂肪肝复查",
+      "clinicalSummary": "年度体检后到肝胆门诊复查。腹部超声记录了轻度脂肪肝声像，肝酶仍在报告参考范围内；门诊建议把超声、血脂和体重变化放在一起随访。",
+      "reports": [
+        {
+          "reportId": "report-father-liver-2025",
+          "pageRefs": [
+            1,
+            2
+          ]
+        }
+      ],
+      "diagnoses": [
+        {
+          "diagnosisId": "diagnosis-father-fatty-liver",
+          "name": "轻度脂肪肝",
+          "status": "confirmed",
+          "reportId": "report-father-liver-2025",
+          "page": 1,
+          "note": "由门诊医生结合腹部超声记录确认；正常肝酶不能单独排除影像学变化。"
+        }
+      ],
+      "organTags": [
+        "肝胆",
+        "代谢/内分泌"
+      ],
+      "measurementCount": 2,
       "abnormalCount": 1
     },
     {
@@ -894,6 +1009,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -918,6 +1034,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -942,6 +1059,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -966,6 +1084,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -992,6 +1111,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "血液",
         "代谢/内分泌"
@@ -1015,12 +1135,47 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "血液",
         "代谢/内分泌"
       ],
       "measurementCount": 4,
       "abnormalCount": 0
+    },
+    {
+      "id": "demo-mother:enc-2024-mother-anemia",
+      "encounterId": "enc-2024-mother-anemia",
+      "date": "2024-05-06",
+      "type": "就医",
+      "source": "安和市女性健康门诊",
+      "personId": "demo-mother",
+      "title": "贫血门诊复查",
+      "clinicalSummary": "体检后因容易疲倦到门诊复查。血红蛋白、铁蛋白和平均红细胞体积同时偏低，门诊记录为缺铁性贫血；2025、2026 年复查已连续回升，目前作为已闭环问题继续年度观察。",
+      "reports": [
+        {
+          "reportId": "report-mother-anemia-2024",
+          "pageRefs": [
+            1,
+            2
+          ]
+        }
+      ],
+      "diagnoses": [
+        {
+          "diagnosisId": "diagnosis-mother-iron-deficiency-anemia",
+          "name": "缺铁性贫血",
+          "status": "resolved",
+          "reportId": "report-mother-anemia-2024",
+          "page": 2,
+          "note": "2024 年由门诊医生确认；后续两年血红蛋白和铁蛋白回升，当前标记为已闭环。"
+        }
+      ],
+      "organTags": [
+        "血液"
+      ],
+      "measurementCount": 3,
+      "abnormalCount": 3
     },
     {
       "id": "demo-mother:enc-2024-mother",
@@ -1038,6 +1193,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "血液",
         "代谢/内分泌"
@@ -1061,6 +1217,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "血液",
         "代谢/内分泌"
@@ -1084,6 +1241,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "血液",
         "代谢/内分泌"
@@ -1109,6 +1267,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -1133,6 +1292,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -1157,6 +1317,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -1181,12 +1342,47 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
         "肾脏/泌尿"
       ],
       "measurementCount": 4,
+      "abnormalCount": 2
+    },
+    {
+      "id": "demo-grandfather:enc-2022-grandfather-hypertension",
+      "encounterId": "enc-2022-grandfather-hypertension",
+      "date": "2022-10-03",
+      "type": "就医",
+      "source": "安和市心血管门诊",
+      "personId": "demo-grandfather",
+      "title": "高血压初诊",
+      "clinicalSummary": "年度体检后完成动态血压评估。门诊结合多次血压记录确认高血压，并建立家庭血压随访；此后年度收缩压逐步回落，最新一次仍需按既定计划监测。",
+      "reports": [
+        {
+          "reportId": "report-grandfather-hypertension-2022",
+          "pageRefs": [
+            1,
+            2
+          ]
+        }
+      ],
+      "diagnoses": [
+        {
+          "diagnosisId": "diagnosis-grandfather-hypertension",
+          "name": "原发性高血压",
+          "status": "confirmed",
+          "reportId": "report-grandfather-hypertension-2022",
+          "page": 2,
+          "note": "由心血管门诊结合动态血压与多次家庭记录确认，当前处于持续随访状态。"
+        }
+      ],
+      "organTags": [
+        "心血管"
+      ],
+      "measurementCount": 2,
       "abnormalCount": 2
     },
     {
@@ -1205,6 +1401,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "心血管",
         "代谢/内分泌",
@@ -1231,6 +1428,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "心血管",
@@ -1238,6 +1436,40 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
       ],
       "measurementCount": 4,
       "abnormalCount": 1
+    },
+    {
+      "id": "demo-grandmother:enc-2025-grandmother-bone-density",
+      "encounterId": "enc-2025-grandmother-bone-density",
+      "date": "2025-11-08",
+      "type": "就医",
+      "source": "安和市骨健康门诊",
+      "personId": "demo-grandmother",
+      "title": "骨密度专科复查",
+      "clinicalSummary": "因连续体检骨密度偏低到骨健康门诊复查。医生结合腰椎和股骨颈骨密度记录为骨量减少，并建议把同一部位的骨密度、维生素D和跌倒风险一起长期管理。",
+      "reports": [
+        {
+          "reportId": "report-grandmother-bone-2025",
+          "pageRefs": [
+            1,
+            2
+          ]
+        }
+      ],
+      "diagnoses": [
+        {
+          "diagnosisId": "diagnosis-grandmother-osteopenia",
+          "name": "骨量减少",
+          "status": "confirmed",
+          "reportId": "report-grandmother-bone-2025",
+          "page": 2,
+          "note": "由骨健康门诊根据双能X线骨密度检查确认；不等同于骨质疏松诊断。"
+        }
+      ],
+      "organTags": [
+        "代谢/内分泌"
+      ],
+      "measurementCount": 2,
+      "abnormalCount": 2
     },
     {
       "id": "demo-grandmother:enc-2025-grandmother",
@@ -1255,6 +1487,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "心血管",
@@ -1279,6 +1512,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "心血管",
@@ -1303,6 +1537,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "心血管",
@@ -1327,6 +1562,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "心血管",
@@ -1353,11 +1589,46 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "眼/五官"
       ],
       "measurementCount": 4,
+      "abnormalCount": 2
+    },
+    {
+      "id": "demo-daughter:enc-2025-daughter-myopia",
+      "encounterId": "enc-2025-daughter-myopia",
+      "date": "2025-09-15",
+      "type": "就医",
+      "source": "安和市儿童眼科",
+      "personId": "demo-daughter",
+      "title": "近视初诊",
+      "clinicalSummary": "开学视力筛查后到儿童眼科完成规范验光。双眼均记录为轻度近视，眼科建议建立屈光度和眼轴的连续档案，并按计划复查。",
+      "reports": [
+        {
+          "reportId": "report-daughter-myopia-2025",
+          "pageRefs": [
+            1,
+            2
+          ]
+        }
+      ],
+      "diagnoses": [
+        {
+          "diagnosisId": "diagnosis-daughter-myopia",
+          "name": "双眼轻度近视",
+          "status": "confirmed",
+          "reportId": "report-daughter-myopia-2025",
+          "page": 2,
+          "note": "由儿童眼科在规范验光后确认，后续重点是观察屈光度和眼轴是否继续变化。"
+        }
+      ],
+      "organTags": [
+        "眼/五官"
+      ],
+      "measurementCount": 2,
       "abnormalCount": 2
     },
     {
@@ -1376,6 +1647,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "眼/五官"
@@ -1399,6 +1671,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "眼/五官"
@@ -1422,6 +1695,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "眼/五官"
@@ -1445,6 +1719,7 @@ export const EVENTS_DATA: Record<string, HealthEvent[]> = {
           ]
         }
       ],
+      "diagnoses": [],
       "organTags": [
         "代谢/内分泌",
         "眼/五官"
@@ -1744,6 +2019,43 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
       {
         "measurementId": "demo-father-alt-2025",
         "reportId": "report-father-2025",
+        "page": 2,
+        "standardName": "谷丙转氨酶",
+        "originalName": "ALT",
+        "value": 29,
+        "numericValue": 29,
+        "unit": "U/L",
+        "referenceRange": {
+          "low": 9,
+          "high": 50
+        },
+        "isAbnormal": false,
+        "organs": [
+          "肝胆"
+        ]
+      }
+    ],
+    "demo-father:enc-2025-father-liver-followup": [
+      {
+        "measurementId": "demo-father-liver-ultrasound-2025",
+        "reportId": "report-father-liver-2025",
+        "page": 1,
+        "standardName": "肝脏超声",
+        "originalName": "肝脏超声所见",
+        "value": "轻度脂肪肝声像",
+        "unit": "",
+        "referenceRange": {
+          "text": "未见明显异常"
+        },
+        "isAbnormal": true,
+        "organs": [
+          "肝胆",
+          "代谢/内分泌"
+        ]
+      },
+      {
+        "measurementId": "demo-father-alt-followup-2025",
+        "reportId": "report-father-liver-2025",
         "page": 2,
         "standardName": "谷丙转氨酶",
         "originalName": "ALT",
@@ -2060,6 +2372,62 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
         ]
       }
     ],
+    "demo-mother:enc-2024-mother-anemia": [
+      {
+        "measurementId": "demo-mother-hgb-case-2024",
+        "reportId": "report-mother-anemia-2024",
+        "page": 1,
+        "standardName": "血红蛋白",
+        "originalName": "HGB",
+        "value": 108,
+        "numericValue": 108,
+        "unit": "g/L",
+        "referenceRange": {
+          "low": 115,
+          "high": 150
+        },
+        "isAbnormal": true,
+        "organs": [
+          "血液"
+        ]
+      },
+      {
+        "measurementId": "demo-mother-ferritin-case-2024",
+        "reportId": "report-mother-anemia-2024",
+        "page": 1,
+        "standardName": "血清铁蛋白",
+        "originalName": "Ferritin",
+        "value": 8,
+        "numericValue": 8,
+        "unit": "ng/mL",
+        "referenceRange": {
+          "low": 15,
+          "high": 150
+        },
+        "isAbnormal": true,
+        "organs": [
+          "血液"
+        ]
+      },
+      {
+        "measurementId": "demo-mother-mcv-case-2024",
+        "reportId": "report-mother-anemia-2024",
+        "page": 2,
+        "standardName": "平均红细胞体积",
+        "originalName": "MCV",
+        "value": 75,
+        "numericValue": 75,
+        "unit": "fL",
+        "referenceRange": {
+          "low": 82,
+          "high": 100
+        },
+        "isAbnormal": true,
+        "organs": [
+          "血液"
+        ]
+      }
+    ],
     "demo-mother:enc-2025-mother": [
       {
         "measurementId": "demo-mother-hemoglobin-2025",
@@ -2282,6 +2650,44 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
         "isAbnormal": false,
         "organs": [
           "代谢/内分泌",
+          "心血管"
+        ]
+      }
+    ],
+    "demo-grandfather:enc-2022-grandfather-hypertension": [
+      {
+        "measurementId": "demo-grandfather-ambulatory-sbp-2022",
+        "reportId": "report-grandfather-hypertension-2022",
+        "page": 1,
+        "standardName": "24小时平均收缩压",
+        "originalName": "24h平均SBP",
+        "value": 148,
+        "numericValue": 148,
+        "unit": "mmHg",
+        "referenceRange": {
+          "low": 90,
+          "high": 130
+        },
+        "isAbnormal": true,
+        "organs": [
+          "心血管"
+        ]
+      },
+      {
+        "measurementId": "demo-grandfather-ambulatory-dbp-2022",
+        "reportId": "report-grandfather-hypertension-2022",
+        "page": 1,
+        "standardName": "24小时平均舒张压",
+        "originalName": "24h平均DBP",
+        "value": 86,
+        "numericValue": 86,
+        "unit": "mmHg",
+        "referenceRange": {
+          "low": 60,
+          "high": 80
+        },
+        "isAbnormal": true,
+        "organs": [
           "心血管"
         ]
       }
@@ -2892,6 +3298,42 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
         ]
       }
     ],
+    "demo-grandmother:enc-2025-grandmother-bone-density": [
+      {
+        "measurementId": "demo-grandmother-lumbar-bmd-2025",
+        "reportId": "report-grandmother-bone-2025",
+        "page": 1,
+        "standardName": "腰椎骨密度T值",
+        "originalName": "L1-L4 T-score",
+        "value": -1.8,
+        "numericValue": -1.8,
+        "unit": "",
+        "referenceRange": {
+          "low": -1
+        },
+        "isAbnormal": true,
+        "organs": [
+          "代谢/内分泌"
+        ]
+      },
+      {
+        "measurementId": "demo-grandmother-femoral-bmd-2025",
+        "reportId": "report-grandmother-bone-2025",
+        "page": 1,
+        "standardName": "股骨颈骨密度T值",
+        "originalName": "Femoral neck T-score",
+        "value": -1.4,
+        "numericValue": -1.4,
+        "unit": "",
+        "referenceRange": {
+          "low": -1
+        },
+        "isAbnormal": true,
+        "organs": [
+          "代谢/内分泌"
+        ]
+      }
+    ],
     "demo-grandmother:enc-2026-grandmother": [
       {
         "measurementId": "demo-grandmother-vitd-2026",
@@ -3265,6 +3707,42 @@ export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>
         ]
       }
     ],
+    "demo-daughter:enc-2025-daughter-myopia": [
+      {
+        "measurementId": "demo-daughter-se-right-2025",
+        "reportId": "report-daughter-myopia-2025",
+        "page": 1,
+        "standardName": "右眼等效球镜",
+        "originalName": "OD SE",
+        "value": -1.25,
+        "numericValue": -1.25,
+        "unit": "D",
+        "referenceRange": {
+          "text": "按年龄和验光方式评估"
+        },
+        "isAbnormal": true,
+        "organs": [
+          "眼/五官"
+        ]
+      },
+      {
+        "measurementId": "demo-daughter-se-left-2025",
+        "reportId": "report-daughter-myopia-2025",
+        "page": 1,
+        "standardName": "左眼等效球镜",
+        "originalName": "OS SE",
+        "value": -1.5,
+        "numericValue": -1.5,
+        "unit": "D",
+        "referenceRange": {
+          "text": "按年龄和验光方式评估"
+        },
+        "isAbnormal": true,
+        "organs": [
+          "眼/五官"
+        ]
+      }
+    ],
     "demo-daughter:enc-2026-daughter": [
       {
         "measurementId": "demo-daughter-height-2026",
@@ -3348,6 +3826,25 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
     "reviewSuggestions": [
       {
         "priority": "medium",
+        "organ": "肝胆",
+        "what": "按门诊计划复查肝脏超声",
+        "when": "按肝胆门诊确认的复查周期",
+        "where": "肝胆专科或全科",
+        "why": "2025 年门诊已确认轻度脂肪肝，肝酶正常也需要结合影像、血脂和体重继续观察。",
+        "status": "doctor_confirmed",
+        "owner": "林远山",
+        "evidence": [
+          {
+            "eventId": "demo-father:enc-2025-father-liver-followup",
+            "measurementIds": [
+              "demo-father-liver-ultrasound-2025",
+              "demo-father-alt-followup-2025"
+            ]
+          }
+        ]
+      },
+      {
+        "priority": "medium",
         "organ": "心血管",
         "what": "复查血脂",
         "when": "下一次年度检查或按医生建议",
@@ -3391,7 +3888,8 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
       "focusItems": [
         "血脂",
         "空腹血糖",
-        "血压"
+        "血压",
+        "肝脏超声"
       ]
     }
   },
@@ -3402,13 +3900,22 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
       {
         "priority": "low",
         "organ": "血液",
-        "what": "年度复查血常规和铁蛋白",
-        "when": "下一次年度检查",
+        "what": "缺铁性贫血后续复查已完成",
+        "when": "2025、2026 年已复查，之后转入年度观察",
         "where": "体检中心或全科",
-        "why": "2024 年曾出现阶段性低值，后续已经回升，保留连续记录便于确认稳定性。",
-        "status": "doctor_confirmed",
+        "why": "2024 年门诊确认缺铁性贫血，后续血红蛋白和铁蛋白连续回升，当前问题已闭环。",
+        "status": "completed",
         "owner": "苏青禾",
+        "completedAt": "2026-04-18T10:00:00+08:00",
         "evidence": [
+          {
+            "eventId": "demo-mother:enc-2024-mother-anemia",
+            "measurementIds": [
+              "demo-mother-hgb-case-2024",
+              "demo-mother-ferritin-case-2024",
+              "demo-mother-mcv-case-2024"
+            ]
+          },
           {
             "eventId": "demo-mother:enc-2026-mother",
             "measurementIds": [
@@ -3427,7 +3934,8 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
       "focusItems": [
         "血常规",
         "铁蛋白",
-        "维生素D"
+        "维生素D",
+        "贫血是否复发"
       ]
     }
   },
@@ -3438,13 +3946,20 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
       {
         "priority": "medium",
         "organ": "心血管",
-        "what": "保持家庭血压记录",
-        "when": "每周固定时间并按医生建议",
-        "where": "居家记录，复诊时携带",
-        "why": "过去五年收缩压逐步回落，连续记录有助于确认是否保持稳定。",
+        "what": "持续高血压随访并保留家庭血压记录",
+        "when": "按心血管门诊计划，每周固定时间记录",
+        "where": "居家记录，复诊时携带到心血管门诊",
+        "why": "2022 年已由医生确认高血压，过去五年收缩压逐步回落，但仍需要长期监测。",
         "status": "doctor_confirmed",
         "owner": "林松年",
         "evidence": [
+          {
+            "eventId": "demo-grandfather:enc-2022-grandfather-hypertension",
+            "measurementIds": [
+              "demo-grandfather-ambulatory-sbp-2022",
+              "demo-grandfather-ambulatory-dbp-2022"
+            ]
+          },
           {
             "eventId": "demo-grandfather:enc-2026-grandfather",
             "measurementIds": [
@@ -3492,13 +4007,20 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
       {
         "priority": "medium",
         "organ": "代谢/内分泌",
-        "what": "确认骨密度复查计划",
-        "when": "按医生建议安排",
-        "where": "全科、内分泌科或骨科",
-        "why": "骨密度T值虽逐步改善，最新结果仍低于本次报告参考下限。",
-        "status": "ai_pending",
+        "what": "按骨健康门诊计划复查同部位骨密度",
+        "when": "按医生确认的复查周期",
+        "where": "骨健康门诊、内分泌科或骨科",
+        "why": "2025 年已由医生确认骨量减少，后续需要使用同部位结果做可靠比较。",
+        "status": "doctor_confirmed",
         "owner": "周瑞云",
         "evidence": [
+          {
+            "eventId": "demo-grandmother:enc-2025-grandmother-bone-density",
+            "measurementIds": [
+              "demo-grandmother-lumbar-bmd-2025",
+              "demo-grandmother-femoral-bmd-2025"
+            ]
+          },
           {
             "eventId": "demo-grandmother:enc-2026-grandmother",
             "measurementIds": [
@@ -3545,13 +4067,20 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
       {
         "priority": "medium",
         "organ": "眼/五官",
-        "what": "安排规范视力复查",
-        "when": "近期与医生确认",
+        "what": "按眼科计划复查屈光度和眼轴",
+        "when": "按儿童眼科确认的复查周期",
         "where": "儿童眼科或视光门诊",
-        "why": "双眼裸眼视力近两年均为 0.8，需要结合规范验光进一步确认。",
-        "status": "ai_pending",
+        "why": "2025 年规范验光已确认双眼轻度近视，后续需要观察是否继续变化。",
+        "status": "doctor_confirmed",
         "owner": "家长",
         "evidence": [
+          {
+            "eventId": "demo-daughter:enc-2025-daughter-myopia",
+            "measurementIds": [
+              "demo-daughter-se-right-2025",
+              "demo-daughter-se-left-2025"
+            ]
+          },
           {
             "eventId": "demo-daughter:enc-2026-daughter",
             "measurementIds": [
@@ -3597,20 +4126,20 @@ export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = {
 export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = {
   "demo-father": {
     "personId": "demo-father",
-    "sourceAnalysisHash": "ee91f72cbcba6d89776e788b32c17e48",
+    "sourceAnalysisHash": "983ff67edef260e49faa972747e6cf2f",
     "dataConfidence": "high",
     "topPriorities": [
       {
         "rank": 1,
         "action": "把每周运动固定下来",
-        "why": "血脂和血糖都适合结合长期生活节奏观察",
+        "why": "已确认的轻度脂肪肝、血脂和血糖都适合结合长期生活节奏观察",
         "howToStart": "先在日历里固定 3 次晚饭后快走"
       },
       {
         "rank": 2,
-        "action": "下次检查继续带上历年血脂",
-        "why": "连续数据比单次高低更容易看清方向",
-        "howToStart": "体检前把五年结果整理成同一张表"
+        "action": "复诊时带上历年血脂和肝脏超声",
+        "why": "超声、肝酶和血脂要放在一起，才能看清脂肪肝的长期变化",
+        "howToStart": "把年度体检和 2025 年肝胆门诊报告放进同一份资料夹"
       }
     ],
     "exerciseGuide": {
@@ -3665,7 +4194,7 @@ export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = {
   },
   "demo-mother": {
     "personId": "demo-mother",
-    "sourceAnalysisHash": "375a65d0e1d084da21d04a5297bd21f9",
+    "sourceAnalysisHash": "34bd74ad257ef8e3ca630cf36f9e96ee",
     "dataConfidence": "high",
     "topPriorities": [
       {
@@ -3729,13 +4258,13 @@ export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = {
   },
   "demo-grandfather": {
     "personId": "demo-grandfather",
-    "sourceAnalysisHash": "e80ca07eb51f6ace8cc7928d5cc3947d",
+    "sourceAnalysisHash": "ae9bd0aa43e448c53a54b6935e0da3bc",
     "dataConfidence": "high",
     "topPriorities": [
       {
         "rank": 1,
         "action": "保持家庭血压记录",
-        "why": "五年趋势正在改善，固定方法能让比较更可靠",
+        "why": "高血压已经由医生确认，五年趋势正在改善，但仍需要固定方法长期比较",
         "howToStart": "每周选 2 天、同一时间测量并记录"
       },
       {
@@ -3790,13 +4319,13 @@ export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = {
   },
   "demo-grandmother": {
     "personId": "demo-grandmother",
-    "sourceAnalysisHash": "c2cdeaab89a63ff8bbb184435d235620",
+    "sourceAnalysisHash": "db8b0ac4f8c8247439cb013040a06ab2",
     "dataConfidence": "high",
     "topPriorities": [
       {
         "rank": 1,
         "action": "把骨骼复查计划确认清楚",
-        "why": "骨密度方向有所改善，但最新值仍需要继续关注",
+        "why": "骨量减少已经由医生确认，骨密度方向虽有改善，仍需要继续关注",
         "howToStart": "下次复诊时带上历年同部位骨密度结果"
       },
       {
@@ -3855,14 +4384,14 @@ export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = {
   },
   "demo-daughter": {
     "personId": "demo-daughter",
-    "sourceAnalysisHash": "e4485dd533e535fb494d800d035a7175",
+    "sourceAnalysisHash": "ed1de66bd9552996944d91bcee6e504a",
     "dataConfidence": "high",
     "topPriorities": [
       {
         "rank": 1,
-        "action": "把视力复查排进日程",
-        "why": "双眼裸眼视力近两年都保持在 0.8，需要规范检查进一步确认",
-        "howToStart": "本周和家长一起选择儿童眼科时间"
+        "action": "按眼科计划复查屈光度和眼轴",
+        "why": "2025 年已经确认双眼轻度近视，连续记录有助于看清是否继续变化",
+        "howToStart": "和家长一起把下一次儿童眼科复查写进日历"
       },
       {
         "rank": 2,

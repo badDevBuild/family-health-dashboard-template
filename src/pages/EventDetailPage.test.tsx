@@ -63,4 +63,14 @@ describe("EventDetailPage", () => {
     renderEventDetail("demo-father:enc-2026-father", "demo-father");
     expect(screen.getByText(/安和市家庭健康中心/)).toBeInTheDocument();
   });
+
+  it("显示医生确认的病例摘要和报告证据", () => {
+    renderEventDetail("demo-father:enc-2025-father-liver-followup", "demo-father");
+    expect(screen.getByText("病例摘要")).toBeInTheDocument();
+    expect(screen.getByText("轻度脂肪肝")).toBeInTheDocument();
+    expect(screen.getByText("医生已确认")).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/report-father-liver-2025 · 第 1 页/).length,
+    ).toBeGreaterThanOrEqual(1);
+  });
 });

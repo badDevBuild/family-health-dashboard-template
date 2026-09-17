@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-father",
+  "event": {
+    "encounterId": "enc-2025-father-liver-followup",
+    "type": "就医",
+    "date": "2025-11-15",
+    "source": "安和市肝胆健康门诊",
+    "title": "脂肪肝复查",
+    "clinicalSummary": "年度体检后到肝胆门诊复查。腹部超声记录了轻度脂肪肝声像，肝酶仍在报告参考范围内；门诊建议把超声、血脂和体重变化放在一起随访。",
+    "reports": [
+      {
+        "reportId": "report-father-liver-2025",
+        "sourceFile": "synthetic/father-liver-2025.pdf",
+        "pageRefs": [1, 2]
+      }
+    ],
+    "diagnoses": [
+      {
+        "diagnosisId": "diagnosis-father-fatty-liver",
+        "name": "轻度脂肪肝",
+        "status": "confirmed",
+        "reportId": "report-father-liver-2025",
+        "page": 1,
+        "note": "由门诊医生结合腹部超声记录确认；正常肝酶不能单独排除影像学变化。"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-father-liver-ultrasound-2025",
+      "reportId": "report-father-liver-2025",
+      "page": 1,
+      "standardName": "肝脏超声",
+      "originalName": "肝脏超声所见",
+      "value": "轻度脂肪肝声像",
+      "unit": "",
+      "referenceRange": { "text": "未见明显异常" },
+      "isAbnormal": true,
+      "organs": ["肝胆", "代谢/内分泌"]
+    },
+    {
+      "measurementId": "demo-father-alt-followup-2025",
+      "reportId": "report-father-liver-2025",
+      "page": 2,
+      "standardName": "谷丙转氨酶",
+      "originalName": "ALT",
+      "value": 29,
+      "numericValue": 29,
+      "unit": "U/L",
+      "referenceRange": { "low": 9, "high": 50 },
+      "isAbnormal": false,
+      "organs": ["肝胆"]
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 {
   "personId": "demo-daughter",
-  "sourceAnalysisHash": "e4485dd533e535fb494d800d035a7175",
+  "sourceAnalysisHash": "ed1de66bd9552996944d91bcee6e504a",
   "dataConfidence": "high",
   "topPriorities": [
     {
       "rank": 1,
-      "action": "把视力复查排进日程",
-      "why": "双眼裸眼视力近两年都保持在 0.8，需要规范检查进一步确认",
-      "howToStart": "本周和家长一起选择儿童眼科时间"
+      "action": "按眼科计划复查屈光度和眼轴",
+      "why": "2025 年已经确认双眼轻度近视，连续记录有助于看清是否继续变化",
+      "howToStart": "和家长一起把下一次儿童眼科复查写进日历"
     },
     {
       "rank": 2,

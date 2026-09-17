@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "personId": "demo-grandmother",
+  "event": {
+    "encounterId": "enc-2025-grandmother-bone-density",
+    "type": "就医",
+    "date": "2025-11-08",
+    "source": "安和市骨健康门诊",
+    "title": "骨密度专科复查",
+    "clinicalSummary": "因连续体检骨密度偏低到骨健康门诊复查。医生结合腰椎和股骨颈骨密度记录为骨量减少，并建议把同一部位的骨密度、维生素D和跌倒风险一起长期管理。",
+    "reports": [
+      {
+        "reportId": "report-grandmother-bone-2025",
+        "sourceFile": "synthetic/grandmother-bone-2025.pdf",
+        "pageRefs": [1, 2]
+      }
+    ],
+    "diagnoses": [
+      {
+        "diagnosisId": "diagnosis-grandmother-osteopenia",
+        "name": "骨量减少",
+        "status": "confirmed",
+        "reportId": "report-grandmother-bone-2025",
+        "page": 2,
+        "note": "由骨健康门诊根据双能X线骨密度检查确认；不等同于骨质疏松诊断。"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "measurementId": "demo-grandmother-lumbar-bmd-2025",
+      "reportId": "report-grandmother-bone-2025",
+      "page": 1,
+      "standardName": "腰椎骨密度T值",
+      "originalName": "L1-L4 T-score",
+      "value": -1.8,
+      "numericValue": -1.8,
+      "unit": "",
+      "referenceRange": { "low": -1 },
+      "isAbnormal": true,
+      "organs": ["代谢/内分泌"]
+    },
+    {
+      "measurementId": "demo-grandmother-femoral-bmd-2025",
+      "reportId": "report-grandmother-bone-2025",
+      "page": 1,
+      "standardName": "股骨颈骨密度T值",
+      "originalName": "Femoral neck T-score",
+      "value": -1.4,
+      "numericValue": -1.4,
+      "unit": "",
+      "referenceRange": { "low": -1 },
+      "isAbnormal": true,
+      "organs": ["代谢/内分泌"]
+    }
+  ]
+}

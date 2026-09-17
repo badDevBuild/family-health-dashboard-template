@@ -158,6 +158,38 @@ test("指标页码必须属于所引用报告的 pageRefs", () => {
   assert.match(`${result.stdout}\n${result.stderr}`, /pageRefs/);
 });
 
+test("病例诊断必须有受控状态并引用同一报告页码", () => {
+  const root = makeRoot();
+  writeJson(root, "examples/demo-data/family-context.json", baseContext());
+  const valid = extraction("enc-1", "r1");
+  valid.event.type = "就医";
+  valid.event.title = "示例病例复查";
+  valid.event.clinicalSummary = "这是完全虚构的病例摘要。";
+  valid.event.diagnoses = [{
+    diagnosisId: "diagnosis-1",
+    name: "示例疾病",
+    status: "confirmed",
+    reportId: "r1",
+    page: 1,
+    note: "由示例医生确认。",
+  }];
+  writeJson(root, "examples/demo-data/extracted/person-a/valid.json", valid);
+  execFileSync(process.execPath, [script, "--mode", "demo"], { cwd: root });
+  const generated = fs.readFileSync(path.join(root, "src/lib/health-data.ts"), "utf8");
+  assert.match(generated, /示例病例复查/);
+  assert.match(generated, /示例疾病/);
+
+  valid.event.diagnoses[0].page = 2;
+  writeJson(root, "examples/demo-data/extracted/person-a/valid.json", valid);
+  const result = spawnSync(process.execPath, [script, "--mode", "demo"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  assert.notEqual(result.status, 0);
+  assert.match(`${result.stdout}\n${result.stderr}`, /event\.diagnoses\[0\]\.page/);
+  assert.match(`${result.stdout}\n${result.stderr}`, /pageRefs/);
+});
+
 test("解释性趋势词和不存在的建议证据都会被运行时 Schema 拒绝", () => {
   const root = makeRoot();
   writeJson(root, "examples/demo-data/family-context.json", baseContext());

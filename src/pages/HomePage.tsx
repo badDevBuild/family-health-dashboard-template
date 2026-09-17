@@ -188,7 +188,7 @@ function TimelineTab({
         >
           <TimelineItem
             date={event.date}
-            title={event.type === "体检" ? "年度体检" : "医院检查"}
+            title={event.title || (event.type === "体检" ? "年度体检" : "医院检查")}
             subtitle={`${personName} · ${event.source}`}
             organTags={event.organTags}
           />

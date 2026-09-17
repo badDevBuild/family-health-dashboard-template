@@ -5,6 +5,7 @@ import path from "node:path";
 const ORGAN_SYSTEMS = new Set(["心血管", "代谢/内分泌", "肝胆", "肾脏/泌尿", "消化", "血液", "肺/呼吸", "眼/五官"]);
 const EVENT_TYPES = new Set(["体检", "就医", "手动备注"]);
 const HEALTH_STATUSES = new Set(["normal", "attention", "alert"]);
+const DIAGNOSIS_STATUSES = new Set(["confirmed", "under_evaluation", "resolved"]);
 
 function fail(message) { throw new Error(message); }
 function requireValue(condition, file, field, message = "字段缺失或类型错误") {
@@ -106,6 +107,8 @@ function validateExtraction(file, personId) {
   requireValue(EVENT_TYPES.has(value.event?.type), file, "event.type");
   requireValue(isDate(value.event?.date), file, "event.date", "必须是有效 YYYY-MM-DD 日期");
   requireValue(typeof value.event?.source === "string" && value.event.source.trim(), file, "event.source");
+  requireValue(value.event.title === undefined || typeof value.event.title === "string" && value.event.title.trim(), file, "event.title");
+  requireValue(value.event.clinicalSummary === undefined || typeof value.event.clinicalSummary === "string" && value.event.clinicalSummary.trim(), file, "event.clinicalSummary");
   requireValue(Array.isArray(value.event?.reports) && value.event.reports.length > 0, file, "event.reports", "必须是非空数组");
   const reportIds = new Set();
   const reportPages = new Map();
@@ -117,6 +120,20 @@ function validateExtraction(file, personId) {
     requireValue(Array.isArray(report.pageRefs) && report.pageRefs.length > 0 && report.pageRefs.every((page) => Number.isInteger(page) && page > 0), file, `${prefix}.pageRefs`, "必须是非空正整数数组");
     reportIds.add(report.reportId);
     reportPages.set(report.reportId, new Set(report.pageRefs));
+  }
+  requireValue(value.event.diagnoses === undefined || Array.isArray(value.event.diagnoses), file, "event.diagnoses", "必须是数组");
+  const diagnosisIds = new Set();
+  for (const [index, diagnosis] of (value.event.diagnoses || []).entries()) {
+    const prefix = `event.diagnoses[${index}]`;
+    requireValue(typeof diagnosis?.diagnosisId === "string" && diagnosis.diagnosisId.trim(), file, `${prefix}.diagnosisId`);
+    requireValue(!diagnosisIds.has(diagnosis.diagnosisId), file, `${prefix}.diagnosisId`, "不得重复");
+    requireValue(typeof diagnosis.name === "string" && diagnosis.name.trim(), file, `${prefix}.name`);
+    requireValue(DIAGNOSIS_STATUSES.has(diagnosis.status), file, `${prefix}.status`);
+    requireValue(reportIds.has(diagnosis.reportId), file, `${prefix}.reportId`, "必须引用本文件 event.reports 中的 reportId");
+    requireValue(Number.isInteger(diagnosis.page) && diagnosis.page > 0, file, `${prefix}.page`);
+    requireValue(reportPages.get(diagnosis.reportId)?.has(diagnosis.page), file, `${prefix}.page`, "必须出现在所引用报告的 pageRefs 中");
+    requireValue(diagnosis.note === undefined || typeof diagnosis.note === "string" && diagnosis.note.trim(), file, `${prefix}.note`);
+    diagnosisIds.add(diagnosis.diagnosisId);
   }
   requireValue(Array.isArray(value.measurements), file, "measurements", "必须是数组");
   const measurementIds = new Set();
@@ -245,20 +262,42 @@ for (const member of members) {
   const encounters = new Map();
   const seenReports = new Set();
   const seenMeasurements = new Set();
+  const seenDiagnoses = new Set();
   for (const file of extractedFiles) {
     const extracted = validateExtraction(file, personId);
     const { event } = extracted;
     let encounter = encounters.get(event.encounterId);
     if (!encounter) {
-      encounter = { id: `${personId}:${event.encounterId}`, encounterId: event.encounterId, date: event.date, type: event.type, source: event.source, personId, reports: [], measurements: [] };
+      encounter = {
+        id: `${personId}:${event.encounterId}`,
+        encounterId: event.encounterId,
+        date: event.date,
+        type: event.type,
+        source: event.source,
+        title: event.title,
+        clinicalSummary: event.clinicalSummary,
+        personId,
+        reports: [],
+        diagnoses: [],
+        measurements: [],
+      };
       encounters.set(event.encounterId, encounter);
     } else {
       requireValue(encounter.date === event.date && encounter.type === event.type && encounter.source === event.source, file, "event", "同一 encounterId 的日期、类型和机构必须一致");
+      requireValue(event.title === undefined || encounter.title === undefined || encounter.title === event.title, file, "event.title", "同一 encounterId 的标题必须一致");
+      requireValue(event.clinicalSummary === undefined || encounter.clinicalSummary === undefined || encounter.clinicalSummary === event.clinicalSummary, file, "event.clinicalSummary", "同一 encounterId 的病例摘要必须一致");
+      encounter.title ||= event.title;
+      encounter.clinicalSummary ||= event.clinicalSummary;
     }
     for (const report of event.reports) {
       requireValue(!seenReports.has(report.reportId), file, "event.reports[].reportId", `全成员范围内重复: ${report.reportId}`);
       seenReports.add(report.reportId);
       encounter.reports.push({ reportId: report.reportId, pageRefs: report.pageRefs });
+    }
+    for (const diagnosis of event.diagnoses || []) {
+      requireValue(!seenDiagnoses.has(diagnosis.diagnosisId), file, "event.diagnoses[].diagnosisId", `全成员范围内重复: ${diagnosis.diagnosisId}`);
+      seenDiagnoses.add(diagnosis.diagnosisId);
+      encounter.diagnoses.push(diagnosis);
     }
     for (const measurement of extracted.measurements) {
       requireValue(!seenMeasurements.has(measurement.measurementId), file, "measurements[].measurementId", `全成员范围内重复: ${measurement.measurementId}`);
@@ -269,7 +308,10 @@ for (const member of members) {
 
   const events = [...encounters.values()].map((encounter) => ({
     id: encounter.id, encounterId: encounter.encounterId, date: encounter.date, type: encounter.type, source: encounter.source, personId,
+    ...(encounter.title ? { title: encounter.title } : {}),
+    ...(encounter.clinicalSummary ? { clinicalSummary: encounter.clinicalSummary } : {}),
     reports: encounter.reports,
+    diagnoses: encounter.diagnoses,
     organTags: [...new Set(encounter.measurements.flatMap((item) => item.organs))],
     measurementCount: encounter.measurements.length,
     abnormalCount: encounter.measurements.filter((item) => item.isAbnormal).length,
@@ -317,7 +359,35 @@ for (const member of members) {
 }
 
 const json = (value) => JSON.stringify(value, null, 2);
-const generated = `// 自动生成，请勿手动编辑\n// 发布模式: ${mode}\n\nexport type HealthStatus = "unknown" | "normal" | "attention" | "alert";\nexport type ReviewStatus = "demo" | "approved" | "not_reviewed";\nexport type AnalysisData = { personId: string; crossOrganInsights?: string[]; actionSuggestions?: string[]; organAnalyses: Array<{ organ: string; status: string; narrative: string; keyIndicators: Array<{ name: string; latestValue: number | string | null; unit: string; referenceRange?: string; trend: string; isAbnormal: boolean; history: Array<{ date: string; value: number | string | null }> }> }>; [key: string]: unknown };\nexport type LifestyleData = Record<string, any>;\nexport type SuggestionData = { personId: string; reviewSuggestions: Array<{ priority: string; organ: string; what: string; when: string; where: string; why: string; status?: "ai_pending" | "doctor_confirmed" | "completed"; owner?: string; completedAt?: string; evidence?: Array<{ eventId: string; measurementIds?: string[] }> }>; [key: string]: unknown };\n\nexport interface FamilyMember { id: string; name: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }\nexport interface ReportEvidence { reportId: string; pageRefs: number[]; }\nexport interface HealthEvent { id: string; encounterId: string; date: string; type: string; source: string; personId: string; reports: ReportEvidence[]; organTags: string[]; measurementCount: number; abnormalCount: number; }\nexport interface MeasurementItem { measurementId: string; reportId: string; page: number; standardName: string; originalName: string; value: number | string | null; numericValue?: number | null; unit: string | null; referenceRange?: { low?: number; high?: number; text?: string }; isAbnormal: boolean; organs: string[]; }\n\nexport const BUILD_METADATA = ${json({ mode, schemaVersion: 1, containsSyntheticData: mode === "demo" })} as const;\nexport const FAMILY_MEMBERS: FamilyMember[] = ${json(members.map(({ personId, displayName }) => ({ id: personId, name: displayName, status: allData[personId].overallStatus, reviewStatus: allData[personId].reviewStatus, lastCheckup: allData[personId].lastCheckup, dataSpan: allData[personId].dataSpan })))};\nexport const ANALYSIS_DATA: Record<string, AnalysisData> = ${json(Object.fromEntries(members.filter(({ personId }) => allData[personId].analysis).map(({ personId }) => [personId, allData[personId].analysis])))};\nexport const EVENTS_DATA: Record<string, HealthEvent[]> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].events])))};\nexport const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].measurements])))};\nexport const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].suggestions])))};\nexport const LIFESTYLE_DATA: Record<string, LifestyleData | null> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].lifestyle])))};\n\nexport function getAnalysis(personId: string): AnalysisData | undefined { return ANALYSIS_DATA[personId]; }\nexport function getEvents(personId: string): HealthEvent[] { return EVENTS_DATA[personId] || []; }\nexport function getMeasurements(personId: string, eventId: string): MeasurementItem[] { return MEASUREMENTS_DATA[personId]?.[eventId] || []; }\nexport function getSuggestions(personId: string): SuggestionData | null { return SUGGESTIONS_DATA[personId] || null; }\nexport function getLifestyle(personId: string): LifestyleData | null { return LIFESTYLE_DATA[personId] || null; }\n`;
+const generated = `// 自动生成，请勿手动编辑
+// 发布模式: ${mode}
+
+export type HealthStatus = "unknown" | "normal" | "attention" | "alert";
+export type ReviewStatus = "demo" | "approved" | "not_reviewed";
+export type AnalysisData = { personId: string; crossOrganInsights?: string[]; actionSuggestions?: string[]; organAnalyses: Array<{ organ: string; status: string; narrative: string; keyIndicators: Array<{ name: string; latestValue: number | string | null; unit: string; referenceRange?: string; trend: string; isAbnormal: boolean; history: Array<{ date: string; value: number | string | null }> }> }>; [key: string]: unknown };
+export type LifestyleData = Record<string, any>;
+export type SuggestionData = { personId: string; reviewSuggestions: Array<{ priority: string; organ: string; what: string; when: string; where: string; why: string; status?: "ai_pending" | "doctor_confirmed" | "completed"; owner?: string; completedAt?: string; evidence?: Array<{ eventId: string; measurementIds?: string[] }> }>; [key: string]: unknown };
+
+export interface FamilyMember { id: string; name: string; status: HealthStatus; reviewStatus: ReviewStatus; lastCheckup: string; dataSpan: string; }
+export interface ReportEvidence { reportId: string; pageRefs: number[]; }
+export interface DiagnosisEvidence { diagnosisId: string; name: string; status: "confirmed" | "under_evaluation" | "resolved"; reportId: string; page: number; note?: string; }
+export interface HealthEvent { id: string; encounterId: string; date: string; type: string; source: string; title?: string; clinicalSummary?: string; personId: string; reports: ReportEvidence[]; diagnoses: DiagnosisEvidence[]; organTags: string[]; measurementCount: number; abnormalCount: number; }
+export interface MeasurementItem { measurementId: string; reportId: string; page: number; standardName: string; originalName: string; value: number | string | null; numericValue?: number | null; unit: string | null; referenceRange?: { low?: number; high?: number; text?: string }; isAbnormal: boolean; organs: string[]; }
+
+export const BUILD_METADATA = ${json({ mode, schemaVersion: 1, containsSyntheticData: mode === "demo" })} as const;
+export const FAMILY_MEMBERS: FamilyMember[] = ${json(members.map(({ personId, displayName }) => ({ id: personId, name: displayName, status: allData[personId].overallStatus, reviewStatus: allData[personId].reviewStatus, lastCheckup: allData[personId].lastCheckup, dataSpan: allData[personId].dataSpan })))};
+export const ANALYSIS_DATA: Record<string, AnalysisData> = ${json(Object.fromEntries(members.filter(({ personId }) => allData[personId].analysis).map(({ personId }) => [personId, allData[personId].analysis])))};
+export const EVENTS_DATA: Record<string, HealthEvent[]> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].events])))};
+export const MEASUREMENTS_DATA: Record<string, Record<string, MeasurementItem[]>> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].measurements])))};
+export const SUGGESTIONS_DATA: Record<string, SuggestionData | null> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].suggestions])))};
+export const LIFESTYLE_DATA: Record<string, LifestyleData | null> = ${json(Object.fromEntries(members.map(({ personId }) => [personId, allData[personId].lifestyle])))};
+
+export function getAnalysis(personId: string): AnalysisData | undefined { return ANALYSIS_DATA[personId]; }
+export function getEvents(personId: string): HealthEvent[] { return EVENTS_DATA[personId] || []; }
+export function getMeasurements(personId: string, eventId: string): MeasurementItem[] { return MEASUREMENTS_DATA[personId]?.[eventId] || []; }
+export function getSuggestions(personId: string): SuggestionData | null { return SUGGESTIONS_DATA[personId] || null; }
+export function getLifestyle(personId: string): LifestyleData | null { return LIFESTYLE_DATA[personId] || null; }
+`;
 
 const publicMembers = members.map(({ personId, displayName, role = "家庭成员", avatar }) => ({
   id: personId,

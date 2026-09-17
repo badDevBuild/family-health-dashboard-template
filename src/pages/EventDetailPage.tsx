@@ -2,6 +2,21 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { BackButton } from "../components/BackButton";
 import { getEvents, getMeasurements } from "@health-data";
 
+const DIAGNOSIS_STATUS = {
+  confirmed: {
+    label: "医生已确认",
+    className: "bg-status-info-bg text-status-info",
+  },
+  under_evaluation: {
+    label: "评估中",
+    className: "bg-status-attention-bg text-status-attention",
+  },
+  resolved: {
+    label: "已恢复 / 已闭环",
+    className: "bg-status-normal-bg text-status-normal",
+  },
+} as const;
+
 export function EventDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
   const [searchParams] = useSearchParams();
@@ -31,7 +46,7 @@ export function EventDetailPage() {
       <div className="px-5 pb-3">
         <span className="text-xl font-bold">
           {event
-            ? `${event.date} ${event.type === "体检" ? "年度体检" : "医院检查"}`
+            ? `${event.date} ${event.title || (event.type === "体检" ? "年度体检" : "医院检查")}`
             : "事件详情"}
         </span>
       </div>
@@ -55,6 +70,57 @@ export function EventDetailPage() {
                 </div>
               </div>
             </div>
+
+            {(event.clinicalSummary || event.diagnoses.length > 0) && (
+              <section
+                className="bg-white rounded-[--radius-lg] p-4 shadow-[--shadow-card] mb-4"
+                aria-labelledby="case-summary-heading"
+              >
+                <h2
+                  id="case-summary-heading"
+                  className="text-base font-semibold text-warm-900"
+                >
+                  病例摘要
+                </h2>
+                {event.clinicalSummary && (
+                  <p className="mt-2 text-base leading-relaxed text-warm-600">
+                    {event.clinicalSummary}
+                  </p>
+                )}
+                {event.diagnoses.length > 0 && (
+                  <div className="mt-4 flex flex-col gap-3">
+                    {event.diagnoses.map((diagnosis) => {
+                      const status = DIAGNOSIS_STATUS[diagnosis.status];
+                      return (
+                        <div
+                          key={diagnosis.diagnosisId}
+                          className="rounded-[--radius-md] bg-warm-50 p-3"
+                        >
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-base font-semibold text-warm-900">
+                              {diagnosis.name}
+                            </span>
+                            <span
+                              className={`rounded-full px-2 py-0.5 text-xs font-medium ${status.className}`}
+                            >
+                              {status.label}
+                            </span>
+                          </div>
+                          {diagnosis.note && (
+                            <p className="mt-1.5 text-sm leading-relaxed text-warm-600">
+                              {diagnosis.note}
+                            </p>
+                          )}
+                          <p className="mt-2 text-xs text-warm-400">
+                            依据：{diagnosis.reportId} · 第 {diagnosis.page} 页
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </section>
+            )}
 
             {/* 按器官分组的指标列表 */}
             {Array.from(organGroups.entries()).map(

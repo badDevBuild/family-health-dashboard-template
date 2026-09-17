@@ -45,8 +45,20 @@ data/
     "type": "体检",
     "date": "2026-01-12",
     "source": "机构名称",
+    "title": "心血管门诊复查",
+    "clinicalSummary": "基于报告事实整理的简短病例经过。",
     "reports": [
       { "reportId": "report-a", "sourceFile": "受控存储中的相对路径", "pageRefs": [1, 2] }
+    ],
+    "diagnoses": [
+      {
+        "diagnosisId": "diagnosis-a",
+        "name": "报告中的疾病名称",
+        "status": "confirmed",
+        "reportId": "report-a",
+        "page": 2,
+        "note": "由医生确认的补充说明"
+      }
     ]
   },
   "measurements": [
@@ -66,6 +78,8 @@ data/
   ]
 }
 ```
+
+`diagnoses` 只记录报告或医生已经明确写出的诊断，不允许根据单个指标自动生成。`status` 只能是 `confirmed`（医生已确认）、`under_evaluation`（仍在评估）或 `resolved`（已有后续证据闭环）。每条诊断必须引用本次事件中的报告和页码；AI 推断继续放在分析层，并明确标为参考信息。
 
 前端只收到 `reportId` 和页码，不暴露本机 `sourceFile` 路径。展示证据链为：结论 → 指标 → 事件 → 报告 ID/页码。原始文件应由另一个受控接口提供，不能放进前端 bundle。
 

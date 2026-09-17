@@ -5,13 +5,20 @@
     {
       "priority": "medium",
       "organ": "眼/五官",
-      "what": "安排规范视力复查",
-      "when": "近期与医生确认",
+      "what": "按眼科计划复查屈光度和眼轴",
+      "when": "按儿童眼科确认的复查周期",
       "where": "儿童眼科或视光门诊",
-      "why": "双眼裸眼视力近两年均为 0.8，需要结合规范验光进一步确认。",
-      "status": "ai_pending",
+      "why": "2025 年规范验光已确认双眼轻度近视，后续需要观察是否继续变化。",
+      "status": "doctor_confirmed",
       "owner": "家长",
       "evidence": [
+        {
+          "eventId": "demo-daughter:enc-2025-daughter-myopia",
+          "measurementIds": [
+            "demo-daughter-se-right-2025",
+            "demo-daughter-se-left-2025"
+          ]
+        },
         {
           "eventId": "demo-daughter:enc-2026-daughter",
           "measurementIds": [

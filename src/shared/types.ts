@@ -27,9 +27,21 @@ export interface HealthEvent {
   type: "体检" | "就医" | "手动备注";
   date: string; // YYYY-MM-DD
   source?: string; // 医院/体检中心名称
+  title?: string; // 就诊或病例标题
+  clinicalSummary?: string; // 基于报告事实整理的病例经过
   reports: ReportEvidence[];
+  diagnoses?: DiagnosisEvidence[];
   measurements: Measurement[];
   summary?: string; // LLM 生成的事件摘要
+}
+
+export interface DiagnosisEvidence {
+  diagnosisId: string;
+  name: string;
+  status: "confirmed" | "under_evaluation" | "resolved";
+  reportId: string;
+  page: number;
+  note?: string;
 }
 
 export interface ReportEvidence {
@@ -165,7 +177,10 @@ export interface ExtractionResult {
     type: "体检" | "就医";
     date: string;
     source: string;
+    title?: string;
+    clinicalSummary?: string;
     reports: Array<{ reportId: string; sourceFile: string; pageRefs: number[] }>;
+    diagnoses?: DiagnosisEvidence[];
   };
   measurements: Array<{
     measurementId: string;

@@ -4,6 +4,25 @@
   "reviewSuggestions": [
     {
       "priority": "medium",
+      "organ": "肝胆",
+      "what": "按门诊计划复查肝脏超声",
+      "when": "按肝胆门诊确认的复查周期",
+      "where": "肝胆专科或全科",
+      "why": "2025 年门诊已确认轻度脂肪肝，肝酶正常也需要结合影像、血脂和体重继续观察。",
+      "status": "doctor_confirmed",
+      "owner": "林远山",
+      "evidence": [
+        {
+          "eventId": "demo-father:enc-2025-father-liver-followup",
+          "measurementIds": [
+            "demo-father-liver-ultrasound-2025",
+            "demo-father-alt-followup-2025"
+          ]
+        }
+      ]
+    },
+    {
+      "priority": "medium",
       "organ": "心血管",
       "what": "复查血脂",
       "when": "下一次年度检查或按医生建议",
@@ -47,7 +66,8 @@
     "focusItems": [
       "血脂",
       "空腹血糖",
-      "血压"
+      "血压",
+      "肝脏超声"
     ]
   }
 }

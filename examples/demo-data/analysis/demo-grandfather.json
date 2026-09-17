@@ -4,13 +4,13 @@
   "personContext": {
     "gender": "男",
     "age": 70,
-    "dataSpan": "5次检查（2022–2026）"
+    "dataSpan": "6次检查（2022–2026）"
   },
   "organAnalyses": [
     {
       "organ": "心血管",
-      "status": "normal",
-      "narrative": "收缩压由 142 逐步下降到 134 mmHg，低密度脂蛋白胆固醇也从 3.7 下降到 3.1 mmol/L，最近三年都在本次报告参考范围内。方向稳定向好，仍要继续按医生建议监测。",
+      "status": "attention",
+      "narrative": "2022 年心血管门诊结合动态血压与家庭记录确认原发性高血压。此后年度收缩压由 142 逐步下降到 134 mmHg，低密度脂蛋白胆固醇也从 3.7 下降到 3.1 mmol/L，方向稳定向好；高血压仍是需要长期随访的已确认疾病，不能因一次正常读数停止监测。",
       "keyIndicators": [
         {
           "name": "收缩压",
@@ -69,6 +69,20 @@
             {
               "date": "2026-09-09",
               "value": 3.1
+            }
+          ]
+        },
+        {
+          "name": "24小时平均收缩压",
+          "latestValue": 148,
+          "unit": "mmHg",
+          "referenceRange": "90–130",
+          "trend": "not-comparable",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2022-10-03",
+              "value": 148
             }
           ]
         }
@@ -150,10 +164,10 @@
     }
   ],
   "crossOrganInsights": [
-    "【参考信息】心血管、代谢/内分泌和肾脏/泌尿指标适合一起长期观察，但单个方向变化不能替代医生判断。"
+    "【参考信息】已确认的高血压会让心血管、代谢/内分泌和肾脏/泌尿指标更需要一起长期观察，但单个方向变化不能替代医生判断。"
   ],
   "actionSuggestions": [
     "按既定节奏监测家庭血压，并在年度检查时复查血脂、血糖和肾功能。"
   ],
-  "dataHash": "synthetic-demo-grandfather-2022-2026"
+  "dataHash": "synthetic-demo-grandfather-2022-2026-cases"
 }

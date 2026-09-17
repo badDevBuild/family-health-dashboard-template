@@ -4,7 +4,7 @@
   "personContext": {
     "gender": "男",
     "age": 45,
-    "dataSpan": "5次检查（2022–2026）"
+    "dataSpan": "6次检查（2022–2026）"
   },
   "organAnalyses": [
     {
@@ -113,9 +113,23 @@
     },
     {
       "organ": "肝胆",
-      "status": "normal",
-      "narrative": "谷丙转氨酶五次结果都在参考范围内，近两年还有小幅回落，目前没有需要特别提示的变化。",
+      "status": "attention",
+      "narrative": "2025 年肝胆门诊根据腹部超声确认轻度脂肪肝。谷丙转氨酶五次年度结果和门诊复查都在参考范围内，这是好消息，但正常肝酶不能替代影像随访；适合把超声、血脂、血糖和体重变化放在一起看。",
       "keyIndicators": [
+        {
+          "name": "肝脏超声",
+          "latestValue": "轻度脂肪肝声像",
+          "unit": "",
+          "referenceRange": "未见明显异常",
+          "trend": "not-comparable",
+          "isAbnormal": true,
+          "history": [
+            {
+              "date": "2025-11-15",
+              "value": "轻度脂肪肝声像"
+            }
+          ]
+        },
         {
           "name": "谷丙转氨酶",
           "latestValue": 27,
@@ -150,10 +164,10 @@
     }
   ],
   "crossOrganInsights": [
-    "【参考信息】心血管与代谢/内分泌指标会同时受到饮食、活动和体重变化影响，适合放在一起看长期趋势。"
+    "【参考信息】轻度脂肪肝、血脂和血糖会同时受到饮食、活动与体重变化影响，适合放在一起长期观察，但超声诊断不能由血液指标替代。"
   ],
   "actionSuggestions": [
-    "下次年度检查继续复查血脂和空腹血糖；若 LDL 持续超出报告参考范围，建议带历年结果咨询医生。"
+    "按肝胆门诊建议复查肝脏超声，并在下一次年度检查继续复查血脂和空腹血糖；若 LDL 持续超出报告参考范围，建议带历年结果咨询医生。"
   ],
-  "dataHash": "synthetic-demo-father-2022-2026"
+  "dataHash": "synthetic-demo-father-2022-2026-cases"
 }
